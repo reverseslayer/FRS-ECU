@@ -8,3 +8,13 @@ C:\Users\Derek Holloway\source\repos\Renesas unassembler\obj\Debug\Renesas unass
 C:\Users\Derek Holloway\source\repos\Renesas unassembler\obj\Debug\Renesas unassembler.csproj.CoreCompileInputs.cache
 C:\Users\Derek Holloway\source\repos\Renesas unassembler\obj\Debug\Renesas unassembler.exe
 C:\Users\Derek Holloway\source\repos\Renesas unassembler\obj\Debug\Renesas unassembler.pdb
+C:\Users\Derek Holloway\source\repos\reverseslayer\Renesas-disassembler\bin\Debug\Renesas unassembler.exe.config
+C:\Users\Derek Holloway\source\repos\reverseslayer\Renesas-disassembler\bin\Debug\Renesas unassembler.exe
+C:\Users\Derek Holloway\source\repos\reverseslayer\Renesas-disassembler\bin\Debug\Renesas unassembler.pdb
+C:\Users\Derek Holloway\source\repos\reverseslayer\Renesas-disassembler\obj\Debug\Renesas unassembler.csprojAssemblyReference.cache
+C:\Users\Derek Holloway\source\repos\reverseslayer\Renesas-disassembler\obj\Debug\Renesas_unassembler.Form1.resources
+C:\Users\Derek Holloway\source\repos\reverseslayer\Renesas-disassembler\obj\Debug\Renesas_unassembler.Properties.Resources.resources
+C:\Users\Derek Holloway\source\repos\reverseslayer\Renesas-disassembler\obj\Debug\Renesas unassembler.csproj.GenerateResource.cache
+C:\Users\Derek Holloway\source\repos\reverseslayer\Renesas-disassembler\obj\Debug\Renesas unassembler.csproj.CoreCompileInputs.cache
+C:\Users\Derek Holloway\source\repos\reverseslayer\Renesas-disassembler\obj\Debug\Renesas unassembler.exe
+C:\Users\Derek Holloway\source\repos\reverseslayer\Renesas-disassembler\obj\Debug\Renesas unassembler.pdb
