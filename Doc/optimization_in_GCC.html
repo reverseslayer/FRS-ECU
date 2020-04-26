@@ -1,0 +1,1841 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0052)http://www.kpitgnutools.com/optimization_in_GCC.html -->
+<HTML xmlns="http://www.w3.org/TR/REC-html40" xmlns:v = 
+"urn:schemas-microsoft-com:vml" xmlns:o = 
+"urn:schemas-microsoft-com:office:office" xmlns:w = 
+"urn:schemas-microsoft-com:office:word" xmlns:st1 = 
+"urn:schemas-microsoft-com:office:smarttags"><HEAD><TITLE>Optimization Notes</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<META content=FrontPage.Editor.Document name=ProgId>
+<META content="Microsoft FrontPage 6.0" name=GENERATOR>
+<META content="Microsoft Word 11" name=Originator><LINK 
+href="optimization_in_GCC_files/editdata.mso" rel=Edit-Time-Data>
+<o:SmartTagType 
+name="place" 
+namespaceuri="urn:schemas-microsoft-com:office:smarttags"></o:SmartTagType><!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>kpit</o:Author>
+  <o:LastAuthor>kpit</o:LastAuthor>
+  <o:Revision>2</o:Revision>
+  <o:TotalTime>2</o:TotalTime>
+  <o:Created>2007-06-08T07:13:00Z</o:Created>
+  <o:LastSaved>2007-06-08T07:15:00Z</o:LastSaved>
+  <o:Pages>1</o:Pages>
+  <o:Words>3674</o:Words>
+  <o:Characters>20942</o:Characters>
+  <o:Company>kpit</o:Company>
+  <o:Lines>174</o:Lines>
+  <o:Paragraphs>49</o:Paragraphs>
+  <o:CharactersWithSpaces>24567</o:CharactersWithSpaces>
+  <o:Version>11.6360</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:SpellingState>Clean</w:SpellingState>
+  <w:GrammarState>Clean</w:GrammarState>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:Compatibility>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+ </w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" LatentStyleCount="156">
+ </w:LatentStyles>
+</xml><![endif]-->
+<STYLE>@font-face {
+	font-family: MS Mincho;
+}
+@font-face {
+	font-family: Verdana;
+}
+@font-face {
+	font-family: @MS Mincho;
+}
+@page Section1 {size: 8.5in 11.0in; margin: 45.0pt 63.0pt .75in 63.0pt; mso-header-margin: .5in; mso-footer-margin: .5in; mso-paper-source: 0; }
+P.MsoNormal {
+	FONT-SIZE: 12pt; FONT-FAMILY: "Times New Roman"; mso-style-parent: ""; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"; margin-left:0in; margin-right:0in; margin-top:0in; margin-bottom:0pt
+}
+LI.MsoNormal {
+	FONT-SIZE: 12pt; FONT-FAMILY: "Times New Roman"; mso-style-parent: ""; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"; margin-left:0in; margin-right:0in; margin-top:0in; margin-bottom:0pt
+}
+DIV.MsoNormal {
+	FONT-SIZE: 12pt; FONT-FAMILY: "Times New Roman"; mso-style-parent: ""; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"; margin-left:0in; margin-right:0in; margin-top:0in; margin-bottom:0pt
+}
+H1 {
+	FONT-SIZE: 16pt; MARGIN: 12pt 0in 3pt; FONT-FAMILY: Arial; mso-pagination: widow-orphan; mso-outline-level: 1
+}
+H2 {
+	FONT-SIZE: 14pt; MARGIN: 12pt 0in 3pt; FONT-STYLE: italic; FONT-FAMILY: Arial; mso-pagination: widow-orphan; mso-outline-level: 2
+}
+H3 {
+	FONT-SIZE: 13pt; MARGIN: 12pt 0in 3pt; FONT-FAMILY: Arial; mso-pagination: widow-orphan; mso-outline-level: 3
+}
+P.MsoToc1 {
+	FONT-WEIGHT: bold; FONT-SIZE: 10pt; MARGIN: 0.25in 0in 6pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+LI.MsoToc1 {
+	FONT-WEIGHT: bold; FONT-SIZE: 10pt; MARGIN: 0.25in 0in 6pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+DIV.MsoToc1 {
+	FONT-WEIGHT: bold; FONT-SIZE: 10pt; MARGIN: 0.25in 0in 6pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+P.MsoToc2 {
+	FONT-SIZE: 10pt; MARGIN: 6pt 0in 0pt 12pt; FONT-STYLE: italic; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+LI.MsoToc2 {
+	FONT-SIZE: 10pt; MARGIN: 6pt 0in 0pt 12pt; FONT-STYLE: italic; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+DIV.MsoToc2 {
+	FONT-SIZE: 10pt; MARGIN: 6pt 0in 0pt 12pt; FONT-STYLE: italic; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+P.MsoToc3 {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt 24pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+LI.MsoToc3 {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt 24pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+DIV.MsoToc3 {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt 24pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+P.MsoToc4 {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt 0.5in; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+LI.MsoToc4 {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt 0.5in; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+DIV.MsoToc4 {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt 0.5in; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+P.MsoToc5 {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt 48pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+LI.MsoToc5 {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt 48pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+DIV.MsoToc5 {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt 48pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+P.MsoToc6 {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt 60pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+LI.MsoToc6 {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt 60pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+DIV.MsoToc6 {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt 60pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+P.MsoToc7 {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt 1in; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+LI.MsoToc7 {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt 1in; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+DIV.MsoToc7 {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt 1in; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+P.MsoToc8 {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt 84pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+LI.MsoToc8 {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt 84pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+DIV.MsoToc8 {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt 84pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+P.MsoToc9 {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt 96pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+LI.MsoToc9 {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt 96pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+DIV.MsoToc9 {
+	FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt 96pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+P.MsoHeader {
+	FONT-SIZE: 12pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+LI.MsoHeader {
+	FONT-SIZE: 12pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+DIV.MsoHeader {
+	FONT-SIZE: 12pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+P.MsoFooter {
+	FONT-SIZE: 12pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+LI.MsoFooter {
+	FONT-SIZE: 12pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+DIV.MsoFooter {
+	FONT-SIZE: 12pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+P.MsoTof {
+	FONT-SIZE: 12pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+LI.MsoTof {
+	FONT-SIZE: 12pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+DIV.MsoTof {
+	FONT-SIZE: 12pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"
+}
+A:link {
+	COLOR: blue; TEXT-DECORATION: underline; text-underline: single
+}
+SPAN.MsoHyperlink {
+	COLOR: blue; TEXT-DECORATION: underline; text-underline: single
+}
+A:visited {
+	COLOR: purple; TEXT-DECORATION: underline; text-underline: single
+}
+SPAN.MsoHyperlinkFollowed {
+	COLOR: purple; TEXT-DECORATION: underline; text-underline: single
+}
+CODE {
+	FONT-FAMILY: "Courier New"; mso-fareast-font-family: "MS Mincho"; mso-ascii-font-family: "Courier New"; mso-hansi-font-family: "Courier New"; mso-bidi-font-family: "Courier New"
+}
+SAMP {
+	FONT-FAMILY: "Courier New"; mso-fareast-font-family: "MS Mincho"; mso-ascii-font-family: "Courier New"; mso-hansi-font-family: "Courier New"; mso-bidi-font-family: "Courier New"
+}
+P.normal1 {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"; mso-style-name: normal1
+}
+LI.normal1 {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"; mso-style-name: normal1
+}
+DIV.normal1 {
+	TEXT-JUSTIFY: inter-ideograph; FONT-SIZE: 10pt; MARGIN: 0in 0in 0pt; FONT-FAMILY: "Times New Roman"; TEXT-ALIGN: justify; mso-pagination: widow-orphan; mso-fareast-font-family: "MS Mincho"; mso-style-name: normal1
+}
+SPAN.SpellE {
+	mso-style-name: ""; mso-spl-e: yes
+}
+SPAN.GramE {
+	mso-style-name: ""; mso-gram-e: yes
+}
+DIV.Section1 {
+	page: Section1
+}
+</STYLE>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman";
+	mso-fareast-font-family:"Times New Roman";
+	mso-ansi-language:#0400;
+	mso-fareast-language:#0400;
+	mso-bidi-language:#0400}
+</style>
+<![endif]--></HEAD>
+<BODY lang=EN-US style="tab-interval: .5in" vLink=#800080 link=#0000FF>
+<DIV class=Section1 style="width: 929; height: 7527">
+<BLOCKQUOTE style="MARGIN-TOP: 5pt; MARGIN-BOTTOM: 5pt">
+  <BLOCKQUOTE style="MARGIN-TOP: 5pt; MARGIN-BOTTOM: 5pt">
+    <P class=MsoNormal style="MARGIN-BOTTOM: 12pt"><A 
+    name=_Toc131249576><B><U><SPAN 
+    style="FONT-SIZE: 18pt; FONT-FAMILY: Verdana">Recommended Tools Option for 
+    Optimization</SPAN></U></B></A></P>
+    <P class=MsoToc1><A 
+    href="#_Toc131311766"><SPAN 
+    style="FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">1</SPAN><SPAN 
+    style="FONT-SIZE: 12pt; COLOR: windowtext; TEXT-DECORATION: none; text-underline: none">&nbsp;</SPAN><SPAN 
+    style="FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">Code 
+    Size Optimization</SPAN><SPAN 
+    style="DISPLAY: none; COLOR: windowtext; TEXT-DECORATION: none; text-underline: none; mso-hide: all">.. 
+    2</SPAN></A></P>
+    <P class=MsoToc2><A 
+    href="#_Toc131311767"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">1.1</SPAN><SPAN 
+    style="FONT-SIZE: 12pt; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">&nbsp;</SPAN><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">Generic</SPAN><SPAN 
+    style="DISPLAY: none; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none; mso-hide: all">. 
+    2</SPAN></A></P>
+    <P class=MsoToc2><A 
+    href="#_Toc131311768"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">1.2</SPAN><SPAN 
+    style="FONT-SIZE: 12pt; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">&nbsp;</SPAN><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">H8 
+    Specific</SPAN><SPAN 
+    style="DISPLAY: none; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none; mso-hide: all">. 
+    3</SPAN></A></P>
+    <P class=MsoToc2><A 
+    href="#_Toc131311769"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">1.3</SPAN><SPAN 
+    style="FONT-SIZE: 12pt; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">&nbsp;</SPAN><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">SH 
+    Specific</SPAN><SPAN 
+    style="DISPLAY: none; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none; mso-hide: all">. 
+    4</SPAN></A></P>
+    <P class=MsoToc2><A 
+    href="#_Toc131311770"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">1.4</SPAN><SPAN 
+    style="FONT-SIZE: 12pt; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">&nbsp;</SPAN><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">M16CM32C 
+    Specific</SPAN><SPAN 
+    style="DISPLAY: none; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none; mso-hide: all">. 
+    5</SPAN></A></P>
+    <P class=MsoToc1><A 
+    href="#_Toc131311771"><SPAN 
+    style="FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">2.</SPAN><SPAN 
+    style="FONT-SIZE: 12pt; COLOR: windowtext; TEXT-DECORATION: none; text-underline: none">&nbsp;</SPAN><SPAN 
+    style="FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">Speed 
+    Optimization</SPAN><SPAN 
+    style="DISPLAY: none; COLOR: windowtext; TEXT-DECORATION: none; text-underline: none; mso-hide: all">.. 
+    5</SPAN></A></P>
+    <P class=MsoToc2><A 
+    href="#_Toc131311772"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">2.1</SPAN><SPAN 
+    style="FONT-SIZE: 12pt; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">&nbsp;</SPAN><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">Generic</SPAN><SPAN 
+    style="DISPLAY: none; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none; mso-hide: all">. 
+    5</SPAN></A></P>
+    <P class=MsoToc2><A 
+    href="#_Toc131311773"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">2.2</SPAN><SPAN 
+    style="FONT-SIZE: 12pt; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">&nbsp;</SPAN><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">H8 
+    Specific</SPAN><SPAN 
+    style="DISPLAY: none; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none; mso-hide: all">. 
+    6</SPAN></A></P>
+    <P class=MsoToc2><A 
+    href="#_Toc131311774"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">2.3</SPAN><SPAN 
+    style="FONT-SIZE: 12pt; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">&nbsp;</SPAN><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">SH 
+    Specific</SPAN><SPAN 
+    style="DISPLAY: none; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none; mso-hide: all">. 
+    6</SPAN></A></P>
+    <P class=MsoToc2><A 
+    href="#_Toc131311775"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">2.4</SPAN><SPAN 
+    style="FONT-SIZE: 12pt; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">&nbsp;</SPAN><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">M16CM32C 
+    Specific</SPAN><SPAN 
+    style="DISPLAY: none; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none; mso-hide: all">. 
+    6</SPAN></A></P>
+    <P class=MsoToc1><A 
+    href="#_Toc131311776"><SPAN 
+    style="FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">3.</SPAN><SPAN 
+    style="FONT-SIZE: 12pt; COLOR: windowtext; TEXT-DECORATION: none; text-underline: none">&nbsp;</SPAN><SPAN 
+    style="FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">Workaround 
+    for some known problems with Optimization</SPAN><SPAN 
+    style="DISPLAY: none; COLOR: windowtext; TEXT-DECORATION: none; text-underline: none; mso-hide: all">.. 
+    6</SPAN></A></P>
+    <P class=MsoToc2><A 
+    href="#_Toc131311777"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">3.1</SPAN><SPAN 
+    style="FONT-SIZE: 12pt; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">&nbsp;</SPAN><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">Generic</SPAN><SPAN 
+    style="DISPLAY: none; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none; mso-hide: all">. 
+    6</SPAN></A></P>
+    <P class=MsoToc2><A 
+    href="#_Toc131311778"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">3.2</SPAN><SPAN 
+    style="FONT-SIZE: 12pt; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">&nbsp;</SPAN><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">H8 
+    Specific</SPAN><SPAN 
+    style="DISPLAY: none; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none; mso-hide: all">. 
+    8</SPAN></A></P>
+    <P class=MsoToc2><A 
+    href="#_Toc131311779"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">3.3</SPAN><SPAN 
+    style="FONT-SIZE: 12pt; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">&nbsp;</SPAN><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">SH 
+    Specific</SPAN><SPAN 
+    style="DISPLAY: none; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none; mso-hide: all">. 
+    8</SPAN></A></P>
+    <P class=MsoToc2><A 
+    href="#_Toc131311780"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">3.4</SPAN><SPAN 
+    style="FONT-SIZE: 12pt; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">&nbsp;</SPAN><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">M16CM32C 
+    Specific</SPAN><SPAN 
+    style="DISPLAY: none; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none; mso-hide: all">. 
+    8</SPAN></A></P>
+    <P class=MsoToc1><A 
+    href="#_Toc131311781"><SPAN 
+    style="FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">4.</SPAN><SPAN 
+    style="FONT-SIZE: 12pt; COLOR: windowtext; TEXT-DECORATION: none; text-underline: none">&nbsp;</SPAN><SPAN 
+    style="FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">Optimization 
+    that user can do in application code itself</SPAN><SPAN 
+    style="DISPLAY: none; COLOR: windowtext; TEXT-DECORATION: none; text-underline: none; mso-hide: all">. 
+    8</SPAN></A></P>
+    <P class=MsoToc2><A 
+    href="#_Toc131311782"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">4.1</SPAN><SPAN 
+    style="FONT-SIZE: 12pt; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">&nbsp;</SPAN><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">Care 
+    to be taken in startup assembly file</SPAN><SPAN 
+    style="DISPLAY: none; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none; mso-hide: all">. 
+    8</SPAN></A></P>
+    <P class=MsoToc2><A 
+    href="#_Toc131311783"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">4.2</SPAN><SPAN 
+    style="FONT-SIZE: 12pt; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">&nbsp;</SPAN><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">General 
+    Tips</SPAN><SPAN 
+    style="DISPLAY: none; COLOR: windowtext; FONT-STYLE: normal; FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none; mso-hide: all"> 
+    8</SPAN></A></P>
+    <P class=MsoToc1><A 
+    href="#_Toc131311784"><SPAN 
+    style="FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">5.</SPAN><SPAN 
+    style="FONT-SIZE: 12pt; COLOR: windowtext; TEXT-DECORATION: none; text-underline: none">&nbsp;</SPAN><SPAN 
+    style="FONT-FAMILY: Verdana; TEXT-DECORATION: none; text-underline: none">Summary</SPAN><SPAN 
+    style="DISPLAY: none; COLOR: windowtext; TEXT-DECORATION: none; text-underline: none; mso-hide: all">.. 
+    9</SPAN></A></P>
+    <P class=MsoNormal>&nbsp;</P>
+    <P class=MsoNormal>&nbsp;</P>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 14pt; FONT-FAMILY: Verdana">Revision History</SPAN></P>
+    <P class=MsoNormal><B><SPAN 
+    style="FONT-FAMILY: Verdana"></SPAN></B>&nbsp;</P>
+    <TABLE class=MsoNormalTable 
+    style="WIDTH: 491.4pt; BORDER-COLLAPSE: collapse; mso-padding-alt: 0in 0in 0in 0in" 
+    cellSpacing=0 cellPadding=0 width=655 border=0>
+      <THEAD>
+      <TR style="HEIGHT: 33.25pt; mso-yfti-irow: 0; mso-yfti-firstrow: yes">
+        <TD 
+        style="BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: windowtext 1pt solid; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0in; BORDER-LEFT: windowtext 1pt solid; WIDTH: 59.4pt; PADDING-TOP: 0in; BORDER-BOTTOM: windowtext 1pt solid; HEIGHT: 33.25pt" 
+        vAlign=top width=79>
+          <P class=MsoNormal><B><SPAN style="FONT-FAMILY: Verdana">Version 
+          No.</SPAN></B></P></TD>
+        <TD 
+        style="BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: windowtext 1pt solid; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0in; BORDER-LEFT: medium none; WIDTH: 117pt; PADDING-TOP: 0in; BORDER-BOTTOM: windowtext 1pt solid; HEIGHT: 33.25pt" 
+        vAlign=top width=156>
+          <P class=MsoNormal><B><SPAN 
+          style="FONT-FAMILY: Verdana">Date</SPAN></B></P></TD>
+        <TD 
+        style="BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: windowtext 1pt solid; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0in; BORDER-LEFT: medium none; WIDTH: 315pt; PADDING-TOP: 0in; BORDER-BOTTOM: windowtext 1pt solid; HEIGHT: 33.25pt" 
+        vAlign=top width=420>
+          <P class=MsoNormal><B><SPAN style="FONT-FAMILY: Verdana">Overview of 
+          Changes</SPAN></B></P></TD></TR></THEAD>
+      <TBODY>
+      <TR style="HEIGHT: 22.9pt; mso-yfti-irow: 1">
+        <TD 
+        style="BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0in; BORDER-LEFT: windowtext 1pt solid; WIDTH: 59.4pt; PADDING-TOP: 0in; BORDER-BOTTOM: windowtext 1pt solid; HEIGHT: 22.9pt" 
+        width=79>
+          <P class=normal1 style="TEXT-ALIGN: left" align=left><SPAN 
+          style="FONT-SIZE: 11pt; FONT-FAMILY: Verdana">1.0</SPAN></P></TD>
+        <TD 
+        style="BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0in; BORDER-LEFT: medium none; WIDTH: 117pt; PADDING-TOP: 0in; BORDER-BOTTOM: windowtext 1pt solid; HEIGHT: 22.9pt" 
+        width=156>
+          <P class=MsoNormal><SPAN 
+          style="FONT-SIZE: 11pt; FONT-FAMILY: Verdana">31 March 
+        2006</SPAN></P></TD>
+        <TD 
+        style="BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0in; BORDER-LEFT: medium none; WIDTH: 315pt; PADDING-TOP: 0in; BORDER-BOTTOM: windowtext 1pt solid; HEIGHT: 22.9pt" 
+        width=420>
+          <P class=normal1 style="TEXT-ALIGN: left" align=left><SPAN 
+          style="FONT-SIZE: 11pt; FONT-FAMILY: Verdana">Draft 
+        Created</SPAN></P></TD></TR>
+      <TR style="HEIGHT: 22.9pt; mso-yfti-irow: 3; mso-yfti-lastrow: yes">
+        <TD 
+        style="BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0in; BORDER-LEFT: windowtext 1pt solid; WIDTH: 59.4pt; PADDING-TOP: 0in; BORDER-BOTTOM: windowtext 1pt solid; HEIGHT: 22.9pt" 
+        width=79><SPAN 
+        style="FONT-SIZE: 11pt; FONT-FAMILY: Verdana">2.0</SPAN></TD>
+        <TD 
+        style="BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0in; BORDER-LEFT: medium none; WIDTH: 117pt; PADDING-TOP: 0in; BORDER-BOTTOM: windowtext 1pt solid; HEIGHT: 22.9pt" 
+        width=156><SPAN style="FONT-SIZE: 11pt; FONT-FAMILY: Verdana">03 
+          October 2006</SPAN></TD>
+        <TD 
+        style="BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0in; BORDER-LEFT: medium none; WIDTH: 315pt; PADDING-TOP: 0in; BORDER-BOTTOM: windowtext 1pt solid; HEIGHT: 22.9pt" 
+        width=420><SPAN style="FONT-SIZE: 11pt; FONT-FAMILY: Verdana">Added 
+          section <A 
+          href="#_Toc131311770">1.4.1</A></SPAN></TD></TR>
+      <TR style="HEIGHT: 22.9pt; mso-yfti-irow: 3; mso-yfti-lastrow: yes">
+        <TD 
+        style="BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0in; BORDER-LEFT: windowtext 1pt solid; WIDTH: 59.4pt; PADDING-TOP: 0in; BORDER-BOTTOM: windowtext 1pt solid; HEIGHT: 22.9pt" 
+        width=79><SPAN 
+          style="FONT-SIZE: 11pt; FONT-FAMILY: Verdana">3.0<o:p></o:p></SPAN></TD>
+        <TD 
+        style="BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0in; BORDER-LEFT: medium none; WIDTH: 117pt; PADDING-TOP: 0in; BORDER-BOTTOM: windowtext 1pt solid; HEIGHT: 22.9pt" 
+        width=156><SPAN style="FONT-SIZE: 11pt; FONT-FAMILY: Verdana">08 June 
+          2007<o:p></o:p></SPAN></TD>
+        <TD 
+        style="BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0in; BORDER-LEFT: medium none; WIDTH: 315pt; PADDING-TOP: 0in; BORDER-BOTTOM: windowtext 1pt solid; HEIGHT: 22.9pt" 
+        width=420><SPAN style="FONT-SIZE: 11pt; FONT-FAMILY: Verdana">Modified 
+          for Optimized libraries section<o:p></o:p></SPAN></TD></TR>
+      <TR style="HEIGHT: 22.9pt; mso-yfti-irow: 3; mso-yfti-lastrow: yes">
+        <TD 
+        style="BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0in; BORDER-LEFT: windowtext 1pt solid; WIDTH: 59.4pt; PADDING-TOP: 0in; BORDER-BOTTOM: windowtext 1pt solid; HEIGHT: 22.9pt" 
+        width=79><span style="font-family: Verdana; font-size: 11pt">4.0</span></TD>
+        <TD 
+        style="BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0in; BORDER-LEFT: medium none; WIDTH: 117pt; PADDING-TOP: 0in; BORDER-BOTTOM: windowtext 1pt solid; HEIGHT: 22.9pt" 
+        width=156><span style="font-family: Verdana; font-size: 11pt">30 May 
+        2008</span></TD>
+        <TD 
+        style="BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0in; BORDER-LEFT: medium none; WIDTH: 315pt; PADDING-TOP: 0in; BORDER-BOTTOM: windowtext 1pt solid; HEIGHT: 22.9pt" 
+        width=420><span style="font-family: Verdana; font-size: 11pt">Modified 
+        for Library Generator addition (Section <a href="#_Toc131311767">1.1.1</a>)</span></TD></TR>
+      <TR style="HEIGHT: 22.9pt; mso-yfti-irow: 3; mso-yfti-lastrow: yes">
+        <TD 
+        style="BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0in; BORDER-LEFT: windowtext 1pt solid; WIDTH: 59.4pt; PADDING-TOP: 0in; BORDER-BOTTOM: windowtext 1pt solid; HEIGHT: 22.9pt" 
+        width=79><span style="font-family: Verdana; font-size: 11pt">5.0</span></TD>
+        <TD 
+        style="BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0in; BORDER-LEFT: medium none; WIDTH: 117pt; PADDING-TOP: 0in; BORDER-BOTTOM: windowtext 1pt solid; HEIGHT: 22.9pt" 
+        width=156><span style="font-family: Verdana; font-size: 11pt">30
+          September 
+        2008</span></TD>
+        <TD 
+        style="BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0in; BORDER-LEFT: medium none; WIDTH: 315pt; PADDING-TOP: 0in; BORDER-BOTTOM: windowtext 1pt solid; HEIGHT: 22.9pt" 
+        width=420><span style="font-family: Verdana; font-size: 11pt">Added the
+          option '-mbitops' (Section <a href="#_SH_options">1.3.1</a>)</span></TD></TR>
+      <TR style="HEIGHT: 22.9pt; mso-yfti-irow: 3; mso-yfti-lastrow: yes">
+        <TD 
+        style="BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0in; BORDER-LEFT: windowtext 1pt solid; WIDTH: 59.4pt; PADDING-TOP: 0in; BORDER-BOTTOM: windowtext 1pt solid; HEIGHT: 22.9pt" 
+        width=79><font face="Verdana" style="font-size: 11pt">6.0</font></TD>
+        <TD 
+        style="BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0in; BORDER-LEFT: medium none; WIDTH: 117pt; PADDING-TOP: 0in; BORDER-BOTTOM: windowtext 1pt solid; HEIGHT: 22.9pt" 
+        width=156><font face="Verdana" style="font-size: 11pt">30 September 2009</font></TD>
+        <TD 
+        style="BORDER-RIGHT: windowtext 1pt solid; PADDING-RIGHT: 5.4pt; BORDER-TOP: medium none; PADDING-LEFT: 5.4pt; PADDING-BOTTOM: 0in; BORDER-LEFT: medium none; WIDTH: 315pt; PADDING-TOP: 0in; BORDER-BOTTOM: windowtext 1pt solid; HEIGHT: 22.9pt" 
+        width=420><font face="Verdana" style="font-size: 11pt">Added information 
+		about the new compiler option called &quot;optimize&quot;.</font></TD></TR></TBODY></TABLE>
+    <P class=MsoNormal><SPAN style="FONT-FAMILY: Verdana"></SPAN>&nbsp;</P>
+    <P class=MsoNormal style="MARGIN: 12pt 0in 6pt"><B><SPAN 
+    style="FONT-FAMILY: Verdana">Overview:</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">This document is prepared to 
+    guide beginner users to use proper optimization options to achieve proper 
+    code or speed optimization.&nbsp; It also describes some known problems with 
+    optimization and their workarounds.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">The schemes, described below, 
+    will work <B>better</B> for ELF tool chain. However, many of the options 
+    (but not all) are also supported for COFF toolchains.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"></SPAN>&nbsp;</P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><I><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Some of the options explained 
+    below may affect debugging.</SPAN></I></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify">&nbsp;</P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify">&nbsp;</P>
+    <H1 style="MARGIN-BOTTOM: 0pt"><A name=_Toc131311766><SPAN 
+    style="FONT-FAMILY: Verdana">1 Code Size Optimization</SPAN></A></H1>
+    <DIV class=MsoNormal style="TEXT-ALIGN: center" align=center>
+    <HR align=center width="100%" color=black noShade SIZE=3>
+    </DIV>
+    <H2 style="MARGIN: 6pt 0in 3pt 0.5in; TEXT-INDENT: -0.5in"><A 
+    name=_Toc131311767></A><SPAN class=GramE><SPAN 
+    style="mso-bookmark: _Toc131311767"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana">1.1</SPAN></SPAN><SPAN 
+    style="mso-bookmark: _Toc131311767"><SPAN 
+    style="FONT-SIZE: 7pt; FONT-STYLE: normal; FONT-FAMILY: 'Times New Roman'"> 
+    </SPAN></SPAN><SPAN style="mso-bookmark: _Toc131311767"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: 'Times New Roman'">.</SPAN></SPAN></SPAN><SPAN 
+    style="mso-bookmark: _Toc131311767"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: 'Times New Roman'"> 
+    </SPAN></SPAN><SPAN style="mso-bookmark: _Toc131311767"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana">Generic</SPAN></SPAN></H2>
+    <H3 style="MARGIN: 5pt 0in 6pt"><font size="3">
+	<span style="font-family: Verdana">1.1.1 Using Library Generator</span></font></H3>
+	<p style="MARGIN: 5pt 0in 6pt"><font face="Verdana" size="2">The library 
+	generator tool, 'libgen', builds the standard/optimized libraries with 
+	customized compiler and assembler options. <br>
+	<br>
+	<b>'Library Generator' on Command Line:</b> <br>
+	<br>
+	For information on the usage of the 'libgen' tool and the supported options, 
+	please refer to the following link, <br>
+	<a href="http://www.kpitgnutools.com/manuals/binutils.html#SEC15">
+	http://www.kpitgnutools.com/manuals/binutils.html#SEC15</a>&nbsp; <br>
+	<br>
+	<b>'Library Generator' in HEW: </b></font></p>
+	<p style="MARGIN: 5pt 0in 6pt"><font face="Verdana" size="2">&quot;Library 
+	Generator&quot; phase in HEW is used to interface the 'libgen' tool. <br>
+	The settings for this phase are as follows, <br>
+	<br>
+	a. The &quot;Settings&quot; tab provides the options to select the type of the library 
+	i.e. 'Pre-Built' or 'Project-Built', the source i.e. 'Newlib' or 'Optimized' 
+	and the mode used for building the library. <br>
+	<br>
+	b. The &quot;Header files&quot; tab provides the option to select the standard header 
+	files for building the library. <br>
+	<br>
+	c. The &quot;Other options&quot; tab allows the user defined options to be passed to 
+	the &quot;Library Generator&quot; phase. <br>
+	<br>
+	</font><b><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana">1.1.2 </SPAN><SPAN 
+    class=GramE><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana">Using</SPAN></SPAN><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana"> Optimized libraries ( 
+    &#8220;</SPAN><SPAN class=SpellE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">liboptc.a</SPAN></SPAN><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&#8221; and &#8220;<SPAN 
+    class=SpellE>liboptm.a</SPAN>&#8221;</SPAN><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana">)</SPAN></b></p>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Optimized libraries are 
+    provided with all KPIT GNU ELF toolchains. User can use these libraries to 
+    get more size optimized code. Usage of these libraries can generate up to 
+    40% optimized code as compared to standard libraries. </SPAN></P>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 9pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Use on command 
+    line:</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Usage of optimized libraries 
+    on command line is similar to standard libraries. User need to specify the 
+    optimized libraries to be searched and included. These libraries are 
+    available in same path as of standard libraries.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 6pt; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">e.g. #h8300-elf-gcc <SPAN 
+    class=SpellE>t.c</SPAN> &#8211;<SPAN class=SpellE>mh</SPAN> &#8211;<SPAN 
+    class=SpellE>loptm</SPAN> -<SPAN class=SpellE>loptc</SPAN></SPAN></P>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 9pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Use in HEW:</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">User can select to use 
+    optimized libraries while creating new project for H8/SH/M16CM32C targets. 
+    The option to use optimized libraries can also be selected once the project 
+    is created. For this, check box to use or to disable the use of optimized 
+    libraries is available on &#8220;archive&#8221; property page of linker property 
+    sheet.</SPAN></P>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 4.5pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><I><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Sources of optimized libraries 
+    are <B>not</B> available for download.</SPAN></I></P>
+    <H3 style="MARGIN: 5pt 0in 6pt"><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana">1.1.3 Using Command Line 
+    Options and attributes</SPAN></H3>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Optimum level of code size 
+    optimization can be achieved by using optimization option <B>&#8220;Os&#8221;</B>. 
+    </SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Further reduction in code size 
+    can be achieved by using following options. </SPAN></P>
+    <P class=MsoNormal style="MARGIN-TOP: 3.75pt"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">a.&nbsp;Compiler Option &#8220;<SPAN 
+    class=SpellE>fomit</SPAN>-frame-pointer&#8221;</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">This option will save 2/4 
+    bytes required to save and restore frame pointer register in prologue and 
+    epilogue of function.</SPAN></P>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 9pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">b. Compiler Option &#8220;<SPAN 
+    class=SpellE>fdata</SPAN>-sections&#8221; and &#8220;<SPAN 
+    class=SpellE>ffunction</SPAN>-sections&#8221;</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">These options will force 
+    compiler to create separate sections for all functions and variables. Usage 
+    of these options <SPAN class=GramE>along</SPAN> with linker option &#8220;<SPAN 
+    class=SpellE>gc</SPAN>-section&#8221;, explained later, produces better results 
+    for code size optimization.</SPAN></P>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 9pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">c. </SPAN><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Option &#8220;<SPAN 
+    class=SpellE>fsort</SPAN>-data&#8221;</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">When "-<SPAN 
+    class=SpellE>fsort</SPAN>-data" option is passed to compiler while building 
+    application code, separate data sections are generated </SPAN><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"><SPAN class=GramE>for</SPAN> 
+    global initialized variables and constant data based on their alignment. The 
+    "n" (1/2/4) byte aligned data will go <SPAN class=GramE>either</SPAN> in 
+    .<SPAN class=SpellE>data.align"n</SPAN>" or .<SPAN 
+    class=SpellE>rodata.align"n</SPAN>" section. Arrays, structures and unions 
+    are also treated in same way. This <SPAN class=GramE>option</SPAN> is 
+    enabled with "-Os". Due to this option, padding of bytes between data 
+    allocation within section is not required.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">This will reduce the size of 
+    RAM as well as ROM required to store global initialized variables. 
+    </SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 6pt 0in; TEXT-ALIGN: justify"><I><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">This option will be ignored if 
+    option "-<SPAN class=SpellE>fdata</SPAN>-sections" is passed to 
+    compiler.</SPAN></I></P>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 9pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">d.&nbsp;Compiler Option &#8220;<SPAN 
+    class=SpellE>fno-function-cse</SPAN>&#8221;</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">When this option is used, 
+    compiler does not put function addresses in registers. <SPAN 
+    class=GramE>i.e</SPAN>. this option makes each instruction <SPAN 
+    class=GramE>that</SPAN> calls a constant function contain the function's 
+    address explicitly.</SPAN></P>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 9pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">e.&nbsp;Compiler Option &#8220;<SPAN 
+    class=SpellE>funit</SPAN>-at-a-time&#8221;</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">This option enables parsing of 
+    the whole compilation unit before starting to produce code. This allows some 
+    extra&nbsp;<SPAN class=GramE>optimizations</SPAN> to take place. This option 
+    removes unreferenced static variables and functions. </SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">However, this may result in 
+    undefined references when an &#8216;</SPAN><SPAN class=SpellE><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">asm</SPAN></CODE></SPAN><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&#8217;</SPAN></CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> statement refers directly to 
+    variables or functions that&nbsp;<SPAN class=GramE>are</SPAN> otherwise 
+    unused. In that case either the variable/function shall be listed as an 
+    operand of the &#8216;</SPAN><SPAN class=SpellE><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">asm</SPAN></CODE></SPAN><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&#8217;</SPAN></CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> statement&nbsp;<SPAN 
+    class=GramE>operand</SPAN> or, in the case of top-level &#8216;</SPAN><SPAN 
+    class=SpellE><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">asm</SPAN></CODE></SPAN><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&#8217;</SPAN></CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> statements the attribute 
+    </SPAN><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">used</SPAN></CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> shall be used on the 
+    declaration.</SPAN></P>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 12pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">f.&nbsp;Compiler Option 
+    &#8220;</SPAN></B><SPAN class=SpellE><CODE><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">fpack-<SPAN 
+    class=GramE>struct</SPAN></SPAN></B></CODE></SPAN><SPAN 
+    class=GramE><CODE><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">[</SPAN></B></CODE></SPAN><CODE><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">=n]</SPAN></B></CODE><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&#8221; or attribute 
+    &#8220;</SPAN></B><CODE><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">aligned</SPAN></B></CODE><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&#8221; and &#8220;packed&#8221;</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">This option when specified 
+    without a value, pack all structure members together without holes. 
+    Similarly, it works for <SPAN class=GramE>mentioned</SPAN> attributes. You 
+    may refer to section &#8220;Specifying Attributes of Variables&#8221; in </SPAN></P>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;<A 
+    href="http://www.kpitgnutools.com/manuals/gcc.html"><SPAN 
+    class=GramE>http://www.kpitgnutools.com/manuals/gcc.html</SPAN></A><SPAN 
+    class=GramE> for more details.</SPAN></SPAN></P>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 9pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">g.<SPAN 
+    class=GramE>&nbsp;&nbsp;Compiler</SPAN> Option &#8220;<SPAN 
+    class=SpellE>falign</SPAN>-jumps&#8221;</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">This option aligns the branch 
+    targets to a power-of-two boundary, for branch targets where the targets can 
+    only be&nbsp;<SPAN class=GramE>reached</SPAN> by jumping, skipping up to 
+    <VAR><SPAN style="FONT-FAMILY: Verdana">n</SPAN></VAR> bytes like 
+    </SPAN><SAMP><SPAN style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">`-<SPAN 
+    class=SpellE>falign</SPAN>-functions'</SPAN></SAMP><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">. In this case, no dummy 
+    operations need be <SPAN class=GramE>executed</SPAN>.</SPAN></P>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 9pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">h.&nbsp;Linker Option &#8220;<SPAN 
+    class=SpellE>gc</SPAN>-sections&#8221;</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">This option will remove unused 
+    and unreferenced function(s) and variables thereby reducing overall code 
+    size. </SPAN></P>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 6pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><I><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">When link-time garbage 
+    collection is in use (--<SPAN class=SpellE>gc</SPAN>-sections), it is 
+    necessary to mark sections that should not be <SPAN 
+    class=GramE>eliminated</SPAN> for example &#8220;.<SPAN class=SpellE>vects</SPAN>&#8221; 
+    section containing vector table. This is accomplished by surrounding an 
+    input section's <SPAN class=GramE>wildcard</SPAN> entry with KEEP(), as in 
+    KEEP(*(.<SPAN class=SpellE>vects</SPAN>)) in linker script.</SPAN></I></P>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 12pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">i.&nbsp;Linker Option 
+    &#8220;strip-all&#8221;</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">This option omits all symbol 
+    information from the output file.</SPAN></P>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 12pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"><SPAN 
+    class=SpellE>j</SPAN>.<SPAN class=GramE>&nbsp;&nbsp;Linker</SPAN> Option 
+    &#8220;no-keep-memory&#8221;</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&#8220;<SPAN class=GramE>ld</SPAN>&#8221; 
+    normally optimizes for speed over memory usage by caching the symbol tables 
+    of input files in memory. This option <SPAN class=GramE>tells</SPAN> ld to 
+    instead optimize for memory usage, by rereading the symbol tables as 
+    necessary. This may be required if <SPAN class=GramE>ld</SPAN>&nbsp;<SPAN 
+    class=GramE>runs</SPAN> out of memory space while linking a large 
+    executable.</SPAN></P>
+	<P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify">&nbsp;</P>
+	<P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify">
+	<span style="font-size: 10pt; font-family: Verdana"><SPAN 
+    class=SpellE><b>k. Compiler attribute 'optimize'<br>
+	</b></SPAN>From GCC-4.4 on wards, a new 'optimize' attribute has been added 
+	to allow programmers to change the optimization level and particular 
+	optimization options for an individual function.<br>
+	Sample use of this attribute is shown below, int foo(int i) __attribute__((optimize(&quot;-O3&quot;)));<SPAN 
+    class=SpellE><b><br>
+&nbsp;</b></SPAN></span></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 6pt 0in 3pt; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&#8220;<SPAN 
+    class=SpellE>DON'Ts</SPAN>&#8221;:</SPAN></B></P>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 6pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">In order to achieve further 
+    code size optimization, ensure that following option is <B>not</B> 
+    used.</SPAN></P>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 2.25pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">a.&nbsp;Linker Option 
+    &#8220;emit-<SPAN class=SpellE>relocs</SPAN>&#8221;</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">This option Leaves relocation 
+    sections and contents in fully linked executables resulting into larger 
+    executable.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Therefore, in order to achieve 
+    better code optimization, this option should not be used. By default, this 
+    option is <SPAN class=GramE>disabled</SPAN>.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 6pt 0in 3pt; TEXT-ALIGN: justify">&nbsp;</P>
+    <H2 style="MARGIN: 0in 0in 0pt 0.5in; TEXT-INDENT: -0.5in"><A 
+    name=_Toc131311768><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana">1.2</SPAN></A><SPAN 
+    style="mso-bookmark: _Toc131311768"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: 'Times New Roman'">&nbsp;</SPAN></SPAN><SPAN 
+    style="mso-bookmark: _Toc131311768"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana">H8 
+    Specific</SPAN></SPAN></H2>
+    <H3 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 6pt; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana">1.2.1</SPAN><SPAN 
+    class=GramE><SPAN 
+    style="FONT-SIZE: 7pt; FONT-FAMILY: 'Times New Roman'">&nbsp; </SPAN><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana">Using</SPAN></SPAN><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana"> Command Line Options and 
+    attributes</SPAN></H3>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Following target specific 
+    options can be used for H8 targets to achieve code size 
+    optimization,</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">a.&nbsp;Option &#8220;<SPAN 
+    class=SpellE>mtinydata</SPAN>&#8221; (v0601 and onward)</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">When "-<SPAN 
+    class=SpellE>mtinydata</SPAN>" target specific command line option is passed 
+    to the compiler while building the application code,&nbsp;<SPAN 
+    class=GramE>compiler</SPAN> creates ".<SPAN class=SpellE>tinyrodata</SPAN>" 
+    , ".<SPAN class=SpellE>tinydata</SPAN>" and&nbsp; ".<SPAN 
+    class=SpellE>tinybss</SPAN>" sections. All the constant variables are placed 
+    into the&nbsp;".<SPAN class=SpellE>tinyrodata</SPAN>" section which gets 
+    relocated into the lower most 32kb memory region of H8. The initialized 
+    global variables <SPAN class=GramE>are</SPAN> placed into the ".<SPAN 
+    class=SpellE>tinydata</SPAN>" section and all un-initialized variables are 
+    placed into the ".<SPAN class=SpellE>tinybss</SPAN>" section which is <SPAN 
+    class=GramE>relocated</SPAN> into the upper most 32kb of memory region of 
+    H8. Hence, all these variables can be accessed using 16-bit&nbsp;<SPAN 
+    class=GramE>addressing</SPAN> method. Thus the size of the code generated 
+    will be reduced achieving the code size optimization. </SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"><I>The ".<SPAN 
+    class=SpellE>tinybss</SPAN>" implementation does not work as expected. It is 
+    a known problem</I></SPAN><I><SPAN 
+    style="FONT-FAMILY: Verdana">.</SPAN></I></P>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 9pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">b.&nbsp;Option 
+    &#8220;</SPAN></B><SPAN class=SpellE><CODE><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">mrelax</SPAN></B></CODE></SPAN><CODE><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&#8221;</SPAN></B></CODE></P>
+    <P class=MsoNormal><SPAN style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">This 
+    option shortens some address references at link time, when possible; uses 
+    the linker option &#8220;-relax&#8221;. Linker can <SPAN class=GramE>perform</SPAN> 
+    global optimization on following instructions when option for relaxing is 
+    passed, </SPAN></P>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 4.5pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">(&#8220;<SPAN class=SpellE><SPAN 
+    class=GramE>jmp</SPAN></SPAN>&#8221;, &#8220;<SPAN class=SpellE>jsr</SPAN>&#8221;, 
+    &#8220;</SPAN><SPAN class=SpellE><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">mov.b</SPAN></CODE></SPAN><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> instructions which uses the 
+    sixteen-bit absolute address form, but refer to the top page of</SPAN><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> memory&#8221;, &#8220;</SPAN><SPAN 
+    class=SpellE><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">mov.b</SPAN></CODE></SPAN><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">/w/l</SPAN></CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> instructions which use the 
+    register indirect with 32 bit displacement address form, but refer to the 
+    top page of memory&#8221;, &#8220;bit manipulation instructions like </SPAN><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">band, <SPAN 
+    class=SpellE>bclr</SPAN>, <SPAN class=SpellE>biand</SPAN>, <SPAN 
+    class=SpellE>bild</SPAN>, <SPAN class=SpellE>bior</SPAN>, <SPAN 
+    class=SpellE>bist</SPAN>, <SPAN class=SpellE>bixor</SPAN>, <SPAN 
+    class=SpellE>bld</SPAN>, <SPAN class=SpellE>bnot</SPAN>, <SPAN 
+    class=SpellE>bor</SPAN>, <SPAN class=SpellE>bset</SPAN>, <SPAN 
+    class=SpellE>bst</SPAN>, <SPAN class=SpellE><SPAN 
+    class=GramE>btst</SPAN></SPAN>, <SPAN 
+    class=SpellE>bxor</SPAN></SPAN></CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> which use 32 bit and 16 bit 
+    absolute address form, but refer to the top page of memory&#8221;, &#8220; </SPAN><SPAN 
+    class=SpellE><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">ldc.w</SPAN></CODE></SPAN><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> and <SPAN 
+    class=SpellE>stc.w</SPAN></SPAN></CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> instructions which use the 32 
+    bit absolute address form, but refer to the top page of memory&#8221;, 
+    </SPAN><SPAN class=SpellE><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">ldc.w</SPAN></CODE></SPAN><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">, <SPAN 
+    class=SpellE>stc.w</SPAN></SPAN></CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> instructions <SPAN 
+    class=GramE>which</SPAN> use the register indirect with 32 bit displacement 
+    address form, but refer to the top page of memory&#8221;}.</SPAN></P>
+    <P class=MsoNormal style="MARGIN-TOP: 6pt"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Refer to following link for 
+    detail,</SPAN></P>
+    <P class=MsoNormal style="MARGIN-BOTTOM: 3pt"><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"><A 
+    href="http://www.kpitgnutools.com/manuals/ld.html">http://www.kpitgnutools.com/manuals/ld.html</A> 
+    </SPAN></CODE></P>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 9pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">c.&nbsp;Attribute "<SPAN 
+    class=SpellE>function_vector</SPAN>" </SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Any function can use this 
+    attribute along with vector location address. GNUH8 compiler uses indirect 
+    memory addressing <SPAN class=GramE>jump</SPAN> instruction "<SPAN 
+    class=SpellE>jsr</SPAN> @aa:8" for this attribute. Programmer has to write 
+    address of function (function pointer) at vector <SPAN 
+    class=GramE>address</SPAN> location. Whenever this function is called from 
+    another function, program will jump to vector address location <SPAN 
+    class=GramE>and</SPAN> pick up function pointer and then jump to that 
+    function. This process will reduce the speed of execution but it <SPAN 
+    class=GramE>certainly</SPAN> reduces the code size by 2 byte for every 
+    function call. If certain function is called 100 times in 
+    application,&nbsp;<SPAN class=GramE>then</SPAN> user saves 200 bytes in 
+    total. Programmer can use function vector attributes for frequently called 
+    functions and&nbsp;<SPAN class=GramE>unused</SPAN> IVT locations to reduce 
+    code size.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 3pt; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp; <SPAN 
+    class=GramE>Example :</SPAN></SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 3pt; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    <SPAN class=GramE>void</SPAN> <SPAN class=SpellE>foo</SPAN> (void) 
+    __attribute__ ((<SPAN class=SpellE>function_vector</SPAN>(<SPAN 
+    class=SpellE>vector_address</SPAN>)));</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 3pt; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    <SPAN class=GramE>void</SPAN> <SPAN class=SpellE>foo</SPAN> 
+(void)</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 3pt; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    {}</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 3pt; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    <SPAN class=GramE>void</SPAN> bar (void)</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 3pt; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    {</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 3pt; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    <SPAN class=SpellE><SPAN class=GramE>foo</SPAN></SPAN><SPAN 
+    class=GramE>(</SPAN>);</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 3pt; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    &nbsp;}</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 3pt; TEXT-ALIGN: justify">&nbsp;</P>
+    <H2 style="MARGIN: 0in 0in 0pt 0.5in; TEXT-INDENT: -0.5in"><A 
+    name=_Toc131311769><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana">1.3</SPAN></A><SPAN 
+    style="mso-bookmark: _Toc131311769"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: 'Times New Roman'">&nbsp;</SPAN></SPAN><SPAN 
+    style="mso-bookmark: _Toc131311769"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana">SH 
+    Specific</SPAN></SPAN></H2>
+    <H3 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 6pt 0in; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana"><a name="_SH_options"></a>1.3.1</SPAN><SPAN 
+    class=GramE><SPAN 
+    style="FONT-SIZE: 7pt; FONT-FAMILY: 'Times New Roman'">&nbsp; </SPAN><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana">Using</SPAN></SPAN><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana"> Command Line Options and 
+    attributes</SPAN></H3>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Following target specific 
+    options can be used for SH targets to achieve code size 
+    optimization,</SPAN></P>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 6pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">a.&nbsp;Option &#8220;<SPAN 
+    class=SpellE>mrelax</SPAN>&#8221;</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">This option shortens some 
+    address references at link time, when possible; uses the linker option 
+    &#8220;-relax&#8221;. Refer to <SPAN class=GramE>following</SPAN> link for 
+    detail,</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 6pt; TEXT-ALIGN: justify"><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"><A 
+    href="http://www.kpitgnutools.com/manuals/ld.html">http://www.kpitgnutools.com/manuals/ld.html</A></SPAN></CODE></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">b.&nbsp;Option &#8220;<SPAN 
+    class=SpellE>ffast</SPAN>-math</SPAN></B><CODE><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&#8221;</SPAN></B></CODE></P>
+    <P class=MsoNormal 
+    style="text-justify: inter-ideograph; text-align: justify; margin-bottom: 6"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">This option, when used for 
+    SH4A targets, enables the generation of sh4a target specific instructions, 
+    resulting into code <SPAN class=GramE>size</SPAN> reduction and speed 
+    improvement.</SPAN></P>
+	<P class=MsoNormal 
+    style="text-justify: inter-ideograph; text-align: justify; margin-bottom: 18"><b>
+    <span style="font-size: 10pt; font-family: Verdana">c. Option &#8220;mbitops&#8221;</span></b><font face="Verdana" size="2"><br>
+	</font><span style="font-size: 10pt; font-family: Verdana">Bit instructions 
+	in SH2A target will be generated only on enabling the command line option &quot;-mbitops&quot;.</span></P>
+	<H2 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 0in 0in 0pt; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify">
+	<A 
+    name=_Toc131311770>
+	<SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana">1.4</SPAN></A><SPAN 
+    style="mso-bookmark: _Toc131311770"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: 'Times New Roman'">&nbsp;</SPAN></SPAN><SPAN 
+    style="mso-bookmark: _Toc131311770"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana">M16CM32C 
+    Specific</SPAN></SPAN></H2>
+    <H3 
+    style="TEXT-JUSTIFY: inter-ideograph; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify"><A 
+    name=_using_cmmd_line_options></A><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana">1.4.1</SPAN><SPAN 
+    class=GramE><SPAN 
+    style="FONT-SIZE: 7pt; FONT-FAMILY: 'Times New Roman'">&nbsp; </SPAN><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana">Using</SPAN></SPAN><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana"> Command Line Options and 
+    attributes</SPAN></H3>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Following target specific 
+    options can be used for H8 targets to achieve code size 
+    optimization,</SPAN></P>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 4.5pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">a.&nbsp;Attribute "<SPAN 
+    class=SpellE>function_vector</SPAN>" </SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">On M16C targets, <SPAN 
+    class=SpellE>function_vector</SPAN> attribute declares a special page 
+    subroutine call function. Use of this attribute <SPAN 
+    class=GramE>reduces</SPAN> the code size by 2 bytes per each call generated 
+    to the subroutine. The <SPAN class=SpellE>arguement</SPAN> to the attribute 
+    is the <SPAN class=GramE>vector</SPAN> number entry from the special page 
+    vector table which contains the 16 low-order bits of the subroutine's entry 
+    <SPAN class=GramE>address</SPAN>. Each vector table has special page <SPAN 
+    class=GramE>number (18 to 255) which are</SPAN> used in JSRS instruction. 
+    Jump address of&nbsp;<SPAN class=GramE>the</SPAN> routines are generated 
+    adding 0F0000H (in case of M16C targets) or FF0000H (in case of M32C 
+    targets), to the 2 <SPAN class=GramE>byte</SPAN> addresses set in the vector 
+    table. Therefore you need to ensure that all the special page vector 
+    routines should <SPAN class=GramE>get</SPAN> mapped within the address range 
+    0F0000H to 0FFFFFH (for M16C) and FF0000H to FFFFFFH (for M32C). </SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify">&nbsp;</P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">In the following example 2 
+    bytes will be saved for each call to <SPAN class=SpellE>fuction</SPAN> 
+    "<SPAN class=SpellE>foo</SPAN>". </SPAN></P>
+    <TABLE class=MsoNormalTable style="WIDTH: 431.25pt; mso-cellspacing: 1.5pt" 
+    cellPadding=0 width=575 border=0>
+      <TBODY>
+      <TR 
+      style="mso-yfti-irow: 0; mso-yfti-firstrow: yes; mso-yfti-lastrow: yes">
+        <TD 
+        style="PADDING-RIGHT: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-BOTTOM: 0.75pt; PADDING-TOP: 0.75pt">
+          <P class=MsoNormal 
+          style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 6pt; TEXT-ALIGN: justify"><SPAN 
+          style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"></SPAN>&nbsp;</P></TD>
+        <TD 
+        style="PADDING-RIGHT: 0.75pt; PADDING-LEFT: 0.75pt; PADDING-BOTTOM: 0.75pt; WIDTH: 363pt; PADDING-TOP: 0.75pt" 
+        width=484>
+          <P class=MsoNormal 
+          style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 6pt; TEXT-ALIGN: justify"><SPAN 
+          style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">void <SPAN 
+          class=SpellE>foo</SPAN> (void) __attribute__((<SPAN 
+          class=SpellE>function_vector</SPAN>(0x18)));<BR>void <SPAN 
+          class=SpellE>foo</SPAN> (void)<BR>{<BR>}<BR><BR>void bar 
+          (void)<BR>{<BR>&nbsp;&nbsp;&nbsp; <SPAN 
+          class=SpellE>foo</SPAN>();<BR>}</SPAN></P></TD></TR></TBODY></TABLE>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 4.5pt; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">If functions are defined in 
+    one file and are called in another file, then be sure to write this 
+    declaration in both files. </SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 4.5pt; TEXT-ALIGN: justify"><I><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">This attribute is ignored for 
+    <B>R8C</B> target.</SPAN></I></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 6pt; TEXT-ALIGN: justify">&nbsp;</P>
+    <H1 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 0pt; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify"><A 
+    name=_Toc131311771><SPAN style="FONT-FAMILY: Verdana">2.</SPAN></A><SPAN 
+    style="mso-bookmark: _Toc131311771"><SPAN 
+    style="FONT-FAMILY: 'Times New Roman'">&nbsp;</SPAN></SPAN><SPAN 
+    style="mso-bookmark: _Toc131311771"><SPAN style="FONT-FAMILY: Verdana">Speed 
+    Optimization</SPAN></SPAN></H1>
+    <DIV class=MsoNormal style="TEXT-ALIGN: center" align=center>
+    <HR align=center width="100%" color=black noShade SIZE=3>
+    </DIV>
+    <H2 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 9pt 0in 0pt; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify"><A 
+    name=_Toc131311772><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana">2.1</SPAN></A><SPAN 
+    style="mso-bookmark: _Toc131311772"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: 'Times New Roman'"> 
+    </SPAN></SPAN><SPAN style="mso-bookmark: _Toc131311772"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana">Generic</SPAN></SPAN></H2>
+    <H3 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 4.5pt 0in; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana">2.1.1 Using Command Line 
+    Options and attributes</SPAN></H3>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 3pt; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Optimum level of speed 
+    optimization can be achieved by using optimization option <B>&#8220;O3&#8221;</B>. At 
+    &#8220;O3&#8221;, GCC enables&nbsp;</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 3pt; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> all the options from &#8220;O2&#8221;, along with more advanced 
+    methods, such as &#8220;<SPAN class=SpellE>inlining</SPAN>&#8221; functions, renaming 
+    registers,&nbsp;</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 3pt; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> and other scheduling improvements.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 3pt; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Further improvement in speed 
+    can be achieved by using following options. This scheme will work better 
+    only for Release version of source code and only for ELF tool 
+    chain.</SPAN></P>
+    <P class=MsoNormal 
+    style="text-justify: inter-ideograph; text-align: justify; margin-top: 9pt; margin-bottom: 3"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">a.&nbsp;Compiler Option &#8220;<SPAN 
+    class=SpellE>funit</SPAN>-at-a-time&#8221;</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">This option enables parsing of 
+    the whole compilation unit before starting to produce code. This allows some 
+    extra <SPAN class=GramE>optimizations</SPAN> to take place. This option 
+    removes unreferenced static variables and functions. </SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">However, this may result in 
+    undefined references when an &#8216;</SPAN><SPAN class=SpellE><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">asm</SPAN></CODE></SPAN><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&#8217;</SPAN></CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> statement refers directly to 
+    variables or functions that&nbsp;<SPAN class=GramE>are</SPAN> otherwise 
+    unused. In that case either the variable/function shall be listed as an 
+    operand of the &#8216;</SPAN><SPAN class=SpellE><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">asm</SPAN></CODE></SPAN><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&#8217;</SPAN></CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> statement <SPAN 
+    class=GramE>operand</SPAN> or, in the case of top-level &#8216;</SPAN><SPAN 
+    class=SpellE><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">asm</SPAN></CODE></SPAN><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&#8217;</SPAN></CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> statements the attribute 
+    </SPAN><CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">used</SPAN></CODE><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> shall be used on the 
+    declaration.</SPAN></P>
+    <P class=MsoNormal 
+    style="text-justify: inter-ideograph; text-align: justify; margin-top: 9pt; margin-bottom: 3"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">b.&nbsp;Compiler Option &#8220;<SPAN 
+    class=SpellE>funroll</SPAN>-loops&#8221;</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">This option unrolls loop whose 
+    number of iterations can be determined at compile time or upon entry to the 
+    loop. </SPAN><SAMP><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">This</SPAN><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> <SPAN 
+    class=GramE>option</SPAN></SPAN></SAMP><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> implies both 
+    </SPAN><SAMP><SPAN style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">`-<SPAN 
+    class=SpellE>fstrength</SPAN>-reduce'</SPAN></SAMP><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> and </SPAN><SAMP><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">`-<SPAN 
+    class=SpellE>frerun-cse-after-loop</SPAN>'</SPAN></SAMP><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">. This option makes code 
+    larger, and may or may <SPAN class=GramE>not</SPAN> make it run 
+    faster.</SPAN></P>
+    <P class=MsoNormal 
+    style="text-justify: inter-ideograph; text-align: justify; margin-top: 9pt; margin-bottom: 3"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">c.&nbsp;Compiler Option &#8220;<SPAN 
+    class=SpellE>fno-gcse</SPAN>&#8221;</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    class=option><SPAN lang=EN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana; mso-ansi-language: EN">This 
+    option m</SPAN></SPAN><SPAN style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">ay 
+    give better runtime performance as it disables the global common 
+    sub-expression elimination.</SPAN></P>
+    <P class=MsoNormal 
+    style="text-justify: inter-ideograph; text-align: justify; margin-top: 9pt; margin-bottom: 4"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">d.&nbsp;Compiler Option &#8220;<SPAN 
+    class=SpellE>finline</SPAN>-*&#8221;</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;Most of these options 
+    are enabled by default when optimization switch &#8220;O3&#8221; is used.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify">&nbsp;</P>
+    <H2 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 0in 0in 0pt; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify"><A 
+    name=_Toc131311773><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana">2.2</SPAN></A><SPAN 
+    style="mso-bookmark: _Toc131311773"><SPAN 
+    style="FONT-SIZE: 16pt; FONT-STYLE: normal; FONT-FAMILY: 'Times New Roman'">&nbsp;</SPAN></SPAN><SPAN 
+    style="mso-bookmark: _Toc131311773"><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana">H8 
+    Specific</SPAN></SPAN></H2>
+    <H3 
+    style="text-justify: inter-ideograph; page-break-after: auto; text-align: justify; margin-left: 0in; margin-right: 0in; margin-top: 4.5pt; margin-bottom: 4pt"><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana">2.2.1</SPAN><SPAN 
+    class=GramE><SPAN 
+    style="FONT-SIZE: 7pt; FONT-FAMILY: 'Times New Roman'">&nbsp; </SPAN><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana">Using</SPAN></SPAN><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana"> Command Line Options and 
+    attributes</SPAN></H3>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 4.5pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">a.&nbsp;Option &#8220;<SPAN 
+    class=SpellE>mtinydata</SPAN>&#8221; (v0601 and onward)</SPAN></B></P>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 3pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">When "-<SPAN 
+    class=SpellE>mtinydata</SPAN>" target specific command line option is passed 
+    to the compiler while building the application code, <SPAN 
+    class=GramE>compiler</SPAN> creates ".<SPAN class=SpellE>tinyrodata</SPAN>" 
+    , ".<SPAN class=SpellE>tinydata</SPAN>" and&nbsp; ".<SPAN 
+    class=SpellE>tinybss</SPAN>" sections. All the constant variables are placed 
+    into the ".<SPAN class=SpellE>tinyrodata</SPAN>" section which gets 
+    relocated into the lower most 32kb memory region of H8. The initialized 
+    global variables <SPAN class=GramE>are</SPAN> placed into the ".<SPAN 
+    class=SpellE>tinydata</SPAN>" section and all un-initialized variables are 
+    placed into the ".<SPAN class=SpellE>tinybss</SPAN>" section which is <SPAN 
+    class=GramE>relocated</SPAN> into the upper most 32kb of memory region of 
+    H8. Hence, all these variables can be accessed using 16-bit <SPAN 
+    class=GramE>addressing</SPAN> method. </SPAN></P>
+    <P class=MsoNormal style="MARGIN-TOP: 4.5pt"><I><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">The ".<SPAN 
+    class=SpellE>tinybss</SPAN>" implementation does not work as expected. It is 
+    a known problem</SPAN></I><I><SPAN 
+    style="FONT-FAMILY: Verdana">.</SPAN></I></P>
+    <P class=MsoNormal style="MARGIN-TOP: 4.5pt">&nbsp;</P>
+    <H2 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 0in 0in 0pt; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify"><A 
+    name=_Toc131311774><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana">2.3&nbsp;SH 
+    Specific</SPAN></A></H2>
+    <H3 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 4.5pt 0in 0pt; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana">2.3.1<SPAN class=GramE>&nbsp; 
+    Using</SPAN> Command Line Options and attributes</SPAN></H3>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 4.5pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">a.&nbsp;Option &#8220;<SPAN 
+    class=SpellE>ffast</SPAN>-math&#8221;</SPAN></B></P>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 3pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">This option, when used for 
+    SH4A targets, enables the generation of sh4a target specific instructions, 
+    resulting into code <SPAN class=GramE>size</SPAN> reduction and speed 
+    improvement.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify">&nbsp;</P>
+    <H2 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 0in 0in 0pt; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify"><A 
+    name=_Toc131311775><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana">2.4&nbsp;M16CM32C 
+    Specific</SPAN></A></H2>
+    <H3 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 4.5pt 0in 0pt; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana">2.4.1 Using Command Line 
+    Options and attributes</SPAN></H3>
+    <P class=MsoNormal 
+    style="MARGIN-TOP: 3pt; TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">No target specific options or 
+    attributes are available for M16C architecture targets to achieve code size 
+    optimization. </SPAN></P>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">However, GNUM16CM32C v0601 
+    produces up to much faster code as compared v0501 toolchain, when 
+    optimization options &#8220;O1&#8221; or above is used. This is achieved by writing 
+    peepholes to GHUM16CM32C and using few more mailing list patches.</SPAN></P>
+    <P class=MsoNormal>&nbsp;</P>
+    <H1 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 0pt; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify"><A 
+    name=_Toc131311776><SPAN style="FONT-FAMILY: Verdana">3.&nbsp;Workaround for 
+    some known problems with</SPAN></A><SPAN style="FONT-FAMILY: Verdana"> 
+    Optimization</SPAN></H1>
+    <DIV class=MsoNormal style="TEXT-ALIGN: center" align=center>
+    <HR align=center width="100%" color=black noShade SIZE=3>
+    </DIV>
+    <H2 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 9pt 0in 0pt; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify"><A 
+    name=_Toc131311777><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana">3.1&nbsp;Generic</SPAN></A></H2>
+    <H3 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 4.5pt 0in; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana">3.1.1<SPAN class=GramE>&nbsp; 
+    Null</SPAN> pointer deletion check</SPAN></H3>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Example 
+Snippet:</SPAN></B></P>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">---------------------------------------------------------------------</SPAN></P>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    <SPAN class=GramE>unsigned</SPAN> long <SPAN class=SpellE>foo</SPAN> 
+    (void)</SPAN></P>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    {</SPAN></P>
+    <P class=MsoNormal style="TEXT-INDENT: 0.5in"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    <SPAN class=GramE>volatile</SPAN> unsigned long <SPAN class=SpellE>i</SPAN> 
+    = 4;</SPAN></P>
+    <P class=MsoNormal style="TEXT-INDENT: 0.5in"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    <SPAN class=GramE>while</SPAN> (<SPAN class=SpellE>i</SPAN>)</SPAN></P>
+    <P class=MsoNormal style="TEXT-INDENT: 0.5in"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    {</SPAN></P>
+    <P class=MsoNormal style="MARGIN-LEFT: 0.5in; TEXT-INDENT: 0.5in"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    <SPAN class=SpellE>i</SPAN> -= <SPAN class=SpellE><SPAN 
+    class=GramE>sizeof</SPAN></SPAN><SPAN class=GramE>(</SPAN>unsigned 
+    long);</SPAN></P>
+    <P class=MsoNormal style="MARGIN-LEFT: 0.5in; TEXT-INDENT: 0.5in"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    <SPAN class=GramE>if</SPAN> (*(unsigned long *)<SPAN class=SpellE>i</SPAN> 
+    == 12)</SPAN></P>
+    <P class=MsoNormal style="MARGIN-LEFT: 0.5in; TEXT-INDENT: 0.5in"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    <SPAN class=GramE>return</SPAN> <SPAN class=SpellE>i</SPAN>;</SPAN></P>
+    <P class=MsoNormal style="TEXT-INDENT: 0.5in"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    }</SPAN></P>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    } </SPAN></P>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">----------------------------------------------------------------------</SPAN></P>
+    <P class=MsoNormal style="MARGIN-TOP: 4.5pt"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Optimization 
+    options:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &#8220;</SPAN></B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">O2&#8221; and above.</SPAN></P>
+    <P class=MsoNormal><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Targets observed 
+    on:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">ALL </SPAN></P>
+    <P class=MsoNormal style="MARGIN-TOP: 4.5pt"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Observation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    </SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">The &#8220;while&#8221; loop in above code 
+    is executed only once. Compiler doesn't check whether "<SPAN 
+    class=SpellE>i</SPAN>" is changed in while loop or <SPAN 
+    class=GramE>not</SPAN>. All other essential code is optimized away by 
+    compiler. </SPAN></P>
+    <P class=MsoNormal style="MARGIN-TOP: 4.5pt"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Workaround:</SPAN></B></P>
+    <P class=MsoNormal><SPAN style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">User 
+    need to pass an option &#8220;-<SPAN 
+    class=SpellE>fno</SPAN>-delete-null-pointer-checks&#8221; along with &#8220;-O2&#8221; to 
+    solve above-mentioned problem.</SPAN></P>
+    <H3 style="MARGIN: 12pt 0in 0pt 0.5in; TEXT-INDENT: -0.5in"><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana">3.1.2</SPAN><SPAN 
+    class=GramE><SPAN 
+    style="FONT-WEIGHT: normal; FONT-SIZE: 12pt; FONT-FAMILY: 'Times New Roman'">&nbsp;</SPAN><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana"> &#8220;</SPAN></SPAN><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana">const&#8221; array 
+    optimization</SPAN></H3>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Example 
+Snippet:</SPAN></B></P>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">---------------------------------------------------------------------------------------------------------</SPAN></P>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    #define STEPPER_1_DTC 
+    1<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    #define STEPPER_2_DTC 
+    2<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    #define STEPPER_3_DTC 
+    3<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    #define NO_TBL 
+    0<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    const unsigned short <SPAN class=SpellE><SPAN 
+    class=GramE>dtcVectors</SPAN></SPAN><SPAN 
+    class=GramE>[</SPAN>]&nbsp;__attribute__ (( section(".<SPAN 
+    class=SpellE>dtc_vec</SPAN>") )) 
+    =<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    {</SPAN></P>
+    <P class=MsoNormal style="MARGIN-LEFT: 0.5in"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    STEPPER_1_DTC,&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    STEPPER_2_DTC,&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    STEPPER_3_DTC,&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    NO_TBL,&nbsp;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    NO_TBL,&nbsp;</SPAN></P>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    };<BR><BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    <SPAN class=SpellE>int</SPAN> <SPAN 
+    class=GramE>main(</SPAN>void)<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    {</SPAN></P>
+    <P class=MsoNormal style="MARGIN-LEFT: 0.5in"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    <SPAN class=GramE>return</SPAN> 0;</SPAN></P>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    } </SPAN></P>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">---------------------------------------------------------------------------------------------------------</SPAN></P>
+    <P class=MsoNormal style="MARGIN-TOP: 4.5pt"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Optimization 
+    options:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</SPAN></B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> &#8220;O1&#8221; and above.</SPAN></P>
+    <P class=MsoNormal><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Targets observed 
+    on:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">ALL </SPAN></P>
+    <P class=MsoNormal style="MARGIN-TOP: 4.5pt"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Observation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    </SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">If above file is compiled with 
+    C++ compiler and with optimization enabled, the compiler optimizes away the 
+    const array. Though this array is not directly referenced (as may case of 
+    vector table), compiler removes it as unused variable. </SPAN></P>
+    <P class=MsoNormal style="MARGIN-TOP: 9pt"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Workaround:</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">The C compiler behaves 
+    differently and doesn't optimize away the const array. Hence in the 
+    above-mentioned situation, <SPAN class=GramE>the</SPAN> solution is to move 
+    const array in C file instead of C++ file.</SPAN></P>
+    <H2 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 9pt 0in 0pt; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify"><A 
+    name=_Toc131311778><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana">3.2&nbsp;H8 
+    Specific</SPAN></A></H2>
+    <H3 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 4.5pt 0in; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 12pt; FONT-FAMILY: Verdana">3.2.1<SPAN class=GramE>&nbsp; 
+    Un</SPAN>-necessary <st1:place w:st="on">Loop</st1:place> 
+    unrolling</SPAN></H3>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Example 
+Snippet:</SPAN></B></P>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">-----------------------------------------------------</SPAN></P>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    <SPAN class=GramE>void</SPAN> <SPAN class=SpellE>theLoop</SPAN>( void 
+    )</SPAN></P>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    {</SPAN></P>
+    <P class=MsoNormal style="TEXT-INDENT: 0.5in"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    <SPAN class=GramE>unsigned</SPAN> long <SPAN class=SpellE>cnt</SPAN> = 
+    0L;</SPAN></P>
+    <P class=MsoNormal style="TEXT-INDENT: 0.5in"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    <SPAN class=GramE>do</SPAN></SPAN></P>
+    <P class=MsoNormal style="TEXT-INDENT: 0.5in"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    <SPAN class=SpellE><SPAN class=GramE>cnt</SPAN></SPAN>++;</SPAN></P>
+    <P class=MsoNormal style="TEXT-INDENT: 0.5in"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    <SPAN class=GramE>while</SPAN> (<SPAN class=SpellE>cnt</SPAN> &lt; 
+    1000000L);</SPAN></P>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    } </SPAN></P>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">-----------------------------------------------------</SPAN></P>
+    <P class=MsoNormal style="MARGIN-TOP: 4.5pt"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Optimization 
+    options:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &#8220;O2&#8221; and 
+    above.</SPAN></B></P>
+    <P class=MsoNormal><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Targets observed 
+    on:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; H8300H, H8300HN, 
+    H8S, <SPAN class=GramE>H8SN</SPAN> </SPAN></B></P>
+    <P class=MsoNormal style="MARGIN-TOP: 4.5pt"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Observation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    </SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">In generated output, loop is 
+    incremented by 50 or 25 or any random number instead of incrementing by 
+    one.&nbsp; </SPAN></P>
+    <P class=MsoNormal style="MARGIN-TOP: 4.5pt"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Workaround 1:</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">User need to pass either of an 
+    option &#8220;-<SPAN class=SpellE>fno</SPAN>-strength-reduce&#8221; or &#8220;-<SPAN 
+    class=SpellE>fno</SPAN>-loop-optimize&#8221; along with &#8220;-O2&#8221; to solve above-<SPAN 
+    class=GramE>mentioned</SPAN> problem. </SPAN></P>
+    <P class=MsoNormal style="MARGIN-TOP: 4.5pt"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Workaround 2:</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Please include following 
+    statement inside empty while/for loop.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    <SPAN class=SpellE><SPAN class=GramE>asm</SPAN></SPAN><SPAN 
+    class=GramE>(</SPAN>"<SPAN class=SpellE>nop</SPAN>");</SPAN></P>
+    <H2 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 9pt 0in 0pt; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify"><A 
+    name=_Toc131311779><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana">3.3&nbsp;SH 
+    Specific</SPAN></A></H2>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Currently there are no such 
+    cases available for SH targets.</SPAN></P>
+    <H2 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 9pt 0in 0pt; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify"><A 
+    name=_Toc131311780><SPAN 
+    style="FONT-STYLE: normal; FONT-FAMILY: Verdana">3.4&nbsp;M16CM32C 
+    Specific</SPAN></A></H2>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Currently there are no such 
+    cases available for M16C architecture series targets.</SPAN></P>
+    <P class=MsoNormal>&nbsp;</P>
+    <H1 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 0pt; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify"><A 
+    name=_Toc131311781><SPAN style="FONT-FAMILY: Verdana">4.</SPAN></A><SPAN 
+    style="mso-bookmark: _Toc131311781"><SPAN 
+    style="FONT-SIZE: 14pt; FONT-FAMILY: 'Times New Roman'">&nbsp;</SPAN></SPAN><SPAN 
+    style="mso-bookmark: _Toc131311781"><SPAN 
+    style="FONT-FAMILY: Verdana">Optimization that user can do in application 
+    code itself</SPAN></SPAN></H1>
+    <DIV class=MsoNormal style="TEXT-ALIGN: center" align=center>
+    <HR align=center width="100%" color=black noShade SIZE=3>
+    </DIV>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana">After applying 
+    optimization capabilities offered by the compiler, you may take your 
+    application a step further. However, this time by helping compiler by 
+    writing smart code. </SPAN></P>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana">Here are some 
+    tips about how you can achieve this,</SPAN></P>
+    <H2 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 6pt; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify"><A 
+    name=_Toc131311782><SPAN 
+    style="FONT-SIZE: 13pt; FONT-STYLE: normal; FONT-FAMILY: Verdana">4.1&nbsp;Care 
+    to be taken in startup assembly file</SPAN></A></H2>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Remove call to library routine 
+    &#8220;_exit&#8221; from startup assembly file or make it conditional so as to call only 
+    in debug mode. In release mode, use branch instruction for implementing 
+    unending loop. Macros DEBUG and Release are added in HEW debug and release 
+    modes. Call to &#8220;_exit&#8221; will be only in debug mode. This will save around 1K 
+    bytes in case of SH target.</SPAN></P>
+    <H2 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 6pt; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify"><A 
+    name=_Toc131311783><SPAN 
+    style="FONT-SIZE: 13pt; FONT-STYLE: normal; FONT-FAMILY: Verdana">4.2</SPAN></A><SPAN 
+    style="mso-bookmark: _Toc131311783"><SPAN 
+    style="FONT-SIZE: 13pt; FONT-STYLE: normal; FONT-FAMILY: 'Times New Roman'">&nbsp;</SPAN></SPAN><SPAN 
+    style="mso-bookmark: _Toc131311783"><SPAN 
+    style="FONT-SIZE: 13pt; FONT-STYLE: normal; FONT-FAMILY: Verdana">General 
+    Tips</SPAN></SPAN></H2>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 6pt 0in 6pt 0.5in; TEXT-INDENT: -0.5in; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">a.</SPAN></B><B><SPAN 
+    style="FONT-SIZE: 7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </SPAN></B><SPAN 
+    style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana">If the function 
+    exits by returning the value of another function with the same parameters 
+    that were passed to your function, put the parameters in the same order in 
+    the function prototypes. The compiler can then branch directly to the other 
+    function.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 6pt 0in 6pt 0.5in; TEXT-INDENT: -0.5in; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">b.</SPAN></B><B><SPAN 
+    style="FONT-SIZE: 7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    </SPAN></B><SPAN 
+    style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana">Do not declare 
+    virtual functions inline. <SPAN class=GramE>When declaring functions, 
+    specify the const whenever possible.</SPAN></SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 6pt 0in 6pt 0.5in; TEXT-INDENT: -0.5in; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">c.</SPAN></B><B><SPAN 
+    style="FONT-SIZE: 7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    </SPAN></B><SPAN 
+    style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana">Use full 
+    prototype for all functions in &#8220;C&#8221; code.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 6pt 0in 6pt 0.5in; TEXT-INDENT: -0.5in; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">d.</SPAN></B><B><SPAN 
+    style="FONT-SIZE: 7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    </SPAN></B><SPAN 
+    style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana">Use the built-in 
+    functions, instead of coding your own. In C program, functions are mapped to 
+    built-in functions, if you include &#8220;<SPAN class=SpellE>math.h</SPAN>&#8221; and 
+    &#8220;<SPAN class=SpellE>string.h</SPAN>&#8221;.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 6pt 0in 6pt 0.5in; TEXT-INDENT: -0.5in; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">e.</SPAN></B><B><SPAN 
+    style="FONT-SIZE: 7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    </SPAN></B><SPAN 
+    style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana">Whenever 
+    possible, minimize breaking application source into too many small 
+    functions.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 6pt 0in 6pt 0.5in; TEXT-INDENT: -0.5in; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">f.</SPAN></B><B><SPAN 
+    style="FONT-SIZE: 7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    </SPAN></B><SPAN 
+    style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana">Virtual 
+    functions and virtual inheritance to be used only when necessary, as these 
+    features are costly in object space and <SPAN class=GramE>function</SPAN> 
+    invocation performance.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 6pt 0in 6pt 0.5in; TEXT-INDENT: -0.5in; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">g.</SPAN></B><B><SPAN 
+    style="FONT-SIZE: 7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    </SPAN></B><SPAN 
+    style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana">While declaring 
+    a structure, put the variables in descending order i.e. declare the largest 
+    size member first.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 6pt 0in 6pt 0.5in; TEXT-INDENT: -0.5in; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">h.</SPAN></B><B><SPAN 
+    style="FONT-SIZE: 7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    </SPAN></B><SPAN 
+    style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana">Also, its good 
+    idea to put members in a structure near each other, if their usage is mostly 
+    together.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 6pt 0in 6pt 0.5in; TEXT-INDENT: -0.5in; TEXT-ALIGN: justify"><SPAN 
+    class=SpellE><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">i</SPAN></B></SPAN><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">.</SPAN></B><B><SPAN 
+    style="FONT-SIZE: 7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    </SPAN></B><SPAN 
+    style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana">Reduce usage of 
+    global variables, static variables and volatile, whenever 
+    possible.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 6pt 0in 6pt 0.5in; TEXT-INDENT: -0.5in; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">j.</SPAN></B><B><SPAN 
+    style="FONT-SIZE: 7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    </SPAN></B><SPAN 
+    style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana">Whenever 
+    possible, use constants instead of variables.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 6pt 0in 6pt 0.5in; TEXT-INDENT: -0.5in; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">k.</SPAN></B><B><SPAN 
+    style="FONT-SIZE: 7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    </SPAN></B><SPAN style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Avoid taking 
+    the address of a variable. Taking the address of a variable inhibits 
+    optimizations that would otherwise be done on calculations involving that 
+    variable.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 6pt 0in 6pt 0.5in; TEXT-INDENT: -0.5in; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">l.</SPAN></B><B><SPAN 
+    style="FONT-SIZE: 7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    </SPAN></B><SPAN 
+    style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana">Whenever 
+    possible, avoid forcing the compiler to convert numbers between two <SPAN 
+    class=SpellE>datatypes</SPAN>.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 6pt 0in 6pt 0.5in; TEXT-INDENT: -0.5in; TEXT-ALIGN: justify"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">m.</SPAN></B><B><SPAN 
+    style="FONT-SIZE: 7pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    </SPAN></B><SPAN 
+    style="FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: Verdana">Avoid the use of 
+    go-to statements.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 6pt 0in 6pt 0.5in; TEXT-INDENT: -0.5in; TEXT-ALIGN: justify">&nbsp;</P>
+    <H1 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN-BOTTOM: 0pt; PAGE-BREAK-AFTER: auto; TEXT-ALIGN: justify"><A 
+    name=_Toc131311784><SPAN style="FONT-FAMILY: Verdana">5.</SPAN></A><SPAN 
+    style="mso-bookmark: _Toc131311784"><SPAN 
+    style="FONT-FAMILY: 'Times New Roman'">&nbsp;</SPAN></SPAN><SPAN 
+    style="mso-bookmark: _Toc131311784"><SPAN 
+    style="FONT-FAMILY: Verdana">Summary</SPAN></SPAN></H1>
+    <DIV class=MsoNormal style="TEXT-ALIGN: center" align=center>
+    <HR align=center width="100%" color=black noShade SIZE=3>
+    </DIV>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; MARGIN: 6pt 0in 3pt; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">To summarize, user can use 
+    following set of options (command line) to achieve,</SPAN></P>
+    <P class=MsoNormal 
+    style="text-justify: inter-ideograph; text-align: justify; margin-top: 9; margin-bottom: 6"><SPAN 
+    class=GramE><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">a</SPAN></B></SPAN><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">.&nbsp;maximum code size 
+    optimization</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">--------------------------------------------------------------------------------------------------------</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    -Os&nbsp; 
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    -<SPAN class=SpellE>fno-function-cse</SPAN> 
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -<SPAN 
+    class=SpellE>funit</SPAN>-at-a-time &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -<SPAN 
+    class=SpellE>falign</SPAN>-jumps&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    </SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    -<SPAN class=SpellE><SPAN class=GramE>fdata</SPAN></SPAN><SPAN 
+    class=GramE>-</SPAN>sections&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    -<SPAN 
+    class=SpellE>ffunction</SPAN>-sections&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    &#8211;<SPAN class=SpellE>Wl</SPAN>,--<SPAN class=SpellE>gc</SPAN>-sections 
+    &nbsp;&nbsp;&nbsp; </SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    AND &nbsp;&nbsp; &lt; target specific options &gt; </SPAN></P>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">--------------------------------------------------------------------------------------------------------</SPAN></P>
+    <P class=MsoNormal style="margin-top: 9pt; margin-bottom: 6"><SPAN class=GramE><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">b</SPAN></B></SPAN><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">.&nbsp;maximum code speed 
+    optimization</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">--------------------------------------------------------------------------------------------------------</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    -O3&nbsp; 
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    -<SPAN class=SpellE>fno-function-cse</SPAN> 
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -<SPAN 
+    class=SpellE>funit</SPAN>-at-a-time &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -<SPAN 
+    class=SpellE>funroll</SPAN>-loops&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    </SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    -<SPAN class=SpellE><SPAN 
+    class=GramE>fno-</SPAN>gcse</SPAN>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+    AND &nbsp;&nbsp; &lt; target specific options &gt; </SPAN></P>
+    <P class=MsoNormal><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">--------------------------------------------------------------------------------------------------------</SPAN></P>
+    <P class=MsoNormal style="margin-left: 0in; margin-right: 0in; margin-top: 9pt; margin-bottom: 6pt"><B><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">c.&nbsp;Code Size as well as 
+    Code Speed Optimization</SPAN></B></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">As explained above, &#8220;Os&#8221; can 
+    be used for code size optimization and &#8220;O3&#8221; for code speed optimization. 
+    </SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">However, <B>&#8220;average&#8221;</B> of 
+    both the optimization can be achieved by using optimization option 
+    <B>&#8220;O2&#8221;</B>.&nbsp;</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> This option helps to get minimum code size while maintaining 
+    better code speed.</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Therefore, it is recommended 
+    to use option &#8220;O2&#8221; to get optimum results for compromised effect&nbsp;</SPAN></P>
+    <P class=MsoNormal 
+    style="TEXT-JUSTIFY: inter-ideograph; TEXT-ALIGN: justify"><SPAN 
+    style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana"> of &#8220;Os&#8221; and 
+    &#8220;O3&#8221;.</SPAN></P></BLOCKQUOTE></BLOCKQUOTE></DIV></BODY></HTML>

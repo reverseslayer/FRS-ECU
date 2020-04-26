@@ -1,0 +1,2930 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0070)http://www.kpitgnutools.com/manuals/Renesas-GNUSH-Migration-Guide.html -->
+<HTML><HEAD><TITLE>Renesas &#8211; GNUSH Migration guide</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<STYLE>BODY {
+	FONT-SIZE: 10pt; FONT-FAMILY: Verdana
+}
+P.head1 {
+	FONT-SIZE: 14pt; FONT-FAMILY: Verdana
+}
+P.head2 {
+	FONT-SIZE: 12pt; FONT-FAMILY: Verdana
+}
+DIV.page {
+	MARGIN: 15pt
+}
+TD {
+	FONT-SIZE: 10pt; FONT-FAMILY: Verdana
+}
+PRE.case {
+	FONT-SIZE: 10pt; MARGIN-BOTTOM: 0pt; FONT-FAMILY: Verdana
+}
+span.SpellE
+	{}
+div.Section1
+	{page:Section1;}
+</STYLE>
+
+<META content="Microsoft FrontPage 6.0" name=GENERATOR></HEAD>
+<BODY lang=EN-US style="tab-interval: .5in" vLink=purple link=blue><A 
+name=sec_top></A><BR>
+<DIV class=page>
+<DIV align=center>
+<P class=head1><B><U>Renesas &#8211; GNUSH Migration Guide</U></B></P>
+<P><A 
+href="#preface">Preface</A></P>
+<P><A 
+href="#commline">Compiler 
+command line options</A></P>
+<P><A 
+href="#_Compiler_directives">Compiler 
+directives</A></P>
+<P><A 
+href="#Assembly_programming">Assembler 
+directives</A></P>
+<P><A 
+href="#_Intrinsic_Functions">Intrinsic 
+Functions</A></P>
+<P><A 
+href="#library">C 
+&amp; Math Library Functions</A></P>
+<P><span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">
+<a style="color: blue" href="#Inline">Using Inline Assembly Language</a></span></P></DIV><BR><BR>
+<P class=head2><B>Revision History:</B></P>
+<table border="1" width="86%" id="table1" bordercolorlight="#000000" bordercolordark="#000000" style="border-collapse: collapse">
+	<tr>
+		<td width="168">
+		<p align="center"><b>Version Number</b></td>
+		<td width="185">
+		<p align="center"><b>Date</b></td>
+		<td>
+		<p align="center"><b>Overview of changes</b></td>
+	</tr>
+	<tr>
+		<td width="168" align="center">1.0 </td>
+		<td width="185" align="center">23-August-2004</td>
+		<td>Created.</td>
+	</tr>
+	<tr>
+		<td width="168" align="center">2.0 </td>
+		<td width="185" align="center">31-August-2004</td>
+		<td>GNU intrinsic functions set_imask(), get_imask() 
+		modified.</td>
+	</tr>
+	<tr>
+		<td width="168" align="center">3.0 </td>
+		<td width="185" align="center">05-January-2005</td>
+		<td>Assembler directives added.</td>
+	</tr>
+	<tr>
+		<td width="168" align="center">4.0</td>
+		<td width="185" align="center">07-March-2008</td>
+		<td>'Using inline assembly in GNU' added.</td>
+	</tr>
+	<tr>
+		<td width="168" align="center">5.0 </td>
+		<td width="185" align="center">30-September-2008</td>
+		<td>Modified 'Using inline assembly in GNU' section to add
+		<span style="font-size: 10pt; font-family: Verdana">&#8216;-h-tick-hex&#8217; 
+		option.</span></td>
+	</tr>
+	<tr>
+		<td width="168" align="center">6.0 </td>
+		<td width="185" align="center">29-January-2009</td>
+		<td>Modified the following GNU intrinsic functions:<br>get_vbr(), get_gbr(), 
+		gbr_read_byte(), dmuls_l(), dmuls_h(), macl(), macll(), swapw(), 
+		end_cnvl(), get_fpscr().<br>Added following GNU intrinsic functions for 
+		SH2A target: 
+		<br>tas(), prefetch(), set_fpscr(), get_fpscr()<br>Added following GNU 
+		intrinsic functions for SH3E, SH4_SINGLE and SH4_SINGLE_ONLY targets:<br>
+		set_fpscr(), get_fpscr()<br>Added 'extern' keyword for GNU intrinsic 
+		functions.</td>
+	</tr>
+</table>
+<P><BR><A name=preface></A><BR><A 
+href="#sec_top">[Top]</A>&nbsp;<A 
+href="#commline">[Next]</A> 
+
+</P> 
+
+<P class=head2><B>Preface:</B></P>
+<P align=justify>This document contains useful information for embedded software 
+developers who wish to migrate their code from Renesas tools to KPIT Cummins GNU 
+tools (and vice versa) for SH targets. At present, this guide contains the 
+following:</P>
+<P style="MARGIN-LEFT: 25pt"><B>.</B> &nbsp;&nbsp; Compiler command Line 
+options. <BR><B>.</B> &nbsp;&nbsp; Compiler directives. <BR><B>.</B> 
+&nbsp;&nbsp; Intrinsic functions. <BR><B>.</B> &nbsp;&nbsp; C &amp; Math library 
+Functions. </P>
+<P align=justify>Please note that this is an intermediate guide, which will be 
+improved and enhanced periodically.</P>
+<P align=justify>Please do not hesitate to send any of your suggestions or 
+ideas. You may log in your suggestions through mail (<a href="mailto:gnusupport@kpitgnutools.com">gnusupport@kpitgnutools.com</a>) or 
+through our web site <A 
+href="http://www.kpitgnutools.com/">http://www.kpitgnutools.com/</A>.</P><!----------------------------><BR><A 
+name=commline></A><BR><A 
+href="#preface">[Prev]</A>&nbsp;<A 
+href="#sec_top">[Top]</A>&nbsp;<A 
+href="#_compiler_directives">[Next]</A> 
+
+<P class=head2><B>Compiler command line options:</B></P>
+<TABLE style="MARGIN-LEFT: 18.25pt" cellSpacing=0 cellPadding=5 width=647 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P><B>Renesas Compiler Options</B></P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>Equivalent GCC compiler options</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P><B>-include = &lt;path name&gt;[,&#8230;]</B><BR>Include paths.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>-I&lt;path&gt;</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P><B>-preinclude = &lt;file name&gt;[,...]</B><BR>Includes the specified 
+      files at the head of compiled files.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>-include &lt;file&gt;</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P><B>-define = &lt;sub&gt; [,&#8230;] <BR>&lt;sub&gt;: &lt;macro name&gt; [ = 
+      &lt;string literal&gt;]</B> <BR>Defines &lt;string literal&gt; as 
+      &lt;macro name&gt;</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>-D&lt;macro&gt;</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P><B>-nomessage [ = &lt;error code&gt; [- &lt;error code&gt;] [,&#8230;] ]</B> 
+      <BR>Specifies whether to output information-level messages.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>-w</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P><B>-preprocessor [= &lt;file name&gt;]</B><BR>Preprocessor to named 
+      file.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>-E -o filename</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P><B>-object [= &lt;object file name&gt;]</B><BR>Set object 
+    filename.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>-o filename</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P><B>-Code=Asmcode -object=&lt;file name&gt;]</B><BR>Assembly output to 
+      named file.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>-S filename </B><BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P><B>-debug</B><BR>Generate debug information.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>-g[level]</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P><B>-string = { Const | Data }</B><BR>Outputs string literal to constant 
+      or data sections.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>-fwritable-strings</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P><B>-template = { None | Static | Used | All | AUto }</B> <BR>Specifies 
+      the condition to generate template instances.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>-fno-implicit-templates</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P><B>-List [= &lt;file name&gt;]</B><BR>Assembly output to prefixed List 
+      filename.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>-Wa, -al=file </B><BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P align=center><B>-show=&lt;sub&gt;[,...] <BR>&lt;sub&gt;: {source | 
+      nosource | <BR>object | noobject | <BR>statistics | nostatistics | 
+      <BR>allocation | noallocation | <BR>expansion | noexpansion | <BR>width = 
+      &lt;numeric value&gt; | <BR>length = &lt;numeric value&gt; | <BR>tab = { 4 
+      | 8 } }</B></P>
+      <P align=justify>Specifies the contents and format of the list output by 
+      the compiler, and the cancellation of list output.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>-a[sub-option...] <BR><BR>Sub-options [default hls]: <BR>c omit 
+      false conditionals <BR>d omit debugging directives <BR>h include 
+      high-level source <BR>l include assembly <BR>m include macro expansions 
+      <BR>n omit forms processing <BR>s include symbols <BR>=FILE list to FILE 
+      (must be last sub-option)</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P align=center><B>-speed = &lt;sub&gt; [,&#8230;] <BR>&lt;sub&gt;:{register 
+      shiift | <BR>loop [ = { 1 | 2 } ] | switch | <BR>inline[=&lt;numeric 
+      value&gt;] | <BR>struct | expression}</B></P>Speed optimization </TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>-O[1-3]</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P><B>-optimize = { 0 | 1 }</B><BR>Optimize for size.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>-Os</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P align=justify><B>-comment</B><BR>Enables nested comments to be 
+      written.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P align=justify>By default enabled. To generate warning for nested 
+      comments use option. <BR><B>-Wcomment </B><BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P align=justify><B>-macsave</B> <BR>The contents of the <B>MAC</B> 
+      register always remain unchanged after an interrupt function is 
+    called.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P align=justify><B>-mnomacsave</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P align=justify><B>-pack</B><BR>Specifies the boundary alignment of 
+      structures, unions, and class members.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>-fpack-struct</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P align=justify><B>-volatile</B><BR><BR>When <B>volatile</B> is 
+      specified, the compiler does not optimize external variables.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>-fvolatile</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P><B>-cmncode</B><BR>Common subexpression elimination</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>-fgcse</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P><B>-align16</B><BR>Align labels after unconditional branches are 
+      aligned to a 16 byte boundary.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>-falign</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P align=justify><B>-loop</B><BR>Performs loop unrolling.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P align=justify><B>-funroll-all-loops</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P align=justify><B>-cpu = {sh1|sh2|sh2e|sh3|sh4}</B></P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P align=justify><B>-m1 &#8211;m2 &#8211;m2e &#8211;m3 &#8211;m4</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P align=justify><B>-endian = { big | little }</B> <BR>[SH-3 - SH-4] 
+      <BR>specifies Endian type.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P align=justify><B>-mb or &#8211;ml</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P align=justify><B>-fpu= {single | double}</B> <BR>[SH-4] <BR>Processes 
+      floating-point operation in single or double precision.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P align=justify><B>-fsingle-precision-constant</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P align=justify><B>-pic= { 0 | 1 }</B> <BR>Position independent 
+    code</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P align=justify><B>-fpic</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P><B>-double=float</B><BR>Converting double-type values to Float-type 
+      values.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>-fshort-double</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P><B>-rtti = { ON |OFf }</B><BR>Controlling runtime type 
+    information.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>-fno-rtti</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P><B>-exception</B><BR>Enables the C++ exception processing (try, catch, 
+      throw).</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>-fexceptions</B> <BR>&nbsp;</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P><B>-lang = { C | CPp }</B><BR>Specifies the language of the source 
+      program.</P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P><B>-x &lt;language&gt;</B> <BR>&nbsp;</P></TD></TR></TBODY></TABLE>
+<P>
+<P><B>Options only in GCC:</B>
+<P><!---------------------->
+<TABLE style="MARGIN-LEFT: 18.25pt" cellSpacing=0 cellPadding=5 width=647 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>
+      <P><B>-fomit-frame-pointer</B></P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=381>
+      <P align=justify>Register r14 in case of GCC is used as frame pointer. To 
+      avoid it from being pushed and popped during a function call, 
+      -fomit-frame-pointer option is specified.</P></TD></TR></TBODY></TABLE>
+<P><!---------------------------->For more information on the above compiler 
+command line options, please refer to the
+<a href="http://www.kpitgnutools.com/manuals/gcc.html">gcc</a> manual.<P><BR><A name=_Compiler_directives></A><BR><A 
+href="#commline">[Prev]</A>&nbsp;<A 
+href="#sec_top">[Top]</A>&nbsp;<A 
+href="#Assembly_programming">[Next]</A> 
+
+<P class=head2><B>Compiler directives:</B></P>
+<TABLE style="MARGIN-LEFT: 18.25pt" cellSpacing=0 cellPadding=5 width=847 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=366><B>Renesas Directives</B></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=481><B>Equivalent GNU directive or method</B></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=366><PRE class=case>#pragma interrupt (ext_0(vect=8)) 
+void ext_0(void) 
+{
+      p0=6;
+}
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=481><PRE class=case>#define VECT_SECT __attribute__((section (".vects")))
+#define ISR __attribute__ ((interrupt_handler))
+typedef void (*function_ptr) (void);
+extern volatile int P0; 
+extern void start (void);
+void ext_0() ISR;
+function_ptr HardwareVectors[] VECT_SECT =
+{
+      start,0,0,0,0,0,0,0,ext_0,0,0,0,0,0,0,0
+};      
+
+void ext_0() 
+{
+      P0 = 6;
+}
+</PRE>&nbsp;</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=366><PRE class=case>extern char STK[100];
+#pragma interrupt ( f(sp=STK+100) )
+	or
+_ _interrupt(sp=STK+100) void f(void);
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=481><PRE class=case>extern char STK[100];
+void f () __attribute__ ((interrupt_handler,
+		sp_switch ("STK+100")));
+</PRE>&nbsp;</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=366><PRE class=case>extern char STK[100];
+#pragma interrupt ( g(tn=2) )
+	or
+_ _interrupt(tn=2) void g(void);
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=481><PRE class=case>trap_exit
+void g() __attribute__ ((interrupt_handler,
+		trap_exit(2)));
+</PRE>&nbsp;</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=366><PRE class=case>#pragma abs8(c1)
+#pragma abs16(i1)
+char c1; /* c1 is assigned to $ABS8B */
+int i1; /* i1 is assigned to $ABS16B */
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=481><PRE class=case>const int i1 __attribute__ ((section(&#8220;_cseg&#8221;)));
+const char c1[] __attribute__((section(&#8220;_cseg&#8221;)))={"Hello World"};
+</PRE>
+      <P align=justify>Please note this requires an entry in the linker section 
+      for the memory location of &#8220;_cseg&#8221;.</P><PRE class=case>For ex. in the linker script
+_cseg <ADDR> :{*(_cseg);} &gt; memory region [ram/rom]
+</PRE>&nbsp;</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=366><PRE class=case>#pragma entry &lt;function name&gt;
+[&lt;entry specification&gt;]
+e.g.
+#pragma entry INIT(sp=0x8000) void INIT(){:}
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=481>
+      <P align=justify>Achieved through linker script.</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=366><PRE class=case>#pragma inline (&lt;function name&gt;[,&#8230;])
+_ _inline &lt;type specifier&gt; &lt;function name&gt;
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=481>
+      <P align=justify>inline void foo (const char) 
+      __attribute__((always_inline));</P> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=366><PRE class=case>#pragma global_register(x=R4)
+	or
+_ _ global_register(R4L) char x;
+/* External variable x is allocated to R4 */
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=481><PRE class=case>You can define a global register variable in GNU C like this: 
+register int *x asm ("r4");
+</PRE>&nbsp;</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=366><PRE class=case>#pragma stacksize &lt;constant&gt; 
+e.g. #pragma stacksize 100 
+&lt;Code expansion example&gt;
+.SECTION S, STACK
+.RES.W 50
+Creates a stack section
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=481><PRE class=case>char stack[100] __attribute__ ((section ("STACK"))) = { 0 };
+ 
+main()
+{
+	/* Initialize stack pointer */
+      init_sp (stack + sizeof (stack));
+}
+</PRE>&nbsp;</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=366><PRE class=case>#pragma section [{&lt;name&gt; | &lt;numeric value&gt;}]
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=481>
+      <P align=justify>Pragma is not available but the functionality can be 
+      achieved using __attribute__ ((section(&#8220;&lt;section name&gt;&#8221;)))<BR>For 
+      e.g: <BR>extern void foobar (void) __attribute__ ((section ("bar"))); 
+      <BR><BR>Alternatively, this can be achieved using the 
+      linker script. In section definition, the contents of an output section 
+      can be specified by listing particular input files, listing particular 
+      input-file sections, or combination of the two. <BR>Please refer Q2 in 
+      FAQ.html for more on linker scripts.</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=366>
+      <P align=justify>#pragma inline_asm (&lt;function name&gt; 
+      <BR>[(size=numeric value)][,...]) </P></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=481>
+      <P align=justify>Asm(&lt;assembly-language instruction string&gt;); 
+  </P></TD></TR></TBODY></TABLE>
+<P>For more information on the above compiler directives, please refer to the
+<a href="http://www.kpitgnutools.com/manuals/gcc.html">gcc</a> manual.<P><!---------------------------------><BR><A 
+name=Assembly_programming></A><BR><A 
+href="#_Compiler_directives">[Prev]</A>&nbsp;<A 
+href="#sec_top">[Top]</A>&nbsp;<A 
+href="#_Intrinsic_functions">[Next]</A> 
+
+<P class=head2><B>Assembler Directives:</B></P>
+<TABLE style="MARGIN-LEFT: 18.25pt" cellSpacing=0 cellPadding=5 width=667 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=266><B>Renesas Assembler Directives</B></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=401><B>GNU Assembler Directives</B></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>.AIF</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>#if or .if</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>.AELSE</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>#else or .else</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>.AENDI</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>#endif or .endif 
+      </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>Sym_name: .ASSIGN value</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>set sym_name , value 
+      </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>.ALIGN &lt;boundary alignment value&gt;</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>
+      <P align=jstify>.align &lt;boundary alignment value&gt; <BR>(for details 
+      on more options of aligning like filling specific values,etc, please see 
+      link below)</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>sym_name: .EQU value</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>.equ sym_name , value</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>.EXPORT</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>.global</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>.GLOBAL</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>.global</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>.IMPORT sym_name</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>.extern sym_name 
+      </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>Sym_name .RES.B 1</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>.size sym_name , 1 <BR>.sym_name: .byte initial_value 
+
+      </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>Sym_name .RES.L 1</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>.size sym_name , 4 <BR>.sym_name: .long initial_value 
+
+      </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>Sym_name .RES.W 1</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>.size sym_name, 2 <BR>.sym_name: .word initial_value 
+      </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>sym_name: .EQU B&#8217; value <BR>(binary value) </TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>.equ sym_name , 0x value <BR>(equivalent hex value) 
+    </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>.SECTION name, attribute </TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>.section &#8220; name&#8221; , &#8220;attributes&#8221; 
+      <P>(for details on the possible attributes, please refer the link given 
+      below)  
+      </P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>Sym_name: .SDATA &#8220;str&#8221;</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Sym_name: .string &#8220;str&#8221; 
+      </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=266>Sym_name: .DATA.W H&#8217;18D <BR>Sym_name: .DATA.L H&#8217;18D 
+      <BR>Sym_name: .DATA.B H&#8217;8D </TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Sym_name: .word 0x18d <BR>Sym_name: .long 0x18d 
+      <BR>Sym_name: .byte 0x8d </TD></TR></TBODY></TABLE>
+<P><!------------------------------------>For more information on the above 
+assembler directives, please refer to the
+<a href="http://www.kpitgnutools.com/manuals/as.html">as</a> manual.<br>
+<BR><A 
+name=_Intrinsic_Functions></A><BR><A 
+href="#Assembly_programming">[Prev]</A>&nbsp;<A 
+href="#sec_top">[Top]</A>&nbsp;<A 
+href="#library">[Next]</A> 
+
+<P class=head2><B>Intrinsic Functions:</B>&nbsp; <A 
+href="http://www.kpitgnutools.com/manuals/functions_sh.zip">(Download the Header 
+files)</A></P>
+<TABLE style="MARGIN-LEFT: 18.25pt" cellSpacing=0 cellPadding=5 width=897 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=391><B>Renesas Intrinsic functions</B></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=506><B>Equivalent GCC inline code</B></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void set_cr(int cr)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ void set_cr(int cr)
+{
+      asm("mov %0, r0"::"r"(cr):"r0");
+      asm("ldc r0, sr");
+}</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>int get_cr(void)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ int get_cr(void)
+{
+      long val;
+      asm("stc sr, r0":::"r0");
+      asm("mov.l r0, %0":"=m"(val));
+      return val;
+}</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void set_imask(int mask)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ void set_imask(int mask)
+{
+      asm ("mov.l r0,@-r15");
+      mask &lt;&lt;= 4;
+      mask &amp;= 0xf0;
+
+      asm("stc sr,r0");
+      asm("mov #0xff,r3");
+      asm("shll8 r3");
+      asm("add #0x0f,r3");
+      asm("and r3,r0");
+      asm("mov %0,r3"::"r"(mask));
+      asm("or r3,r0");
+      asm("ldc r0,sr");
+      asm("mov.l @r15+,r0");
+}</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>int get_imask(void)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ int get_imask()
+{
+      int val;
+      asm("mov.l r0,@-r15");
+      asm("stc sr,r0");
+      asm("shlr2 r0");
+      asm("shlr2 r0");
+      asm("and #15,r0");
+      asm("mov.l r0,%0":"=m"(val));
+      asm("mov.l @r15+,r0");
+      return val;
+}</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void set_vbr(void *base)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ void set_vbr(void *vbr)
+{
+      asm("mov %0, r2"::"r"(vbr):"r2");
+      asm("ldc r2,vbr");
+}</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void *get_vbr(void)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ void* get_vbr(void)
+{
+      void *ptr;
+      asm("stc vbr,r2":::"r2");
+      asm("mov.l r2, %0":"=m"(ptr));
+      return ptr;
+}</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void set_gbr(void *base)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ void set_gbr(void *gbr)
+{
+      asm("mov %0, r2"::"r"(gbr):"r2");
+      asm("ldc r2, gbr");
+}</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void *get_gbr(void)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ void* get_gbr(void)
+{
+      void *ptr;
+      asm("stc gbr,r2":::"r2");
+      asm("mov.l r2, %0":"=m"(ptr));
+      return ptr;
+}</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>unsigned char
+gbr_read_byte(int offset)
+unsigned short
+gbr_read_word(int offset)
+Unsigned long gbr_read_long(int offset)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ unsigned char gbr_read_byte(int offset)
+{
+      unsigned char val;
+      asm("mov %0, r1"::"r"(offset):"r1");
+      asm("stc gbr, r2":::"r2");
+      asm("add r1, r2");
+      asm("mov.b @r2, r0");
+      asm("extu.b r0, r2");
+      asm("mov.l r2, %0":"=m"(val));
+      return val;
+} 
+Similarly gbr_read_word(int offset) and gbr_read_long(int offset)</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void gbr_write_byte(int offset, unsigned char data)
+void gbr_write_word(int offset, unsigned short data)
+void gbr_write_long(int offset, unsigned long data)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ void gbr_write_word(int offset, unsigned short data)
+{
+      asm("mov %0, r1"::"r"(offset):"r1");
+      asm("stc gbr, r2":::"r2");
+      asm("add r1, r2");
+      asm("mov %0,r1"::"r"(data));
+      asm("mov r1,r0");
+      asm("mov.w r0,@r2");
+}
+Similarly gbr_write_byte and gbr_write_long</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void gbr_and_byte(int offset, unsigned char mask) 
+void gbr_or_byte(int offset, unsigned char mask)
+void gbr_xor_byte(int offset, unsigned char mask)
+void gbr_tst_byte(int offset, unsigned char mask)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ void gbr_and_byte(int offset, unsigned char mask)
+{
+      asm("mov %0, r0"::"r"(offset):"r0");
+      asm("and.b %0, @(r0,gbr)"::"g"(mask));
+} 
+Please replace occurrence of gbr_and_byte(offset,mask) with above.
+Similarly gbr_or_byte, gbr_xor_byte and gbr_tst_byte.</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void sleep(void)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ void sleep(void)
+{
+      asm("sleep");
+}
+</PRE></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void tas(char *addr)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ void tas(char *addr)
+{
+      asm("mov %0, r1"::"r"(addr):"r1");
+      asm("tas.b @r1");
+}</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void trapa(unsigned int trap_no)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>asm ("trapa  %0"::"g"(trap_no))
+Please replace occurance of trapa(trap_no) with above.</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>int trapa_svc(int trap_no, type1 para1,
+	type2 para2, type3 para3,
+	type4 para4)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>Under Process
+</PRE></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void prefetch (void *p)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ void prefetch (void *p)
+
+{
+      asm("mov %0, r2"::"r"(p):"r2");
+      asm("pref @r2");
+}
+Available only for <B>sh3</B> and <B>sh4</B></PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void trace(long v)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>Under process.
+Available only for <B>sh3</B> and <B>sh4</B></PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void ldtlb(void)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ void ldtlb(void)
+{
+      asm("ldtlb");
+}
+Available only for <B>sh3</B> and <B>sh4</B></PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void nop(void)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ void nop(void)
+{
+      asm("nop");
+}</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>unsigned long dmuls_l(long data1, long data2)
+unsigned long dmulu_l(unsigned long data1,
+	 unsigned long data2)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ unsigned long dmuls_l(long data1, long data2)
+{
+      unsigned long val;
+      asm("mov %0, r4"::"r"(data1):"r4");
+      asm("mov %0, r5"::"r"(data2):"r5");
+      asm("dmuls.l r4,r5");
+      asm("sts macl,r6":::"r6");
+      asm("sts mach,r2":::"r2");
+      asm("lds r6,macl");
+      asm("sts macl,r2");
+      asm("mov.l r2, %0":"=m"(val));
+      return val;
+} 
+Similarly dmulu_l().
+dmuls _l() is not available for <B>sh1</B>.
+dmulu _l() available only for  <B>sh1</B>.</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>long dmuls_h(long data1, long data2)
+dmulu_h(unsigned long data1,
+	unsigned long data2)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ long dmuls_h(long data1,long data2)
+{
+      unsigned long val;
+      asm("mov %0, r4"::"r"(data1):"r4");
+      asm("mov %0, r5"::"r"(data2):"r5");
+      asm("dmuls.l r4,r5");
+      asm("sts macl,r6":::"r6");
+      asm("sts mach,r2":::"r2");
+      asm("lds r2,mach");
+      asm("sts mach,r6");
+      asm("mov.l r6, %0":"=m"(val));
+      return val;
+}
+Similarly dmulu_h().
+Not available for <B>sh1</B>.</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>unsigned short swapb(unsigned short data) 
+unsigned long swapw(unsigned long data) 
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ unsigned long swapw(unsigned long data)
+{
+      unsigned long val;
+      asm("mov %0, r2"::"r"(data):"r2");
+      asm("swap.w r2,r6":::"r6");
+      asm("mov.l r6, %0":"=m"(val));
+      return val;
+}
+Similarly swapb()</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>unsigned long end_cnvl(unsigned long data)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ unsigned long end_cnvl(unsigned long data)
+{
+      unsigned long val;
+      asm("mov %0, r6"::"r"(data):"r6");
+      asm("mov r6,r2":::"r2");
+      asm("swap.b r2,r6");
+      asm("swap.w r6,r2");
+      asm("swap.b r2,r6");
+      asm("mov.l r6, %0":"=m"(val));
+      return val;
+}</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>int macw(short *ptr1, short *ptr2,
+	 unsigned int count)
+int macl(int *ptr1, int *ptr2,
+	 unsigned int count)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ int macl(int *ptr1,int*ptr2,unsigned int count)
+{
+      int val;
+      asm("mov %0,r4"::"r"(count):"r4");
+      asm("clrmac");
+      asm("sts macl,r2":::"r2");
+      asm("sts mach,r6":::"r6");
+      asm("tst r4,r4");
+      asm("bt l11");
+      asm("mov %0, r6"::"r"(ptr1):"r6");
+      asm("mov %0, r5"::"r"(ptr2):"r5");
+      asm("shll2 r4");
+      asm("add r6,r4");
+      asm("l13:");
+      asm("lds r2,macl");
+      asm("mac.l @r6+,@r5+");
+      asm("sts macl,r2");
+      asm("cmp/hi r6,r4");
+      asm("bt l13");
+      asm("l11:");
+      asm("lds r2,macl");
+      asm("sts macl,r6");
+      asm("mov.l r6, %0":"=m"(val));
+      return val;
+}
+Similarly int macw(short *ptr1, short *ptr2, unsigned int count)
+macl() is not available for <B>sh1</B>.</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>int macwl(short *ptr1, short *ptr2,
+	unsigned int count, unsigned int mask)
+
+int macll(int *ptr1, int*ptr2,
+	 unsigned int count, unsigned int mask)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ int macll(int *ptr1,int*ptr2,
+	unsigned int count,unsigned int mask)
+{
+      int val;
+      asm("mov %0,r4"::"r"(count):"r4");
+      asm("clrmac");
+      asm("sts macl,r2":::"r2");
+      asm("sts mach,r6":::"r6");
+      asm("tst r4,r4");
+      asm("bt l14");
+      asm("mov %0, r6"::"r"(ptr1):"r6");
+      asm("mov %0, r5"::"r"(ptr2):"r5");
+      asm("mov %0, r7"::"r"(mask):"r7");
+      asm("shll2 r4");
+      asm("add r6,r4");
+      asm("l16:");
+      asm("lds r2,macl");
+      asm("mac.l @r6+,@r5+");
+      asm("sts macl,r2");
+      asm("and r7,r5");
+      asm("cmp/hi r6,r4");
+      asm("bt l16");
+      asm("l14:");
+      asm("lds r2,macl");
+      asm("sts macl,r6");
+      asm("mov.l r6, %0":"=m"(val));
+      return val;
+}
+Similarly int macwl(short *ptr1, short *ptr2,
+	unsigned int count, unsigned int mask)
+macll() is not available for <B>sh1</B>.</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void set_fpscr(int cr)
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ void set_fpscr(int cr)
+{
+      asm("mov %0, r2"::"r"(cr):"r2");
+      asm("lds r2,fpscr");
+}
+Available only for <B>sh2e</B>, <B>sh3e</B> and <B>sh4</B>.</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>int get_fpscr()
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ int get_fpscr()
+{
+      int val;
+      asm("sts fpscr, r2":::"r2");
+      asm("mov.l r2, %0":"=m"(val));
+      return val;
+}
+Available only for <B>sh2e</B>, <B>sh3e</B> and <B>sh4</B>. </PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>float fipr(float vect1[4], float vect2[4])
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ float fipr(float vect1[4], float vect2[4])
+{
+      float val;
+      asm("mov %0,r2"::"r"(vect1):"r2");
+      asm("fmov.s @r2+,fr0":::"fr0");
+      asm("fmov.s @r2+,fr1":::"fr1");
+      asm("fmov.s @r2+,fr2":::"fr2");
+      asm("fmov.s @r2+,fr3":::"fr3");
+      asm("add #-16,r2");
+      asm("fmov fr3,fr8":::"fr8");
+      asm("fmov fr2,fr9":::"fr9");
+      asm("mov %0, r2"::"r"(vect2):"r2");
+      asm("fmov.s @r2+,fr4":::"fr4");
+      asm("fmov.s @r2+,fr5":::"fr5");
+      asm("fmov.s @r2+,fr6":::"fr6");
+      asm("fmov.s @r2+,fr7":::"fr7");
+      asm("add #-16,r2");
+      asm("fmov fr9,fr2");
+      asm("fmov fr8,fr3");
+      asm("fipr fv4,fv0");
+      asm("fmov fr3,fr8");
+      // asm("fmov fr8, %0":"=f"(val));
+      // return val;
+}
+Available only for <B>sh4</B>.</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void ftrv(float vec1[4],float vec2[4])
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ void ftrv(float vec1[4],float vec2[4])
+{
+      asm("mov %0,r6"::"r"(vec1):"r6");
+      asm("fmov.s @r6+,fr0");
+      asm("fmov.s @r6+,fr1");
+      asm("fmov.s @r6+,fr2");
+      asm("fmov.s @r6+,fr3");
+      asm("add #-16,r6");
+      asm("fmov fr3,fr9");
+      asm("fmov fr2,fr8");
+      asm("fmov fr8,fr2");
+      asm("fmov fr9,fr3");
+      asm("ftrv xmtrx,fv0");
+      asm("fmov fr3,fr9");
+      asm("fmov fr2,fr8");
+      asm("mov %0,r6"::"r"(vec2));
+      asm("fmov fr8,fr2");
+      asm("fmov fr9,fr3");
+      asm("add #16,r6");
+      asm("fmov.s fr3,@-r6");
+      asm("fmov.s fr2,@-r6");
+      asm("fmov.s fr1,@-r6");
+      asm("fmov.s fr0,@-r6");
+}
+Available only for <B>sh4</B>.</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void ftrvadd(float vec1[4],
+float vec2[4],float vec3[4])
+
+void ftrvsub(float vec1[4],
+float vec2[4],float vec3[4])
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ void ftrvsub(float vec1[4],
+	float vec2[4],float vec3[4])
+{
+      asm("mov %0,r2"::"r"(vec1):"r2");
+      asm("fmov.s @r2+,fr0");
+      asm("fmov.s @r2+,fr1");
+      asm("fmov.s @r2+,fr2");
+      asm("fmov.s @r2+,fr3");
+      asm("add #-16,r2");
+      asm("fmov fr3,fr9");
+      asm("fmov fr2,fr8");
+      asm("fmov fr8,fr2");
+      asm("fmov fr9,fr3");
+      asm("ftrv xmtrx,fv0");
+      asm("fmov fr3,fr9");
+      asm("fmov fr2,fr8");
+      asm("mov %0,r2"::"r"(vec2));
+      asm("fmov.s @r2+,fr4");
+      asm("fmov.s @r2+,fr5");
+      asm("fmov.s @r2+,fr6");
+      asm("fmov.s @r2+,fr7");
+      asm("add #-16,r2");
+      asm("fsub fr4,fr0");
+      asm("fsub fr5,fr1");
+      asm("fmov fr8,fr2");
+      asm("fsub fr6,fr2");
+      asm("fmov fr2,fr8");
+      asm("fmov fr9,fr3");
+      asm("fsub fr7,fr3");
+      asm("fmov fr3,fr9");
+      asm("mov %0,r2"::"r"(vec3));
+      asm("fmov fr8,fr2");
+      asm("fmov fr9,fr3");
+      asm("add #16,r2");
+      asm("fmov.s fr3,@-r2");
+      asm("fmov.s fr2,@-r2");
+      asm("fmov.s fr1,@-r2");
+      asm("fmov.s fr0,@-r2");
+}
+Similarly ftrvadd().
+Available only for <B>sh4 </B>.</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void add4(float vec1[4],
+float vec2[4],float vec3[4])
+
+void sub4(float vec1[4],
+float vec2[4],float vec3[4])
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ void add4(float vec1[4],
+	float vec2[4],float vec3[4])
+{
+      asm("mov %0,r2"::"r"(vec1):"r2");
+      asm("fmov.s @r2+,fr0");
+      asm("fmov.s @r2+,fr1");
+      asm("fmov.s @r2+,fr2");
+      asm("fmov.s @r2+,fr3");
+      asm("add #-16,r2");
+      asm("fmov fr3,fr9");
+      asm("fmov fr2,fr8");
+      asm("mov %0,r2"::"r"(vec2));
+      asm("fmov.s @r2+,fr4");
+      asm("fmov.s @r2+,fr5");
+      asm("fmov.s @r2+,fr6");
+      asm("fmov.s @r2+,fr7");
+      asm("add #-16,r2");
+      asm("fadd fr4,fr0");
+      asm("fadd fr5,fr1");
+      asm("fmov fr8,fr2");
+      asm("fadd fr6,fr2");
+      asm("fmov fr2,fr8");
+      asm("fmov fr9,fr3");
+      asm("fadd fr7,fr3");
+      asm("fmov fr3,fr9");
+      asm("mov %0,r2"::"r"(vec3));
+      asm("fmov fr8,fr2");
+      asm("fmov fr9,fr3");
+      asm("add #16,r2");
+      asm("fmov.s fr3,@-r2");
+      asm("fmov.s fr2,@-r2");
+      asm("fmov.s fr1,@-r2");
+      asm("fmov.s fr0,@-r2");
+}
+Similarly sub4()
+Available only for <B>sh4</B>.</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void mtrx4mul(float mat1[4][4],
+float mat2[4][4])
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ void mtrx4mul(float mat1[4][4],
+	float mat2[4][4])
+{
+      asm("mov %0,r2"::"r"(mat1):"r2");
+      asm("mov %0,r6"::"r"(mat2):"r6");
+      asm("fmov.s @r2+,fr0");
+      asm("fmov.s @r2+,fr1");
+      asm("fmov.s @r2+,fr2");
+      asm("fmov.s @r2+,fr3");
+      asm("fmov fr3,fr8");
+      asm("fmov fr2,fr9");
+      asm("fmov fr9,fr2");
+      asm("fmov fr8,fr3");
+      asm("ftrv xmtrx,fv0");
+      asm("fmov fr3,fr8");
+      asm("fmov fr2,fr9");
+      asm("fmov fr9,fr2");
+      asm("fmov fr8,fr3");
+      asm("add #16,r6");
+      asm("fmov.s fr3,@-r6");
+      asm("fmov.s fr2,@-r6");
+      asm("fmov.s fr1,@-r6");
+      asm("fmov.s fr0,@-r6");
+      asm("fmov.s @r2+,fr0");
+      asm("fmov.s @r2+,fr1");
+      asm("fmov.s @r2+,fr2");
+      asm("fmov.s @r2+,fr3");
+      asm("fmov fr3,fr8");
+      asm("fmov fr2,fr9");
+      asm("fmov fr9,fr2");
+      asm("fmov fr8,fr3");
+      asm("ftrv xmtrx,fv0");
+      asm("fmov fr3,fr8");
+      asm("fmov fr2,fr9");
+      asm("add #32,r6");
+      asm("fmov fr9,fr2");
+      asm("fmov fr8,fr3");
+      asm("fmov.s fr3,@-r6");
+      asm("fmov.s fr2,@-r6");
+      asm("fmov.s fr1,@-r6");
+      asm("fmov.s fr0,@-r6");
+      asm("fmov.s @r2+,fr0");
+      asm("fmov.s @r2+,fr1");
+      asm("fmov.s @r2+,fr2");
+      asm("fmov.s @r2+,fr3");
+      asm("fmov fr3,fr8");
+      asm("fmov fr2,fr9");
+      asm("fmov fr9,fr2");
+      asm("fmov fr8,fr3");
+      asm("ftrv xmtrx,fv0");
+      asm("fmov fr3,fr8");
+      asm("fmov fr2,fr9");
+      asm("add #32,r6");
+      asm("fmov fr9,fr2");
+      asm("fmov fr8,fr3");
+      asm("fmov.s fr3,@-r6");
+      asm("fmov.s fr2,@-r6");
+      asm("fmov.s fr1,@-r6");
+      asm("fmov.s fr0,@-r6");
+      asm("fmov.s @r2+,fr0");
+      asm("fmov.s @r2+,fr1");
+      asm("fmov.s @r2+,fr2");
+      asm("fmov.s @r2+,fr3");
+      asm("fmov fr3,fr8");
+      asm("fmov fr2,fr9");
+      asm("fmov fr9,fr2");
+      asm("fmov fr8,fr3");
+      asm("ftrv xmtrx,fv0");
+      asm("fmov fr3,fr8");
+      asm("fmov fr2,fr9");
+      asm("add #32,r6");
+      asm("fmov fr9,fr2");
+      asm("fmov fr8,fr3");
+      asm("fmov.s fr3,@-r6");
+      asm("fmov.s fr2,@-r6");
+      asm("fmov.s fr1,@-r6");
+      asm("fmov.s fr0,@-r6");
+}
+Available only for <B>sh4</B>.</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void mtrx4muladd( float mat1[4][4], float mat2[4][4],
+	float mat3[4][4])
+
+void mtrx4mulsub( float mat1[4][4], float mat2[4][4],
+	float mat3[4][4])
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ void mtrx4mulsub(float mat1[4][4],
+	float mat2[4][4],float mat3[4][4])
+{
+      asm("mov %0,r6"::"r"(mat1):"r6");
+      asm("mov %0,r2"::"r"(mat2):"r2");
+      asm("mov %0,r5"::"r"(mat3):"r5");
+      asm("fmov.s      @r6+,fr0");
+      asm("fmov.s      @r6+,fr1");
+      asm("fmov.s      @r6+,fr2");
+      asm("fmov.s      @r6+,fr3");
+      asm("fmov      fr3,fr9");
+      asm("fmov      fr2,fr8");
+      asm("fmov      fr8,fr2");
+      asm("fmov      fr9,fr3");
+      asm("ftrv        xmtrx,fv0");
+      asm("fmov      fr3,fr9");
+      asm("fmov      fr2,fr8");
+      asm("fmov.s      @r2+,fr4");
+      asm("fmov.s      @r2+,fr5");
+      asm("fmov.s      @r2+,fr6");
+      asm("fmov.s      @r2+,fr7");
+      asm("fsub        fr4,fr0");
+      asm("fsub        fr5,fr1");
+      asm("fmov      fr8,fr2");
+      asm("fsub        fr6,fr2");
+      asm("fmov      fr2,fr8");
+      asm("fmov      fr9,fr3");
+      asm("fsub        fr7,fr3");
+      asm("fmov      fr3,fr9");
+      asm("fmov      fr8,fr2");
+      asm("fmov      fr9,fr3");
+      asm("add         #16,r5");
+      asm("fmov.s      fr3,@-r5");
+      asm("fmov.s      fr2,@-r5");
+      asm("fmov.s      fr1,@-r5");
+      asm("fmov.s      fr0,@-r5");
+      asm("fmov.s      @r6+,fr0");
+      asm("fmov.s      @r6+,fr1");
+      asm("fmov.s      @r6+,fr2");
+      asm("fmov.s      @r6+,fr3");
+      asm("fmov      fr3,fr9");
+      asm("fmov      fr2,fr8");
+      asm("fmov      fr8,fr2");
+      asm("fmov      fr9,fr3");
+      asm("ftrv        xmtrx,fv0");
+      asm("fmov      fr3,fr9");
+      asm("fmov      fr2,fr8");
+      asm("fmov.s      @r2+,fr4");
+      asm("fmov.s      @r2+,fr5");
+      asm("fmov.s      @r2+,fr6");
+      asm("fmov.s      @r2+,fr7");
+      asm("fsub        fr4,fr0");
+      asm("fsub        fr5,fr1");
+      asm("fmov      fr8,fr2");
+      asm("fsub        fr6,fr2");
+      asm("fmov      fr2,fr8");
+      asm("fmov      fr9,fr3");
+      asm("fsub        fr7,fr3");
+      asm("fmov      fr3,fr9");
+      asm("add         #32,r5");
+      asm("fmov      fr8,fr2");
+      asm("fmov      fr9,fr3");
+      asm("fmov.s      fr3,@-r5");
+      asm("fmov.s      fr2,@-r5");
+      asm("fmov.s      fr1,@-r5");
+      asm("fmov.s      fr0,@-r5");
+      asm("fmov.s      @r6+,fr0");
+      asm("fmov.s      @r6+,fr1");
+      asm("fmov.s      @r6+,fr2");
+      asm("fmov.s      @r6+,fr3");
+      asm("fmov      fr3,fr9");
+      asm("fmov      fr2,fr8");
+      asm("fmov      fr8,fr2");
+      asm("fmov      fr9,fr3");
+      asm("ftrv        xmtrx,fv0");
+      asm("fmov      fr3,fr9");
+      asm("fmov      fr2,fr8");
+      asm("fmov.s      @r2+,fr4");
+      asm("fmov.s      @r2+,fr5");
+      asm("fmov.s      @r2+,fr6");
+      asm("fmov.s      @r2+,fr7");
+      asm("fsub        fr4,fr0");
+      asm("fsub        fr5,fr1");
+      asm("fmov      fr8,fr2");
+      asm("fsub        fr6,fr2");
+      asm("fmov      fr2,fr8");
+      asm("fmov      fr9,fr3");
+      asm("fsub        fr7,fr3");
+      asm("fmov      fr3,fr9");
+      asm("add         #32,r5");
+      asm("fmov      fr8,fr2");
+      asm("fmov      fr9,fr3");
+      asm("fmov.s      fr3,@-r5");
+      asm("fmov.s      fr2,@-r5");
+      asm("fmov.s      fr1,@-r5");
+      asm("fmov.s      fr0,@-r5");
+      asm("fmov.s      @r6+,fr0");
+      asm("fmov.s      @r6+,fr1");
+      asm("fmov.s      @r6+,fr2");
+      asm("fmov.s      @r6+,fr3");
+      asm("fmov      fr3,fr9");
+      asm("fmov      fr2,fr8");
+      asm("fmov      fr8,fr2");
+      asm("fmov      fr9,fr3");
+      asm("ftrv        xmtrx,fv0");
+      asm("fmov      fr3,fr9");
+      asm("fmov      fr2,fr8");
+      asm("fmov.s      @r2+,fr4");
+      asm("fmov.s      @r2+,fr5");
+      asm("fmov.s      @r2+,fr6");
+      asm("fmov.s      @r2+,fr7");
+      asm("fsub        fr4,fr0");
+      asm("fsub        fr5,fr1");
+      asm("fmov      fr8,fr2");
+      asm("fsub        fr6,fr2");
+      asm("fmov      fr2,fr8");
+      asm("fmov      fr9,fr3");
+      asm("fsub        fr7,fr3");
+      asm("fmov      fr3,fr9");
+      asm("add         #32,r5");
+      asm("fmov      fr8,fr2");
+      asm("fmov      fr9,fr3");
+      asm("fmov.s      fr3,@-r5");
+      asm("fmov.s      fr2,@-r5");
+      asm("fmov.s      fr1,@-r5");
+      asm("fmov.s      fr0,@-r5");
+}
+Similarly mtrx4muladd().
+Available only for <B>sh4</B>.</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void ld_ext( float mat[4][4] )
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ void ld_ext( float mat[4][4])
+{
+      asm("mov %0, r2"::"r"(mat):"r2");
+      asm("frchg");
+      asm("fmov.s @r2+,fr0":::"fr0");
+      asm("fmov.s @r2+,fr1":::"fr1");
+      asm("fmov.s @r2+,fr2":::"fr2");
+      asm("fmov.s @r2+,fr3":::"fr3");
+      asm("fmov.s @r2+,fr4":::"fr4");
+      asm("fmov.s @r2+,fr5":::"fr5");
+      asm("fmov.s @r2+,fr6":::"fr6");
+      asm("fmov.s @r2+,fr7":::"fr7");
+      asm("fmov.s @r2+,fr8":::"fr8");
+      asm("fmov.s @r2+,fr9":::"fr9");
+      asm("fmov.s @r2+,fr10":::"fr10");
+      asm("fmov.s @r2+,fr11":::"fr11");
+      asm("fmov.s @r2+,fr12":::"fr12");
+      asm("fmov.s @r2+,fr13":::"fr13");
+      asm("fmov.s @r2+,fr14":::"fr14");
+      asm("fmov.s @r2+,fr15":::"fr15");
+      asm("frchg");
+      asm("add #-64,r2");
+}
+Available only for <B>sh4</B>.</PRE> </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=391><PRE class=case>void st_ext(float mat[4][4])
+</PRE></TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=506><PRE class=case>extern __inline__ void st_ext(float mat[4][4])
+{
+      asm("mov %0,r2"::"r"(mat):"r2");
+      asm("add #64,r2");
+      asm("frchg");
+      asm("fmov.s fr15,@-r2");
+      asm("fmov.s fr14,@-r2");
+      asm("fmov.s fr13,@-r2");
+      asm("fmov.s fr12,@-r2");
+      asm("fmov.s fr11,@-r2");
+      asm("fmov.s fr10,@-r2");
+      asm("fmov.s fr9,@-r2");
+      asm("fmov.s fr8,@-r2");
+      asm("fmov.s fr7,@-r2");
+      asm("fmov.s fr6,@-r2");
+      asm("fmov.s fr5,@-r2");
+      asm("fmov.s fr4,@-r2");
+      asm("fmov.s fr3,@-r2");
+      asm("fmov.s fr2,@-r2");
+      asm("fmov.s fr1,@-r2");
+      asm("fmov.s fr0,@-r2");
+      asm("frchg");
+}
+Available only for <B>sh4</B>.</PRE> </TD></TR></TBODY></TABLE>
+<p align="justify">For more information on assembler constraints, please refer to 
+the <a href="http://www.kpitgnutools.com/manuals/gcc.html">gcc</a> manual.</p>
+<p align="justify">For more information on assembler command line options, 
+please refer to the <a href="http://www.kpitgnutools.com/manuals/as.html">as</a> 
+manual.</p>
+
+<P><A name=library></A><BR><A 
+href="#_Intrinsic_functions">[Prev]</A>&nbsp;<A 
+href="#sec_top">[Top]</A> 
+
+<a href="#Inline">[Next]</a><P class=head2><B>C &amp; Math Library Functions:</B></P>
+<P>GNU C library namely Newlib is under free software license. The Newlib 
+supports various processors and architectures.</P>
+<P style="MARGIN-LEFT: 25pt" align=justify>1. &nbsp;&nbsp; Complete set of 
+Standard input/output functions. <BR>2. &nbsp;&nbsp; Float parameters support 
+for Math library. <BR>3. &nbsp;&nbsp; The library can be built with integer only 
+support. This in turn reduces the load. <BR>4. &nbsp;&nbsp; Option is available 
+to build the libraries with floating point support. <BR>5. &nbsp;&nbsp; A 
+customizable math error handler matherr() is available. <BR>6. &nbsp;&nbsp; All 
+the functions are reentrant.</P><B>Drawbacks Involved:</B> 
+<P style="MARGIN-LEFT: 25pt">1. &nbsp;&nbsp;malloc() is used in every stdio 
+routine. <BR>2. &nbsp;&nbsp;There is no support for low-level routines to 
+connect to the target.</P><!------------------------------------><B>C library 
+Math Functions only in Renesas:</B>
+<P>
+<TABLE style="MARGIN-LEFT: 18.25pt" cellSpacing=0 cellPadding=5 width=400 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=48>No.</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=352>Function</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top colSpan=2>General Utilities (stddef.h)</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>1</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=352>offsetof</TD></TR></TBODY></TABLE>
+<P><!---------------------------><B>C library Math Functions only in 
+GNU:</B></P>
+<TABLE style="MARGIN-LEFT: 18.25pt" cellSpacing=0 cellPadding=5 width=550 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=48>No.</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=151>Function</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=351>Description</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top colSpan=3>
+      <P>Character type handling routines (ctype.h) <BR><BR>Please refer the <A 
+      href="http://sources.redhat.com/newlib/libc.html#SEC35">http://sources.redhat.com/newlib/libc.html#SEC35</A> 
+      for more information on these routines.</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>1</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=151>Isascii</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=351>ASCII character predicate</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>2</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=151>Toascii</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=351>Control character predicate</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>3</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=151>Iswalnum</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=351>Alphanumeric wide character test</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>4</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=151>Iswalpha</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=351>Alphabetic wide character test</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>5</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=151>Iswcntrla</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=351>Wide character cntrl test</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>6</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=151>Iswdigit</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=351>Decimal digit wide character test</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>7</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=151>Iswgraph</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=351>Graphic wide character test</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>8</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=151>Iswlower</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=351>Lowercase wide character test</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>9</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=151>Iswprint</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=351>Printable wide character test</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>10</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=151>Iswpunct</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=351>Punctuation wide character test</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>11</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=151>Iswspace</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=351>Wide character space test</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>12</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=151>Iswupper</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=351>Uppercase wide character test</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>13</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=151>Iswxdigit</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=351>Hexadecimal digit wide character test</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>14</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=151>Iswctype</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=351>Extensible wide character test</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>15</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=151>Wctype</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=351>Get wide character classification type</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>16</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=151>*Towlower</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=351>Translate wide characters to lower case</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>17</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=151>*Towupper</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=351>Translate wide characters to upper case</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>18</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=151>Towctrans</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=351>Extensible wide character case mapping</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>19</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=151>Wctrans</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=351>Get wide character translation 
+type</TD></TR></TBODY></TABLE>
+<P><!------------------->
+<TABLE style="MARGIN-LEFT: 18.25pt" cellSpacing=0 cellPadding=5 width=650 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=48>No.</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=201>Function</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=401>Description</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top colSpan=3>
+      <P>Mathematics Functions (math.h) <BR><BR>Please refer the <A 
+      href="http://sources.redhat.com/newlib/libm.html#SEC1">http://sources.redhat.com/newlib/libm.html#SEC1</A> 
+      for more information on these routines.</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>1</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>acosh, acoshf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Inverse hyperbolic cosine</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>2</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>asinh, asinhf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Inverse hyperbolic sine</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>3</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>atanh, atanhf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Inverse hyperbolic tangent</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>4</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>jN,jNf,yN,yNf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Bessel functions</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>5</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>erf, erff, erfc, erfcf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Error function</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>6</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>gamma, gammaf, lgamma, lgammaf, gamma_r, hypot, 
+    hypotf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Distance from origin</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>7</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>isnan, isnanf, isinf, isinff, finite, finitef</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Test for exceptional numbers</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>8</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>remainder, remainderf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Round and remainder</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>9</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>cbrt, cbrtf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Cube root</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>10</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>copysign, copysignf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Sign of y, magnitude of x</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>11</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>expm, expmf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Exponential minus 1</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>12</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>ilogb, ilogbf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Get exponent of floating point number</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>13</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>infinity, infinityf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Representation of infinity</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>14</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>logp, logpf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Log of 1 + x</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>15</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Matherr</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Modifiable math error handler</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>16</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>nan, nanf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Representation of infinity</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>17</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>nextafter, nextafterf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Get next number</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>18</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>scalbn, scalbnf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Scale by integer</TD></TR></TBODY></TABLE>
+<P><!----------------------->
+<TABLE style="MARGIN-LEFT: 18.25pt" cellSpacing=0 cellPadding=5 width=650 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=48>No.</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=201>Function</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=401>Description</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top colSpan=3>
+      <P>General Utilities (stdlib.h) <BR><BR>Please refer the <A 
+      href="http://sources.redhat.com/newlib/libc.html#SEC1">http://sources.redhat.com/newlib/libc.html#SEC1</A> 
+      for more information on these routines.</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>1</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Atexit</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Request execution of functions at program exit</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>2</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Atoff</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>String to double or float</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>3</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Ecvt, ecvtf, fcvt, fcvtf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Double or float to string</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>4</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Gvcvt, gcvtf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Format double or float as string</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>5</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Ecvtbuf, fcvtbuf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Double or float to string</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>6</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>__env_lock, __env_unlock</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Lock environ variable</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>7</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Getenv</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Look up environment variable</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>8</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Mallinfo, malloc_stats, mallopt</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Malloc support</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>9</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>__malloc_lock, __malloc_unlock</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Lock malloc pool</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>10</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Mblen</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Minimal multibyte length function</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>11</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Mbstowcs</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Minimal multibyte string to wide char converter</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>12</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Mbtowc</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Minimal multibyte to wide char converter</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>13</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Rand48, drand48, erand48, lrand48, nrand48, mrand48, 
+      jrand48, srand48, seed48, lcong48</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Pseudo random number generators and initialization 
+      routines </TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>14</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Strtof</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>String to double or float</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>15</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>System</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Execute command string</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>16</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Wcstombs</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Minimal wide char string to multibyte string 
+    converter</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>17</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Wctomb</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Minimal wide char to multibyte 
+converter</TD></TR></TBODY></TABLE>
+<P><!----------------------->
+<TABLE style="MARGIN-LEFT: 18.25pt" cellSpacing=0 cellPadding=5 width=650 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=48>No.</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=201>Function</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=401>Description</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top colSpan=3>
+      <P>String and Memory routines (string.h) <BR><BR>Please refer the <A 
+      href="http://sources.redhat.com/newlib/libc.html#SEC109">http://sources.redhat.com/newlib/libc.html#SEC109</A> 
+      for more information on these routines.</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>1</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Bcmp</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Compare two memory areas</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>2</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Bcopy</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Copy memory regions</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>3</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Bzero</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Initialize memory to zero</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>4</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Index</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Search for character in string</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>5</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Memccpy</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Copy memory regions with end token check</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>6</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Mempcpy</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Copy memory regions and return end pointer</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>7</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Rindex</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Reverse search for character in string</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>8</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Strcasecmp</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Case insensitive character string compare</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>9</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Strlwr</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Force string to lower case</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>10</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Strncasecmp</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Case insensitive character string compare</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>11</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>strtok_r,strsep</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Get next token from a string</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>12</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Strupr</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Force string to uppercase</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>13</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Swab</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Swap adjacent bytes</TD></TR></TBODY></TABLE>
+<P><!----------------------->
+<TABLE style="MARGIN-LEFT: 18.25pt" cellSpacing=0 cellPadding=5 width=650 
+border=0>
+  <TBODY>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=48>No.</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=201>Function</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: windowtext 0.5pt solid; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    width=401>Description</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top colSpan=3>
+      <P>Input/output routines (stdio.h) <BR><BR>Please refer the <A 
+      href="http://sources.redhat.com/newlib/libc.html#SEC67">http://sources.redhat.com/newlib/libc.html#SEC67</A> 
+      for more information on these routines.</P></TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>1</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Fgetpos</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Record position in a stream or file</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>2</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Fiprintf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Format output to file (integer only)</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>3</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Fdopen</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Turn open file into a stream</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>4</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Freopen</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Open a file using an existing file descriptor</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>5</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>fseeko</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Set file position</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>6</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Fsetpos</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Restore position of a stream or file</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>7</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>ftello</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Return position in a stream or file</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>8</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Getw</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Read a word (int)</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>9</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Iprintf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Write formatted output (integer only)</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>10</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>mktemp, mkstemp</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Generate unused file name</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>11</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Putw</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Write a word (int)</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>12</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Remove</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Delete a file's name</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>13</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Rename</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Rename a file</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>14</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Setbuf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Specify full buffering for a file or stream</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>15</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Siprintf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Write formatted output (integer only)</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>16</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>asprintf, snprintf</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Format output</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>17</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Tmpfile</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Create a temporary file</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>18</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Tmpnam,</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Name for a temporary file</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top colSpan=3>Large file input / output:</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>19</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Fopen64</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Open a large file</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>20</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Freopen64</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Open a large file using an existing file 
+  descriptor</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>21</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Ftello64</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Return position in a stream or file</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>22</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Fseeko64</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Set file position for large file</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>23</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Fgetpos64</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Record position in a large stream or file</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>24</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Fsetpos64</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Restore position of a large stream or file</TD></TR>
+  <TR>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: windowtext 0.5pt solid; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=48>25</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=201>Tmpfile64</TD>
+    <TD 
+    style="BORDER-RIGHT: windowtext 0.5pt solid; BORDER-TOP: medium none; BORDER-LEFT: medium none; BORDER-BOTTOM: windowtext 0.5pt solid" 
+    vAlign=top width=401>Create a large temporary file</TD></TR></TBODY></TABLE>
+<P>
+<P>&nbsp;</P>
+<P>Along with all the above, following set of routines are provided in the 
+newlib library:</P>
+<P style="MARGIN-LEFT: 25pt">1. &nbsp;&nbsp; Wide character strings (wchar.h): 
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Please refer <A 
+href="http://sources.redhat.com/newlib/libc.html#SEC144">http://sources.redhat.com/newlib/libc.html#SEC144</A> 
+<BR><BR>2. &nbsp;&nbsp; Signal handling (signal.h): 
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Please refer <A 
+href="http://sources.redhat.com/newlib/libc.html#SEC169">http://sources.redhat.com/newlib/libc.html#SEC169</A> 
+<BR><BR>3. &nbsp;&nbsp; Time functions (time.h): 
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Please refer <A 
+href="http://sources.redhat.com/newlib/libc.html#SEC172">http://sources.redhat.com/newlib/libc.html#SEC172</A> 
+<BR><BR>4. &nbsp;&nbsp; Locale specific routines (locale.h): 
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Please refer <A 
+href="http://sources.redhat.com/newlib/libc.html#SEC183">http://sources.redhat.com/newlib/libc.html#SEC183</A> 
+</P><!------------------------------------><B>Useful Links:</B> 
+<P style="MARGIN-LEFT: 25pt"><A 
+href="http://sources.redhat.com/newlib/libc.html">http://sources.redhat.com/newlib/libc.html</A> 
+<BR><A 
+href="http://sources.redhat.com/newlib/libm.html">http://sources.redhat.com/newlib/libm.html</A> 
+</P>
+<a name="Inline"></a>
+<P style="MARGIN-LEFT: 25pt">&nbsp;</P>
+<P style="MARGIN-LEFT: 25pt"><a href="#library">[Prev]</a> <a href="#sec_top">
+[Top]</a></P><!---------------------------->
+</DIV>
+		<p class="head2" style="MARGIN: 5pt 15pt"><b>Using Inline Assembly 
+		Language :</b></p>
+		<p class="head2" style="MARGIN: 5pt 15pt">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">We can instruct the 
+		compiler to insert the code of a function into the code of its callers, 
+		to the point</span></p>
+		<p class="head2" style="MARGIN: 5pt 15pt">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">where actually the 
+		call is to be made. Such functions are inline functions. </span></p>
+		<p class="head2" style="MARGIN: 5pt 15pt">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">This method of
+		<span class="SpellE">inlining</span> reduces the function-call overhead. 
+		And if any of the actual argument values </span></p>
+		<p class="head2" style="MARGIN: 5pt 15pt">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">are constant, their 
+		known values may permit simplifications at compile time so that not all 
+		of the inline </span></p>
+		<p class="head2" style="MARGIN: 5pt 15pt">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">function&#8217;s code 
+		needs to be included. The effect on code size is less predictable, it 
+		depends on the </span></p>
+		<p class="head2" style="MARGIN: 5pt 15pt">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">particular case. To 
+		declare an inline function, we&#8217;ve to use the keyword inline in its 
+		declaration. Inline </span></p>
+		<p class="head2" style="MARGIN: 5pt 15pt">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">assembly is 
+		important primarily because of its ability to operate and make its 
+		output visible on C variables. </span></p>
+		<p class="head2" style="MARGIN: 5pt 15pt">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Because of this 
+		capability, &quot;<span class="SpellE">asm</span>&quot; works as an interface 
+		between the assembly instructions and the &quot;C&quot; </span></p>
+		<p class="head2" style="MARGIN: 5pt 15pt">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">program that 
+		contains it. </span></p>
+		<p style="MARGIN: 5pt 15pt">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">&nbsp;</span></p>
+		<p style="MARGIN: 5pt 15pt"><b>
+		<span style="FONT-SIZE: 11pt; FONT-FAMILY: Verdana">Syntax </span></b>
+		<p class="head2" style="MARGIN: 5pt 15pt 0px">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">GCC, the GNU C 
+		Compiler for Linux, uses AT&amp;T&amp;sol;UNIX assembly syntax.</span></p>
+		<p class="head2" style="MARGIN: 10pt 15pt 0px">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">a) 
+		Source-Destination Ordering </span></p>
+		<p class="head2" style="MARGIN: 5pt 15pt">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">The first operand is 
+		the source and the second operand is the destination. ie, &quot;Op-code src 
+		dst&quot;. </span></p>
+		<p class="head2" style="MARGIN: 5pt 15pt">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">This is similar to 
+		the syntax followed in Renesas. </span></p>
+		<p class="head2" style="MARGIN: 10pt 15pt 5pt">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">b) Register Naming
+		</span></p>
+		<p class="head2" style="MARGIN: 5pt 15pt">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Register names are 
+		prefixed by % ie, if r0 is to be used, write %r0.</span></p>
+		<p class="head2" style="MARGIN: 5pt 15pt; ">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">c) Immediate Operand 
+		</span></p>
+		<p class="head2" style="MARGIN: 5pt 15pt">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Immediate operands 
+		are preceded by &#8217;#&#8217;. For hexadecimal constants a &#8217;0x&#8217; is suffixed to the 
+		constant. </span></p>
+		<div class="Section1">
+			<p class="head2" style="margin: 5pt 15pt">
+			<span style="font-size: 10pt; font-family: Verdana">However, in 
+			order to support hexadecimal constants suffixed with a 'H', please 
+			pass &#8216;-h-tick-hex&#8217; option to the </span></p>
+			<p class="head2" style="margin: 5pt 15pt">
+			<span style="font-size: 10pt; font-family: Verdana">assembler.</span></p>
+			<p class="head2" style="margin: 5pt 15pt">
+			<span style="font-size: 10pt; font-family: Verdana">e.g., Use the 
+			following command to build the &#8220;asm(&quot;mov #H'03,R0&quot;);&#8221; code 
+			statement, </span></p>
+			<p class="head2" style="margin: 5pt 15pt">
+			<span style="font-size: 10pt; font-family: Verdana">$ sh-elf-gcc 
+			test.c -Wa,-h-tick-hex</span></div>
+		<p class="head2" style="MARGIN: 10pt 15pt 5pt">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">d) Operand Size
+		</span></p>
+		<p class="head2" style="MARGIN: 5pt 15pt">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Size of memory 
+		operands is determined from the last character of the op-code name.
+		</span></p>
+		<p class="head2" style="MARGIN: 5pt 15pt">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Op-code suffixes of 
+		&#8217;b&#8217;, &#8217;w&#8217;, and &#8217;l&#8217; specify byte(8-bit), word(16-bit), and long (32-bit) 
+		memory references. </span></p>
+		<p class="head2" style="MARGIN: 10pt 15pt 5pt">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">e) Memory Operands
+		</span></p>
+		<p class="head2" style="MARGIN: 5pt 15pt">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">Base register is 
+		enclosed in &#8216;(&#8217; and &#8217;)&#8217; and indirect memory reference is like </span>
+		</p>
+		<p class="head2" style="MARGIN: 5pt 15pt">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">
+		&#8220;section&amp;colon;disp(base, index, scale)&#8221;. When a constant is used for 
+		disp and sol; scale, &#8217;#&#8217; shouldn&#8217;t </span></p>
+		<p class="head2" style="MARGIN: 5pt 15pt">
+		<span style="FONT-SIZE: 10pt; FONT-FAMILY: Verdana">be prefixed. </span>
+	<DIV class=page>
+<P>&nbsp;</P>
+<DIV align=center><A 
+href="#sec_top">[Top]</A></DIV></DIV></BODY></HTML>

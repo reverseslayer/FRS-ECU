@@ -1,0 +1,18 @@
+on boot get the initial values form the exception vector table
+	Power on reset
+		Program Counter (PC) address H'00000000
+		Stack Pointer (SP) address H'00000004
+	Manual reset
+		Program Counter (PC) address H'00000008
+		Stack Pointer (SP) address H'0000000C
+
+Clear the vector base register to H'00000000
+
+The interrupt mask bits(I3 to I0) in the status register(SR) are set to H'0000000F (1111)
+
+The BO and CS bits are init to 0.
+
+The BN bit in IBNR of INTC is set to 0
+FPU and FPSCR are init to H'00040001
+
+program execution starts from the PC address fetched from the exception table

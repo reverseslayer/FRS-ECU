@@ -1,0 +1,1 @@
+sh-elf\bin\sh-elf-run main.out

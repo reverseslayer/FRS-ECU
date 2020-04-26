@@ -1,0 +1,391 @@
+<html><head><title>KPIT GNU TOOLS</title></head><body><table width="95%" border="1" borderColorlight="#999999" cellspacing="0" cellpadding="6" align="center" bgcolor="#778899"><tr>
+		<td align="center"><a name="top"></a><b>&nbsp;HEW</b></td>
+	</tr><tr bgcolor="#f5f5f5">
+		<td align="left"><a href="#003001">General</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#003003">HMON Specific</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tr><tr bgcolor="#b0c4de"><td><a name="003001"><b><font size="2" face="Arial">General</font></b></a><div align="right" style=" visibility:
+						visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#top" style="">Go Top</a></div></td></tr><tr bgcolor="#f5f5f5"><td><a href="#86"><font size="2" face="Arial">Q1. How do I generate S-Record MOT file automatically from HEW ? </font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#87"><font size="2" face="Arial">Q2. How do I define various memory areas or define linker script using HEW ?</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#88"><font size="2" face="Arial">Q3. I am unable to source-level debug HEW generated project for COFF tool chain. Why ?</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#89"><font size="2" face="Arial">Q4. How do I manipulate heap and stack through HEW ?</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#90"><font size="2" face="Arial">Q5. How do I pre-process assembly files in HEW ?</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#91"><font size="2" face="Arial">Q6. How do I debug binaries created by ELF tool chain ?
+</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#92"><font size="2" face="Arial">Q7. How do I install Japanese version of ELF/DWARF2 reader for HEW 2.x ?</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#93"><font size="2" face="Arial">Q8. Are there any issues when more than one versions of HEW installed on the same machine ?
+</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#94"><font size="2" face="Arial">Q9.  How to setup the simulator to debug my code in HEW ? or What do I do when getting "memory access error" while using HEW simulator?
+</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#95"><font size="2" face="Arial">Q10. How can I create a section in HEW which the linker will exclude in the output file? </font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#141"><font size="2" face="Arial">Q11. Can I integrate the GNUH8 v0302 and below versions with HEW 3.x (High-performance Embedded Workshop)? OR Does GNUH8 v0302 and below versions detect HEW 3.x? 
+</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#142"><font size="2" face="Arial">Q12. I have HEW version 2.x and HEW version 3.x installed on my machine. Can I integrate the GNUH8 tool chain with both the HEW installations? OR 
+Can I integrate the GNUH8 tool chain with multiple installations of HEW version 2.x? 
+</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#162"><font size="2" face="Arial">Q13. HEW 3.x sometimes becomes very busy (not very responsive). Is there any way to enhance the speed?</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#165"><font size="2" face="Arial">Q14. How can a section be discarded through HEW?</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#308"><font size="2" face="Arial">Q15. On adding Memory region a warning "no memory region specified for section `.bss' " is encountered. How can this error be ignored through HEW?</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#313"><font size="2" face="Arial">Q16. Why do I need to manually uninstall the KPIT toolchain(s) from HEW and how do I do that?</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td>
+	<font size="2" face="Arial">
+	<a href="#Q_17._After_upgrading_a_project_to_v0902,_why_are_included_assembly_files_not_found__">
+	Q 17. After upgrading a project to v0902, why are included assembly files 
+	not found? </a></font></td></tr><tr bgcolor="#f5f5f5"><td><a href="#337"><font size="2" face="Arial">Q.18. How to use debug support in HEW for M16C/R8C? </font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#338"><font size="2" face="Arial">Q.19. Can I debug my application using ".mot" (S-Record) file, in HEW simulator ?</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#339"><font size="2" face="Arial">Q.20. Is it possible to debug my application using E8 emulator on R8C target?</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#340"><font size="2" face="Arial">Q.21. How do I use the E8 emulator along with the KPITGNUM16CM32C toolchain to debug my application?</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#369"><font size="2" face="Arial">Q22. Static analysis feature can be invoked in HEW by selecting 'Perform extra build-time checks on project code and advise on how to improve it' check box at the time of project generation?</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#372"><font size="2" face="Arial">Q23. How to link a Renesas SH library file in a GNUSH HEW project?</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#375"><font size="2" face="Arial">Q24. In HEW, on using the optimized libraries with C++ project, why does the linker generate errors of "undefined references" to some routines while building the project?</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#376"><font size="2" face="Arial">Q 25. After enabling rules of "Static Analysis" in HEW, why do i get compiler error "unrecognized command line option '-Wanalyze-Rule1'"? </font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#410"><font size="2" face="Arial">Q 26. What does the 'Library Generator' phase do?</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#411"><font size="2" face="Arial">Q 27. What are the known limitations and issues in the 'Library Generator' phase?</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#418"><font size="2" face="Arial">Q 28. While creating a project for M16C or M16C/80, M32C, I get an error message 
+"An illegal character is used in the directory name, use only letters, digits or 
+'_'". Also, after clicking 'OK', the dialog box 'Select Target CPU' is 
+displayed, but the 'CPU Series' and 'CPU Group' list boxes are empty. I am not 
+able to proceed further with the project generation. How can I avoid this 
+problem?</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#445"><font size="2" face="Arial">Q 29. What are the known limitations in the upgraded build phase interfaces?</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#446"><font size="2" face="Arial">Q 30. Why do the "Miscellaneous" options selected in GNUH8 and GNUM16CM32C Assembler phase not remain selected after upgrading project to v0902 or higher versions?</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td>
+	<font size="2" face="Arial">
+	<a href="#Q31._What_are_the_differences_between_optlib_and_newlib_libraries,_and_Project-Built_and_Pre-Built_libraries_">
+	Q31. What are the differences between 'optlib' and 'newlib' libraries, and 
+	'Project-Built' and 'Pre-Built' libraries?</a></font></td></tr><tr bgcolor="#f5f5f5"><td>
+		<font size="2" face="Arial">
+		<a href="#Q32._What_are_the_differences_between_the_sh2a,_sh2a_(nofpu),_sh2a_(single_prec_only)_and_sh2a_(single_prec_default)_of_the_SH_target_series__">
+		Q32. What are the differences between the sh2a, sh2a (nofpu), sh2a 
+		(single prec only) and sh2a (single prec default) of the SH target 
+		series?</a></font></td></tr><tr bgcolor="#b0c4de"><td><a name="003003"><b><font size="2" face="Arial">HMON Specific</font></b></a><div align="right" style=" visibility:
+						visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#top" style="">Go Top</a></div></td></tr><tr bgcolor="#f5f5f5"><td><a href="#314"><font size="2" face="Arial">Q1.  Why HEW crashes while debugging GNU HMON tutorial/application project in following scenario- 
+<br>GNU toolchain - v0502, v0503. 
+<br>Optimization - O1, O2, O3, Os. 
+<br>The project works fine with same optimization option if built and debugged with earlier GNU toolchain.?</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#341"><font size="2" face="Arial">Q.2. How do I debug my application on target using HMON, in HEW 4.x?</font></a></b></td></tr><tr bgcolor="#f5f5f5"><td><a href="#408"><font size="2" face="Arial">Q3. I have two HMON installers having the same version but different names. Which installer is the latest one?</font></a></b></td></tr><tr bgcolor="#b0c4de"><td><b>General</b><div align="right" style="visibility:
+						visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;" ><a href="#top">Go Top</a></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="86">Q1. How do I generate S-Record MOT file automatically from HEW ? </a></b></td></tr><tr bgcolor="#f5f5f5"><td><br><b>A1.</b>You can achieve this by two methods. <p>1. The linker may be used to generate a *.mot file <br>        Go to the linker menu of the "Options" Menu.<br>         Go to the "output" page of the linker 
+	settings dialog box.<br>        From the "Output format" drop-down list 
+	select &quot;Generate S-Record file" <br>        as the output format.</p>        <p>However, with this you will lose all the debugging information as the        *.mot file does not contain the debugging info.</p>      <p>2. The *.mot file can also be generated using the objcopy utility.<br>         To achieve this you can specify an extra custom phase in HEW itself so          as to generate *.mot file along with the*.out file.</p>         <p>Follow the steps given below.<br><br>         a. Go to the "Build Phases" option from "options" menu.<br><br>        b. Click on Add. Select "Create a new custom phase" and click "Next".<br><br>        c. Select "Linker Output file" as Input file type, "Single phase" and click        "Next"<br><br>        d. Set "Command" as<br><br>        "$(HEWDIR)\Tools\KPIT Cummins\GNUSH-COFF\v0304\Sh-coff\bin\sh-coff-objcopy.exe",<br>        "Default options" as<br>        "-O srec $(CONFIGDIR)\$(PROJECTNAME).x $(CONFIGDIR)\$(PROJECTNAME).mot"        and click "Next"<br><br>        e. Click "Finish"<br><br>        f. Check "Phase" option and it should be the last ie after linker, click "Ok"<br><br>        g. Now when you will choose "Build All" from the "Build" menu, it will         build the .mot file in your configuration directory.</p><br />
+        <br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="87">Q2. How do I define various memory areas or define linker script using HEW ?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br><b>A2.</b>From the HEW IDE, open the linker options dialog box           by selecting "Linker" from "options" menu.          <p>Go to the "Sections" tab on this dialog box. </p>          <p>Using this page you may create/modify/remove existing groups. Every           group can be started at specified memory          address.</p><p> You may define sequence of all these groups so that they are           positioned as per your requirements.</p><br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="88">Q3. I am unable to source-level debug HEW generated project for COFF tool chain. Why ?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br><b>A3.</b>HEW creates the output file in the debug folder of the project          workspace.<p> This means that the source files and the generated output           file are in different folders.</p><p> The coff debug format does not have           directory information.</p><p> You need to set directories to be browsed for           source using directory command from the console window.</p>          <p>You may view the current directory by using "pwd" command.</p>          <p>e.g. If the project named sh1 is created in folder c:\tmp.</p>          <p>Then the source programs will be in folder is C:\tmp\sh1\sh1\ and          the executable will be in c:\tmp\sh1\sh1\debug.</p>          <p>In such caseload the executable from debug folder.</p>          <p>Open the command window. And type following command.<br>          (gdb) pwd</p>          <p>This will show current directory as "/cygdrive/c/tmp/sh1/sh1/debug"<br>          (gdb) directory/cygdrive/c/tmp/sh1/sh1</p>          <p>With this setting, you will be able to source-level debug the program.</p><br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="89">Q4. How do I manipulate heap and stack through HEW ?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br><br />
+<b>A4.</b>To change the location of the heap in HEW using _end symbol, on the toolbar go           to Options and then select Linker.<p> It will display the Linker options dialog box.</p>          <p>In the Sections tab page you can add a new section by clicking on the Add group           button.</p><p> In the new section dialog box you can type a name say .heap_start which           can have start address as a fixed address.</p><p> Delete the _end symbol from the           previous section and add in this new section.</p>         <p>To manipulate the size of heap and stack copy sbrk.c file form \newlib\libc\sys\h8300hms           to the HEW project and modify the same.The building of changed sbrk.c along with the           HEW project avoids rebuilding of the newlib sources.</p><br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="90">Q5. How do I pre-process assembly files in HEW ?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>  <p class=MsoPlainText style='text-align:justify'><b style='mso-bidi-font-weight:normal'><span style='font-size:11.0pt;mso-bidi-font-size:10.0pt;font-family:Verdana;mso-fareast-font-family:"MS Mincho"'>A5.</span></b><spanstyle='font-size:11.0pt;mso-bidi-font-size:10.0pt;font-family:Verdana;mso-fareast-font-family:"MS Mincho"'><span style='mso-tab-count:1'>    </span>HEW treats *.s and *.S files in same way. Because of this the '*.s' files are not preprocessed and are given directly to the assembler. <o:p></o:p></span></p> <p class=MsoPlainText style='text-align:justify'><span style='font-size:11.0pt;mso-bidi-font-size:10.0pt;font-family:Verdana;mso-fareast-font-family:"MS Mincho";mso-bidi-font-weight:bold'><span style="mso-spacerun: yes"></span></span><spanstyle='font-size:11.0pt;mso-bidi-font-size:10.0pt;font-family:Verdana;mso-fareast-font-family:"MS Mincho"'>To pre-process assembly files, please use file extension "asm". So all files with extension <o:p></o:p></span></p> <p class=MsoPlainText style='text-align:justify'><span style='font-size:11.0pt;mso-bidi-font-size:10.0pt;font-family:Verdana;mso-fareast-font-family:"MS Mincho";mso-bidi-font-weight:bold'><span style="mso-spacerun: yes"></span></span><spanstyle='font-size:11.0pt;mso-bidi-font-size:10.0pt;font-family:Verdana;mso-fareast-font-family:"MS Mincho"'>"asm" will be pre-processed by HEW ( using GCC) and then passed to the assembler.<o:p></o:p></span></p><br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="91">Q6. How do I debug binaries created by ELF toolchain ?
+</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br><b>A6.</b>GNUH8 v0303 ships with the latest ELF/DWARF-2 Object reader suitable for HEW 2.x. GNUSH/H8 v0602 ships with the latest ELF/DWARF-2 Object reader suitable for HEW '4.x' only.          <p>To use this object reader go to the menu "Debug Settings" from "Options".</p>          <p>From the dialog box, using "Default Debug Format" drop-down list,           select "ELF/DWARF2 for KPIT".</p><p> Using this you should be able to debug the binaries using ELF/DWARF2 debug format.</p>           <p>Before downloading the binary file please configure memory map for the simulator           which is under "Options->Simulator->Memory Resource" menu.</p>          <p><b>Note:</b><br>          <br>1. This object reader will work only with HEW version 2.x.<br>          2. If you select "ELF/DWARF2" instead of "ELF/DWARF2 for KPIT",          the debugging may not work and HEW may crash.</p><br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="92">Q7. How do I install Japanese version of ELF/DWARF2 reader for HEW 2.x ?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br><b>A7.</b> GNUH8 v0303 ships with Japanese version of ELF/DWARF2 reader for HEW 2.x. GNUH8/SH v0602 ships with Japanese version of ELF/DWARF2 reader for HEW 4.x.           <p>To use this object reader go to the menu "Debug Settings" from "Options".</p>          <p>This reader is present in <br>       "<HEW2 Install dir>\tools\KPIT Cummins\DebugComp\Object\ElfDwarf2 Reader\Japanese"           folder.</p><p> Follow the steps given below to install this reader.</p>          <p>Go to "Administration" menu from "Tools".</p>           <p>Search the        "<HEW2 Install dir>\tools\KPIT Cummins\DebugComp\Object\ElfDwarf2 Reader\Japanese"           folder for new components.</p><p> This should display "ELFDwarf2 Object Reader KPIT Edition          Ver 2.0" along with other tools.</p> <p>Register this with HEW. </p>          <p>Refer to Q6 for using this reader.</p><br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="93">Q8. Are there any issues when more than one versions of HEW installed on the same machine ?
+</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br><b>A8.</b>Yes. User may face problems while registering the KPIT Cummins GNU           tool chain with HEW where more than one installation is v2.1 or earlier.          <p>To avoid this problem, we have modified installers.</p>          <p>If HEW 2.1 and HEW 1.3 are installed on the machine, then the           GNUH8 / GNUSH installer will install the tool chain only for one           version of HEW selected by the user.</p><p> To install tool chain           for other version of HEW, user will have to install the tool chain again.          During second installation please go through "Modify" installation           option and select the other version of HEW.</p>          <p>Besides this, at the end of installation, the installer will ask user           if user wants to start HEW in order to register the tool chain automatically.</p><p>If           user selects "yes", then the installer will automatically invoke the HEW and register          the GNUSH / GNUH8 tool chain.</p><p> If the user selects "no", then user must start          correct version of HEW (selected while installing the tool chain ) first.</p><p> If the user          start the other version first, then the tool chain will not get registered properly.</p>          <p>e.g. User selects to install tool chain for HEW1.3 and selects not          to start HEW automatically.<br> In such case if user starts HEW 2.1          before HEW 1.3, the tool chain will get registered to HEW 2.1 and not in HEW 1.3.</p>Note: Toolchain integration with HEW-1.x and HEW-3.x is discontinued from v0602 release. v0602 onwards, GNUSH / GNUH8 / GNUM16CM32C  toolchains will get integrated only with HEW-4.x (or later updates of HEW). However, free technical support for older toolchain version with HEW-1.x and HEW-3.x will be continued.<br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="94">Q9.  How to setup the simulator to debug my code in HEW ? or What do I do when getting "memory access error" while using HEW simulator?
+</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br><b>A9.</b>To use the simulator shipped with HEW, first you need to configure the Simulator.           <p>To configure the Simulator follow the steps given below. The project should be built          before this stage.</p>          <p>1. Select "Debug Settings" from Options menu.</p>          <p>2. This will display a dialog box with two tabs "Target" and "Options".</p>          <p>3. Using the "Target" drop-down list, select the appropriate CPU series for your project.<br>              e.g. H8/300, H8/300H, H8S/2000A or SH1,SH2 etc.</p>          <p>4. From "Default Debug Format" drop-down list, select option "ELF/Dwarf2 for KPIT".</p>          <p>5. Add the generated output file (normally $projectname.x from debug folder)               using the download module button.</p>          <p>6. Clicking on "Add" button, will display another dialog box named "Download Module".</p>          <p>7. Let the offset be 0x0. Select "Format" as "ELF/Dwarf2 for KPIT" and select               the generated output file using the browse button.</p>          <p>8. Press OK to confirm your settings. This will add various tool bars to the HEW menu.</p>          <p>9. This will also add the *.x file in project workspace under "Download Module".</p>        <p>10. Select on "Simulator" option from "Options" menu and select "Memory 
+		resource".</p>        <p>11. Click on the add button and enter memory details of your target. After this simulator will allocate memory required for the project.<br>               After this simulator will allocate memory required for the project.</p>         <p>12. Right click on the *.x file under "download module" in project workspace               window, to download the file to the simulator. After this the user can use simulator               to debug the application downloaded.</p>In case of HEW4.x there is no need to allocate the memory resources since the HEW4 simulator automatically allocates the memory resources depending upon the dowloadable segments in the output file. However, the stack has no download segment associated with it, hence it doesn't automatically get allocated and must be manually allocated by the user. If the memory region is not allocated for the stack, the user will get "Memory Access Error" while debugging.<br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="95">Q10. How can I create a section in HEW which the linker will exclude in the output file? </a></b></td></tr><tr bgcolor="#f5f5f5"><td><br><b>A10.</b>In HEW:           <p>1. Go to 'Build 
+	-&gt; KPIT GNUXXX [ELF] Toolchain -&gt; Link/Library'.</p>          <p>2. Go to 'Sections' 
+	category.</p>          <p>3. Click the modify button of the section for which the settings are required.</p>          <p>4. Check 'Do not load group into memory each time it is accessed' checkbox.</p>          <p>This will exclude the section from output file.</p><br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="141">Q11. Can I integrate the GNUH8 v0302 and below versions with HEW 3.x (High-performance Embedded Workshop)? OR Does GNUH8 v0302 and below versions detect HEW 3.x? 
+</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A11. It is recommended to integrate GNUH8 tool chain versions v0304 and above with HEW version 3.x. The support for HEW 3.x was added from the version GNUH8 v0304 therefore the GNUH8 v0302 tool chains and below versions will not work properly if integrated with HEW 3.x. <br />
+<br />
+Note: <br />
+Toolchain integration with HEW-1.x and HEW-3.x is discontinued from v0602 release. v0602 onwards, GNUSH / GNUH8 / GNUM16CM32C  toolchains will get <br />
+integrated only with HEW-4 (or later updates of HEW). However, free technical support for older toolchain version with HEW-1.x and HEW-3.x will be continued.<br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="142">Q12. I have HEW version 2.x and HEW version 3.x installed on my machine. Can I integrate the GNUH8 tool chain with both the HEW installations? OR 
+Can I integrate the GNUH8 toolchain with multiple installations of HEW version 2.x? 
+</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A12.  GNUH8 toolchain gets integrated with first installation of HEW. The GNUH8 toolchain does not detect the other installations of HEW 2.x or HEW 3.x. <br />
+<br />
+Note: <br />
+v0602 onwards, GNUSH / GNUH8 / GNUM16CM32C  toolchains will get integrated only with HEW-4.x (or later updates of HEW) only. However, free technical support for older toolchain version with HEW-1.x and HEW-3.x will be continued.<br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="162">Q13. HEW 3.x sometimes becomes very busy (not very responsive). Is there any way to enhance the speed?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A13. Please refer to the following link, which provides ways to enhance the performance of HEW3.x,<br />
+<a href="http://www.renesas.com/fmwk.jsp?cnt=hew3_performance.jsp&fp=/products/tools/coding_tools/ides_project_managers/hew/option/hew3_performance/"><a class="view_details" href="http://www.renesas.com/fmwk.jsp?cnt=hew3_performance.jsp&fp=/products/tools/coding_tools/ides_project_managers/hew/option/hew3_performance/" target="_blank">http://www.renesas.com/fmwk.jsp?cnt=hew3_performance.jsp&fp=/products/tools/coding_tools/ides_project_managers/hew/option/hew3_performance/</a></a>.<br />
+<br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="165">Q14. How can a section be discarded through HEW?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A14. This can be achieved by giving group name as /DISCARD/ and adding the sections that you want to discard in this group.<br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="308">Q15. On adding Memory region a warning "no memory region specified for section `.bss' " is encountered. How can this error be ignored through HEW?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A15. This warning occurs if no memory region is specified for that section. This warning can be safely ignored. The default project generated through HEW has a section .bss  with data in it but no memory region specified. To remove this warning assign the memory region for  that section. <br>e.g.  Suppose the memory section RAM is added, then in the linker sections dialog box modify the settings of section for which the warning is generated as follows:</br><br>    Start Address:	Memory Region</br><br>    Region:		RAM</br><br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="313">Q16. Why do I need to manually uninstall the KPIT toolchain(s) from HEW and how do I do that?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A16. When the KPIT toolchain is uninstalled from the start menu, it does not get uninstalled from HEW. The user will have to manually uninstall the toolchain from HEW.<br />
+<br />
+Please follow the steps below to uninstall the KPIT toolchain from HEW4.04 or lower versions,<br />
+<br />
+1. Close all your workspaces in HEW. A toolchain cannot be uninstalled from HEW if a workspace is open. <br />
+<br />
+2. Go to "Tools->Administration". The toolchain first needs to be unregistered before uninstallation.<br />
+<br />
+3. In the "Tools Administration" window, under "Registered Components-> Components-> Toolchains", select the toolchain that you want to uninstall.<br />
+<br />
+4. Click on "Unregister" button. A dialog box will pop up asking if you want to unregister the tool, click on "Yes".<br />
+<br />
+5. In the "Tools Administration" window, click on the button "Uninstaller". The "Uninstall HEW Tool" window will pop up.<br />
+<br />
+6. Click on "Start" button, this will display all the tools in HEW that can be uninstalled.<br />
+<br />
+7. Select the toolchain that you want to uninstall (the toolchain that you unregistered in step 4) and then click on the button "Uninstall".<br />
+<br />
+8. A "confirmation" dialog box will pop up, displaying all the files that are present in the toolchain and ask you if you want to delete all the above files & folders. Click "OK" button. The toolchain will be uninstalled from HEW.<br />
+<br />
+9. If some user made files or folders are present in the toolchain directory, a dialog box will pop up saying that "Unable to uninstall, the directory in not empty". In this case click "Ignore" button and later delete those files from the toolchain directory.<br />
+<br />
+10. Click the "close" button on the "Uninstall HEW Tool" window. Click on the "OK" button in "Tools Administration" window.  <br />
+<br />
+The above mentioned "Uninstaller" feature is not available in case of HEW4.05. The toolchain will have to be manually deleted from the directory, "$(HEWINSTALLDIR)ToolsKPIT CumminsGNUXXX-ELFvXXX" where,<br />
+$(HEWINSTALLDIR) is the HEW4.05 installation directory (e.g. "C:Program FilesRenesasHew"), GNUXXX-ELF is the toolchain to be uninstalled (e.g. "GNUH8-ELF") and vXXX is the toolchain version to be uninstalled (e.g. "v0901").<br />
+<br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td>
+		<b>
+		<a name="Q_17._After_upgrading_a_project_to_v0902,_why_are_included_assembly_files_not_found__">
+		Q 17. After upgrading a project to v0902, why are included assembly 
+		files not found? </a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A 17. 
+		Till v0901, the library generator, compiler, assembler and linker build 
+		phases had separate GUI interfaces in HEW. These separate GUI interfaces 
+		in HEW have been replaced by a single interface to allow users to make 
+		application-wide changes far more easily.<br>
+		<br>
+		However, this single interface requires to add the path of include files 
+		while building the project.<br>
+		<br>
+		Thus to fix this problem, after upgrading the project to v0902, add the 
+		path of the included assembly file under:<br>
+		Build-&gt; KPIT GNUH8[ELF] Toolchain-&gt; Assembly-&gt; Category : Source -&gt; Add 
+		include file directory -&gt; <SPECIFY here path 
+include the><!-- /Article -->.<br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="337">Q.18. How to use debug support in HEW for M16C/R8C? </a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A.18. To debug your application follow the steps given below, <br />
+1. Go to "Debug" ->"Debug Settings" ->"Target".<br />
+2. Select "M16C R8C Simulator" from the drop down list.<br />
+3. Select "Elf/Dwarf2_KPIT" as the "Default Debug Format". <br />
+4. Add the generated output file (normally $projectname.x from debug folder) using the download module button.<br />
+5. Clicking on "Add" button, will display another dialog box named "Download Module".<br />
+6. Let the offset be 0x0. Select "Format" as "ELF/Dwarf2_KPIT" and select the generated output file using the browse button.<br />
+7. Click 'OK' to confirm your settings. A dialog box, "Init (M16C R8C Simulator)" will pop-up. Under "MCU" tab, click on "Refer" button. Select the MCU File depending upon the CPU family. E.g. If you are building application for M16C 62A CPU, you need to select "M16c6x.mcu". Click OK. This will add various tool bars to the HEW menu.<br />
+8. This will also add the *.x file in project workspace under "Download Module".<br />
+9. Right click on the *.x file under "download module" in project workspace window, to download the file to the simulator. After this the user can use simulator to debug the application downloaded.<br />
+<br />
+NOTE: These debug options are available only if the GNUM16CM32C - v0601 toolchain is integrated with HEW4. This support is not available with the lower versions of HEW.<br />
+<br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="338">Q.19. Can I debug my application using ".mot" (S-Record) file, in HEW simulator ?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A.19. No, it is not possible to debug an appliaction in HEW simulator using a ".mot"       (S-Record) file as the ".mot" file does not contain any debug information. For debugging your application using simulator, you need to build <br />
+the application by passing the debugging options  "-g" to the compiler. Then, download the ".x" (final output) file with "Elf/Dwarf2_kpit" as default debug format selected in "Debug Settings".<br />
+<br />
+Now, you can debug your application in HEW simulator. <br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="339">Q.20. Is it possible to debug my application using E8 emulator on R8C target?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A.20. Yes, GNUM16CM32C toolchain (v0601 onwards) supports debugging on R8C target using E8 emulator.<br />
+<br />
+Please download the GNUM16CM32C latest toolchain from the following link,<br />
+<a class="view_details" href="http://www.kpitgnutools.com/downloadCenter.php/" target="_blank">http://www.kpitgnutools.com/downloadCenter.php/</a><br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="340">Q.21. How do I use the E8 emulator along with the KPITGNUM16CM32C toolchain to debug my application?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A.21.   After installing the GNUM16CM32C toolchain using the latest installer, follow the steps given below, <br />
+<br />
+1. Connect the hardware to the USB port through the E8 emulator. The LED on the E8 emulator will glow indicating that it is connected properly.<br />
+ <br />
+2. Start High Performance Embedded Workshop (HEW). Select "Refer to another project workspace". Click "OK". Open the folder containing your application and select ".hws" file and click "Open". Ensure that the application is in <br />
+"Debug Session". Go to "Build" and click "Build All". The application is built.<br />
+ <br />
+3. Go to "Debug" option in the menu. Click on the "Debug Settings" option. A window for debug settings will appear. Select "R8C E8 System" from the target dropdown list. Select "Elf/Dwarf2_KPIT" from the "Debug Download Format" dropdown list. Click on the "Add" button. Select "Elf/Dwarf2_KPIT" from the "Format" dropdown list. Browse for the ".x" file generated in the "Debug" folder of the application. Click "OK".<br />
+ <br />
+4. Go to "Debug" and click on "Connect". Select the target from the "Device" dropdown list and then select "Download emulator firmware". Click "OK".<br />
+ <br />
+5. If using E8 emulator for the first time, then a window will appear asking to choose the driver. Click "OK". Select the driver and click "OK".<br />
+ <br />
+6. Check on the "Power supply is carried out" checkbox. Select power supply of 5V. Click "OK".<br />
+ <br />
+7. Select the "User Area" to download the firmware and click "OK". If it asks for id value put "00000000000000". Click "OK". To download program, go to "Debug" - "Download module" - ".x".<br />
+ <br />
+8. Put the break points if required.<br />
+ <br />
+9. Go to "Debug", click on "Reset CPU" and click "Go".<br />
+ <br />
+10. The program starts running and halts at the break point. You can debug your application now.<br />
+ <br />
+<br />
+Limitation: The pointers and local variables cannot be watched in HEW.<br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="369">Q22. Static analysis feature can be invoked in HEW by selecting 'Perform extra build-time checks on project code and advise on how to improve it' check box at the time of project generation?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A22. If you want to enable static analysis feature in HEW after project generation, procedure to be followed is:<br />
+1. Go to 'Build->Compiler->Warnings'<br />
+2. Go to 'Static Analysis' in 'Show' drop down menu.<br />
+3. Using 'Enable All' tab, checking for all rules will be enabled.<br />
+4. Using 'Disable All' tab, checking for all rules will be disabled.<br />
+5. To enable checking for a particular rule, you can select the corresponding check box for that rule.<br />
+To know more about static analysis feature, refer GCC manual.<br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="372">Q23. How to link a Renesas SH library file in a GNUSH HEW project?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A23. Library files created using Renesas SH toolchain, can now be linked directly with GNUSH HEW projects 
+	for toolchain versions till v0902.<br />
+These files are internally converted to GNUSH archives with extension '.rlib'. The map file shows the entry for file with extension '.rlib'. However, if the Renesas library file is modified, then the user needs to remove the existing entry and add it again. <br />
+<br />
+The following step has to be carried out in GNUSH HEW project for linking a Renesas SH library file:<br />
+1. Go to &#8216;Build -&gt; KPIT GNUSH [ELF] Toolchain -&gt; Link/Library -&gt; Input ->Add&#8217; and browse for the Renesas '*.lib' library file to be linked <br />
+<br />
+A dialog box will be popped which tells the user that the Renesas '.lib' file will be converted to a GNUSH archive with '.rlib' extension.<br />
+<br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="375">Q24. In HEW, on using the optimized libraries with C++ project, why does the linker generate errors of "undefined references" to some routines while building the project?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A24. As it is mentioned in the release notes, some of the ANSI C library functions are not implemented in H8 optimized libraries. The library "libstdc++.a" is dependant on C library for some of the routines like "_fflush", "_lseek", "_strdup" etc. As these are not implemented in optimized libraries linker generates the "undefined reference" errors.<br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="376">Q 25. After enabling rules of "Static Analysis" in HEW, why do i get compiler error "unrecognized command line option '-Wanalyze-Rule1'"? </a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A 25. Support for "Static Analysis" of code is added in HEW for GNUSH v0603 toolchain. However, the command line options which are used in HEW to support this feature are incorrect. The option "-Wanalyze-Rule1" is used in HEW instead of "-Wanalyze-rule=1". Similarly the options for all the other rules are also incorrect. Since the command line options are unrecognized, you get the compilation error.<br><br />
+Please download and install the following file to fix this problem:<A href="GNUSHv0603-ELF-MP1.exe " target="_blank"><br />
+GNUSHv0603-ELF-MP1.exe</A> <br><br />
+Please note that this fix is required only for GNUSH-v0603 toolchain.<br />
+<br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="410">Q 26. What does the 'Library Generator' phase do?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A 26. The 'Library Generator' phase supports the library generator tool, 'libgen'. <br />
+This tool builds the standard/optimized libraries with customized compiler and assembler options.  <br />
+Until now, only the pre-built libraries were provided with the toolchain.  The ‘libgen’ tool can be used on the command line as well as in HEW.   <br />
+<br />
+'Library Generator' on the Command Line: <br />
+For information on the usage of the 'libgen' tool and the supported options, please refer to the following link, <br />
+<a class="view_details" href="http://www.kpitgnutools.com/manuals/binutils.html#SEC15" target="_blank">http://www.kpitgnutools.com/manuals/binutils.html#SEC15</a>   <br />
+<br />
+'Library Generator' in HEW: <br />
+A new phase "Library Generator" is added to interface the 'libgen' tool in HEW. <br />
+The settings for this phase are as follows, <br />
+a. The "Settings" tab provides the options to select the type of the library i.e. 'Pre-Built' or 'Project-Built', the source i.e. 'Newlib' or 'Optimized' and the mode used for building the library. <br />
+b. The "Header files" tab provides the option to select the standard header files for building the library. <br />
+c. The "Other options" tab allows the user defined options to be passed to the "Library Generator" phase. <br />
+<br />
+Note: Currently, after changing the 'Library Generator' settings, the user is prompted to open the Compiler/Linker option dialogs and click on 'OK'. We are aware that this is inconvenient for the users and we are working on a fix for the same. <br />
+<br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="411">Q 27. What are the known limitations and issues in the 'Library Generator' phase?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A 27. The known limitations and issues in the 'Library Generator' phase are,   <br />
+1. Irrespective of the type of the source file, the 'Library Generator' options dialog is invoked if we right click on the source file in the 'Workspace' window and select <br />
+'Build -&gt; KPIT GNUXXX [ELF] Toolchain -&gt; C/C++' or 'Build -&gt; KPIT GNUXXX [ELF] 
+	Toolchain -&gt; Assembly'. <br />
+<br />
+2. If the target specific options are selected under 'C/C++ -> CPU -> Additional CPU options', these options are reflected in the 'Library Generator' settings as well. <br />
+However, if the target specific options are passed under 'C/C++ -> Other -> User defined options', these options are not reflected in the 'Library Generator' settings. Hence, these options have to be specified again in the 'Library Generator' phase under <br />
+'Other options'->'User defined compiler options'.<br />
+<br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="418">Q 28. While creating a project for M16C or M16C/80, M32C, I get an error message 
+"An illegal character is used in the directory name, use only letters, digits or 
+'_'". Also, after clicking 'OK', the dialog box 'Select Target CPU' is 
+displayed, but the 'CPU Series' and 'CPU Group' list boxes are empty. I am not 
+able to proceed further with the project generation. How can I avoid this 
+problem?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A 28. The error message is displayed when the project directory path contains spaces. Please create the project in a path that does not contain any spaces e.g. 'C:\Workspace\'.<br />
+<br />
+You can also set the default directory to a specific location (e.g. 'C:\Workspaces') by following the steps given below:<br />
+1. Select the [Setup->Options...] menu option. The Setup Options dialog will be displayed. Select the 'Workspace' tab.<br />
+2. Specify the path in 'Default directory for new workspaces field', or browse to the location by clicking on 'Browse' button.<br />
+3. Click on the 'OK' button to confirm the new settings.<br />
+<br />
+After clicking on the 'OK' button of the above mentioned error message, the control should return to the 'New Project Workspace' dialog. This is the expected behavior. However, in case of the toolchain versions v0703, v0801 and v0802, after clicking on the 'OK' button, the dialog box 'Select Target CPU' is displayed and the 'CPU Series' and 'CPU Group' list boxes are empty.<br />
+<br />
+This bug has now been fixed.<br />
+Please download the modified HEW plug-in from the link given below to solve this problem,<br />
+<a class="view_details" href="http://www.kpitgnutools.com/showFileDesc.php?hidTcId=522&hidCatName=sc_KPIT_GNU_Tools" target="_blank">http://www.kpitgnutools.com/showFileDesc.php?hidTcId=522&hidCatName=sc_KPIT_GNU_Tools</a> <br />
+<br />
+Please refer to the 'Readme.txt' file for details on replacing this plug-in.<br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="445">Q 29. What are the known limitations in the upgraded build phase interfaces?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A 29. Till v0901, the library generator, compiler, assembler and linker build phases had separate GUI interfaces in HEW.<br />
+The separate GUI interfaces have been upgraded to a single dialog in v0902, enabling customisation of settings relating to the build phases.<br />
+<br />
+However, there are a few limitations with the upgraded build phase  interface  as listed below.<br />
+1. Generation of makefile is not supported.<br />
+2. 'Convrenesaslib' utility for GNUSH (i.e. addition of '.lib' files as input to linker phase) is not supported.<br />
+3. Target specific options passed under 'User defined options' in  compiler, are not reflected in the other phases.<br />
+4. Feature for disabling linker input files is not provided.<br />
+5. Feature for assigning different colours to different memory regions is not provided.<br />
+<br />
+Following are the known issues in the linker script wizard:<br />
+1. Entries in sections list get reduced to very few after changing the location of a section to follow some other section.<br />
+2. Changing the start address of a section from one label to another is not reflected and saved in the wizard.<br />
+3. Addition of a new section with start address as label is not saved after closing the build phase dialog.<br />
+4. If the name of a section and its location (follow from previous group) are changed at the same time, the name is updated but the location remains the same.<br />
+<br />
+We intend to fix the above issues in our future releases.<br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="446">Q 30. Why do the "Miscellaneous" options selected in GNUH8 and GNUM16CM32C 
+		assembler phase not remain selected after upgrading project to v0902 or higher versions?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A 30. Following options are provided as "Miscellaneous Options" in the Assembler phase of GNUH8 and GNUM16CM32C projects:<br />
+   1. Suppress warning messages<br />
+   2. Include local labels<br />
+   3. Issue warnings when difference tables altered<br />
+   4. Work faster (assembly from trusted compiler)<br />
+   5. Display assembly statistics<br />
+<br />
+When some of these options are selected in projects created with v0901 or lower toolchain versions, the selection is not maintained when the projects are upgraded to v0902 or higher versions.<br />
+<br />
+For example, "Include local labels" is selected in a project created with v0901 GNUH8/GNUM16CM32C toolchain. But after upgrading the project to v0902, the "Suppress warning messages" option gets selected instead of "Include local labels".<br />
+<br />
+This behaviour is due to a bug in the version 1 interface for the assembler build phase. <br />
+<br />
+The version 1 interfaces for the build phases have been discontinued from v0902 release onwards. Hence the selection of "Miscellaneous options" in the assembler phase will have to be manually verified and/or corrected after upgrade of GNUH8 and GNUM16CM32C projects to v0902 or higher versions.<br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003001" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td>
+		<a name="Q31._What_are_the_differences_between_optlib_and_newlib_libraries,_and_Project-Built_and_Pre-Built_libraries_">
+		<b>Q31. </b><font color="#000000">
+		<span style="text-decoration: none; font-weight: 700">What are the 
+		differences between 'optlib' and 'newlib' libraries, and 'Project-Built' 
+		and 'Pre-Built' libraries?</span></font></a></td></tr><tr bgcolor="#f5f5f5"><td>
+		A 31. User has the option to use either standard GNU ('newlib') 
+		libraries or optimized ('optlib') libraries.<br>
+		<br>
+		'newlib' - The GNU 'newlib' libraries are complete ISO C/C++ libraries 
+		but are relatively costly in terms of code size for smaller embedded 
+		architectures. <br>
+		<br>
+		'optlib' - The KPIT 'optlib' libraries are specially optimized libraries 
+		that have been custom-written for embedded applications but supports a 
+		sub-set of the ISO C library and does not support the C++ library.<br>
+		The optimized libraries ('liboptm.a' and 'liboptc.a') are not provided 
+		under GNU GPL. The source code of these optimized libraries is neither 
+		released nor available on request.<br>
+		<br>
+		'Project-built' - On selecting the 'Project-built' setting in HEW, 
+		libraries will be custom-built with your normal project build based on 
+		your specific options (e.g. a particular type of compiler optimization, 
+		assembler optimization). <br>
+		<br>
+		'Pre-built' - On selecting the 'Pre-built' setting in HEW, the complete 
+		libraries will be used that are supplied as part of the KPIT toolchain. <!-- /Article -->
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<b><a href="#003001" >Go To Category</a></b></td></tr><tr bgcolor="#f5f5f5"><td>
+		<b>
+		<a name="Q32._What_are_the_differences_between_the_sh2a,_sh2a_(nofpu),_sh2a_(single_prec_only)_and_sh2a_(single_prec_default)_of_the_SH_target_series__">
+		Q32. What are the differences between the sh2a, sh2a (nofpu), sh2a 
+		(single prec only) and sh2a (single prec default) of the SH target 
+		series? </a></b></td></tr><tr bgcolor="#f5f5f5"><td>A 32. <b>sh2a - 
+		'-m2a'</b>: Generates code for the SH2a target. The operations are 
+		performed using FPU in double precision mode.<br>
+		<br>
+		<b>sh2a (nofpu) - '-m2a-nofpu'</b>: Generates code for the SH2a without 
+		a floating-point unit. <br>
+		i.e., The compiler does not generate FPU instructions. Therefore every 
+		float or double operation will be made with normal asm instructions or 
+		using math library calls. The compiler will generate code for float and 
+		double operations based on the data type of the variable being used when 
+		the '-m2a-nofpu' option is used. <br>
+		<br>
+		<b>sh2a (single prec only) - '-m2a-single-only'</b>: Generates code for 
+		the SH2a with a floating-point unit that only supports single-precision 
+		arithmetic. When the '-m2a-single-only' (sh2a - single prec only) option 
+		is selected, FPU is used only for float operations (single precision 
+		instructions only) and will not support operations in double precision 
+		mode. In this case compiler will generate optimized code as it does not 
+		have to take care of the mode switching between single and double 
+		precision. <br>
+		<br>
+		<b>sh2a (single prec default) - '-m2a-single'</b>: Generates code for 
+		the SH2a assuming the floating-point unit is in single-precision mode by 
+		default. Depending on the data types used, it will also support FPU unit 
+		in double-precision mode. <br>
+		<br>
+		The following libraries are selected in HEW depending on the target 
+		selection,<br>
+		<br>
+		Target Variant - SH2A<br>
+		Compiler Option - m2a<br>
+		Library Used - m2a<br>
+		Library Path: $(TCINSTALL)sh-elflibgccsh-elf<GCC 
+version>-GNUSH_<TOOLCHAIN version>m2a<br>
+		<br>
+		Target Variant - SH2A-NOFPU<br>
+		Compiler Option - m2a-nofpu<br>
+		Library Used - m2<br>
+		Library Path: $(TCINSTALL)sh-elflibgccsh-elf<GCC version>-GNUSH_<TOOLCHAIN 
+version>m2<br>
+		<br>
+		Target Variant - SH2A-SINGLE-ONLY<br>
+		Compiler Option - m2a-single-only<br>
+		Library Used - m2e<br>
+		Library Path: $(TCINSTALL)sh-elflibgccsh-elf<GCC version>-GNUSH_<TOOLCHAIN 
+version>m2e<br>
+		<br>
+		Target Variant - SH2A-SINGLE<br>
+		Compiler Option - m2a-single<br>
+		Library Used - m2a-single<br>
+		Library Path: $(TCINSTALL)sh-elflibgccsh-elf<GCC version>-GNUSH_<TOOLCHAIN 
+version>m2a-single<br>
+		<br>
+		where, <br>
+		&quot;$(TCINSTALL)&quot; - is the toolchain installation directory<br>
+		&quot;<GCC version>-GNUSH_<TOOLCHAIN version>&quot; - is 4.3-GNUSH_v0901 in case 
+		of v0901 toolchain 
+<!-- /Article -->
+		<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<b><a href="#003001" >Go To Category</a></b></td></tr><tr bgcolor="#b0c4de"><td><b>HMON Specific</b><div align="right" style="visibility:
+						visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;" ><a href="#top">Go Top</a></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="314">Q1.  Why HEW crashes while debugging GNU HMON tutorial/application project in following scenario- 
+<br>GNU toolchain - v0502, v0503. 
+<br>Optimization - O1, O2, O3, Os. 
+<br>The project works fine with same optimization option if built and debugged with earlier GNU toolchain.?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A1.  GNU toolchains v0502 and v0503 are based on GCC 4.0. The optimization option "-fmerge-constants" in GCC 4.0 incorrectly optimizes some constants used by HMON. This incorrect optimization in HMON code results in HEW crash. This option is passed at all optimization levels. The workaround to this problem is to pass the option "-fno-merge-constants" alongwith the optimization option.<br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003003" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="341">Q.2. How do I debug my application on target using HMON, in HEW 4.x?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A2.  To debug your application on target using HMON in HEW 4.x, please follow the steps given below,<br />
+<br />
+1. Download RSKv6C.zip from the following link and extract it. <br />
+<a class="view_details" href="http://eu.renesas.com/media/products/software_and_tools/downloads/RSKv6CD.zip" target="_blank">http://eu.renesas.com/media/products/software_and_tools/downloads/RSKv6CD.zip</a> <br />
+ <br />
+2. Execute "setup.exe" from the "RSK" directory.  <br />
+ <br />
+3. In the "Select Feature" dialog box, select "High Performance Embedded Workshop" and "Flash Development Toolkit". Please note that you need to select at least one Renesas Toolchain i.e. H8 / SH / M16C / M32C in order to select "High Performance Embedded Workshop".<br />
+ <br />
+4. Select RSK support for your target. Install all the selected components. In case of EDKs, please add EDK support for that target (available with the CD). <br />
+ <br />
+5. Download and install KPIT GNU toolchain from the following link, <a class="view_details" href="http://www.kpitgnutools.com/downloadCenter.php" target="_blank">http://www.kpitgnutools.com/downloadCenter.php</a><br />
+ <br />
+6. Download and install KPIT HMON from the following link, <a class="view_details" href="http://www.kpitgnutools.com/downloadCenter.php" target="_blank">http://www.kpitgnutools.com/downloadCenter.php</a><br />
+<br />
+Follow the steps provided in the Readme.txt (installed with KPIT HMON) in order to debug on the target.<br />
+ <br />
+<br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003003" >Go To Category</a></div><br></td></tr><tr bgcolor="#f5f5f5"><td><b><a name="408">Q3. I have two HMON installers having the same version but different names. Which installer is the latest one?</a></b></td></tr><tr bgcolor="#f5f5f5"><td><br>A3. This confusion will occur only in case of the HMONs for following targets,<br />
+<br />
+a. H8SX/1657<br />
+b. H8300H/3069<br />
+c. SH2/7145<br />
+<br />
+We apologize for the inconvenience caused.<br />
+<br />
+The installer which is prefixed with "KPIT_" is the latest one. HEW4-NTC will automatically detect this installer if it is placed in the same folder as the HEW4-NTC setup.<br />
+<br />
+Please note that this installer was released in February 2008. The following problems have been fixed in this installer,<br />
+<br />
+1. The dependency on the toolchain version has been removed. However, note that the HMON cannot be used with v0703 toolchain. It can be used with v0801 and higher toolchain versions.<br />
+   <br />
+2. The dependency on FDT versions has also been removed.  <br><div align="right" style="visibility:
+				visible; font-size: 12pt; color: red; font-type: Verdana; font-weight:bold;"><a href="#003003" >Go To Category</a></div><br></td></tr></table></body></html>
