@@ -1,6 +1,6 @@
 <h1 align="center">FRSECU</h1>
 
-Welcome to the FRSECU reverse engineering project of the frs/gt86/brz twins computer.
+Welcome to the FRSECU reverse engineering project of the frs/gt86/brz twins computer. The goal of the project is to convert the ECU back into a C language so that it can be modified freely to work with whatever suits anyones needs. Feel free to support the project.
 
 ## Progress
 
@@ -9,17 +9,17 @@ This project is currently just taking flight.
 ## Disclaimer
 
 The goal of this project is to experiment, research, and educate on the topic
-of reverse engineering. **It is not for enabling
-illegal activity**. All information is obtained via reverse engineering of
+of reverse engineering. All information is obtained via reverse engineering of
 legally purchased devices and information made public on the internet
 (you'd be surprised what's indexed on Google...).
 
 ## Building
 
-There is nothing to really build yet please be pacient
+The only tools you will need is windows itself. The compiler has been included because it was hard to find.
+[GCC-License](https://gcc.gnu.org/onlinedocs/libstdc++/manual/license.html)
 
-Fixes and optimizations are always welcome (please!), but in addition to
-that there are some major work areas still untouched:
+Fixes and optimizations are always welcome (please!)
+
 
 ## Documentation
 
@@ -27,7 +27,7 @@ You can find the compiler documentation within the Docs Folder
 
 ## About The ECU
 
-[CPU Archetectrue Reference](https://www.renesas.com/us/en/doc/products/mpumcu/001/rej09b0051_sh2a.pdf)
+[CPU Archetectrue Reference](https://www.renesas.com/us/en/doc/products/mpumcu/001/rej09b0051_sh2a.pdf)\n
 [Newer Architecture Version 'Easier to read'](https://antime.kapsi.fi/sega/files/h12p0.pdf)
 
 Key Features
