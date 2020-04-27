@@ -4,7 +4,19 @@ Welcome to the FRSECU reverse engineering project of the frs/gt86/brz twins comp
 
 ## Progress
 
-This project is currently just taking flight.
+The ECU stock rom has been converted from binary to assembly.
+The gcc cross compiler has been created
+Alot of relevent data has been collected
+
+## To Do
+
+Weed out the tables from the rom so we can work with the code alone
+Setup the boot sequences in the code
+Map the input out output pins in memory
+Set the location specific variables in the linker and in C
+Convert the assembly functions to a C form
+
+I have been thinking and feel it would be easier to not static link all of the tables to their original places. This will allow the compiler to use the minimal space in the ecu rom more efficiently but will also break any associations with RomRaider. So therefor the tables within the code need to be easily accessable and understanable so someone tuning their car can edit the tables and then compile to flash. Some data would have to be static of course such as the ECU ID. 
 
 ## Disclaimer
 
@@ -27,7 +39,8 @@ You can find the compiler documentation within the Docs Folder
 
 ## About The ECU
 
-[CPU Archetectrue Reference](https://www.renesas.com/us/en/doc/products/mpumcu/001/rej09b0051_sh2a.pdf)\n
+[CPU Archetectrue Reference](https://www.renesas.com/us/en/doc/products/mpumcu/001/rej09b0051_sh2a.pdf)
+
 [Newer Architecture Version 'Easier to read'](https://antime.kapsi.fi/sega/files/h12p0.pdf)
 
 Key Features
