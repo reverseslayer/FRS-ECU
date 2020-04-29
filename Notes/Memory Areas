@@ -1,0 +1,5 @@
+Rom Size 									1.25MB
+Rom Address Range	 						0x0 - 0x13FFFF
+Ram Size 									64kB (0x10000)
+Ram Address Range 							0xFFF80000 - 0xFFF8FFFF
+On Chip Peripheral Address Range 			0xFFFC0000 - 0xFFFFFFFF
