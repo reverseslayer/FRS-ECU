@@ -54,7 +54,8 @@ Key Features
         Timer: CMT:2ch + ATU-III
         A/D converter: 12bits, 32ch (23+9)
         Serial: 3ch
-        DMAC: 8ch    [Direct Memory Access Controller](https://en.wikipedia.org/wiki/Direct_memory_access) - Memory Mapped I/O 
+        DMAC: 8ch    
+[Direct Memory Access Controller](https://en.wikipedia.org/wiki/Direct_memory_access) - Memory Mapped I/O 
         A-DMAC: 58ch
         RCAN-TL1: 2ch
         RSPI: 2ch
