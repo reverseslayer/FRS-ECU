@@ -56,7 +56,8 @@ Key Features
         Serial: 3ch
         DMAC: 8ch    
 [Direct Memory Access Controller](https://en.wikipedia.org/wiki/Direct_memory_access) - Memory Mapped I/O 
-        A-DMAC: 58ch
+        
+	A-DMAC: 58ch
         RCAN-TL1: 2ch
         RSPI: 2ch
         I/O port: 112 (Max)
