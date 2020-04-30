@@ -44,17 +44,17 @@ You can find the compiler documentation within the Docs Folder
 
 Key Features
 
-	    SH2A-FPU intelligent RISC
+	SH2A-FPU intelligent RISC
         Up to 200MHz, 3.3V/5.0V
         SH2A-FPU instruction (112 instructions)
     On-chip memory
-        ROM: 1.25MB to 2MB
-        RAM: 64KB to 96KB
+        ROM: 1.25MB
+        RAM: 64KB
     Peripherals
         Timer: CMT:2ch + ATU-III
         A/D converter: 12bits, 32ch (23+9)
         Serial: 3ch
-        DMAC: 8ch
+        DMAC: 8ch    [Direct Memory Access Controller](https://en.wikipedia.org/wiki/Direct_memory_access) - Memory Mapped I/O 
         A-DMAC: 58ch
         RCAN-TL1: 2ch
         RSPI: 2ch
